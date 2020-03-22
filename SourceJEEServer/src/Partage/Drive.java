@@ -5,7 +5,7 @@ import java.util.List;
 
 import accesBDD.Requetes;
 
-public class Drive {
+public class Drive{
 	private Requetes req;
 	private static Drive instance = new Drive();
 	

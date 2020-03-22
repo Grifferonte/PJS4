@@ -1,0 +1,3 @@
+- JTextArea : Conteneur affichant du texte non formaté et modifiable
+- JLabel : Conteneur affichant du texte non modifiable, formatage possible en html
+- API NIO2 pour gestion de fichier
