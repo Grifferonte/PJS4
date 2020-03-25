@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Contact</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/png" href="images/LogoProjet.png" />
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+
+
+	<div class="container-contact">
+
+
+		<div class="wrap-contact">
+			<form class="contact-form validate-form" action="envoyerEmail" method = "post">
+				<span class="contact-form-title">
+					Contactez nous !													
+				</span>
+
+				<div class="wrap-input validate-input" data-validate = "Entrez votre email: (ex: e@a.x)">
+					<input class="input" type="text" name="email" placeholder="Email">
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="wrap-input validate-input" data-validate="Veuillez entrer l'objet de votre mail">
+					<input class="input" type="text" name="objet" placeholder="Objet">
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="wrap-input validate-input" data-validate = "Entrez votre message">
+					<textarea class="input" name="message" placeholder="Votre message"></textarea>
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="container-contact-form-btn">
+					<button class="contact-form-btn">
+						Envoyer
+					</button>
+				</div>
+			</form>
+
+			<div class="contact-more">
+				Notre assistance technique est à votre disposition : <span class="contact-more-highlight"> 06-51-34-76-07</span>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="dropDownSelect1"></div>
+</body>
+</html>

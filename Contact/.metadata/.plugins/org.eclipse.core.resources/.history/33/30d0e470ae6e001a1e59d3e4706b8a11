@@ -1,0 +1,40 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/envoyerEmail")
+public class ServletMail extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		ConfigMail config = new ConfigMail(request.getParameter("objet"), request.getParameter("message"),
+				request.getParameter("email"));
+
+		config.sendMailGmail();
+
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+
+		out.println("<HTML>");
+		out.println("<HEAD>");
+		out.println("<TITLE>Echec de Connexion</TITLE>");
+		out.println("</HEAD>");
+		out.println("<BODY>");
+
+		out.println("<H1>Echec de connexion. Veuillez vérifier vos identifiants</H1>");
+		out.println("</BODY>");
+		out.println("</HTML>");
+		out.close();
+
+	}
+
+}
