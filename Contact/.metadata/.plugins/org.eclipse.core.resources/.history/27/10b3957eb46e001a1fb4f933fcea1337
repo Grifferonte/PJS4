@@ -1,0 +1,10 @@
+
+public class appli {
+
+	public static void main(String[] args) {
+		ConfigMail config = new ConfigMail();
+		config.sendMailGmail();
+
+	}
+
+}

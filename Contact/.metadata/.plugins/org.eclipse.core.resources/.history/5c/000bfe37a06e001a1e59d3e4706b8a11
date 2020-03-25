@@ -1,0 +1,21 @@
+import java.security.NoSuchProviderException;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+public class Test {
+	
+
+	public static void main(String[] args) throws NoSuchProviderException, MessagingException {
+		ConfigMail config = new ConfigMail();
+		config.connect("smtp.gmail.fr", "leroykl93@gmail.com", "Killian93");
+		config.send(config.getMailSite(), "leroykl93@gmail.com", "a", "a");
+
+	}
+
+}

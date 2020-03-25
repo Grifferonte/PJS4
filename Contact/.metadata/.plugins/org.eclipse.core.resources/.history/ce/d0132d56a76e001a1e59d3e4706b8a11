@@ -1,0 +1,21 @@
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class ServletMail extends HttpServlet {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) {
+		ConfigMail config = new ConfigMail(request.getParameter(""), request.getParameter(""), request.getParameter(""));
+		
+		config.sendMailGmail();
+		
+		
+	}
+
+}

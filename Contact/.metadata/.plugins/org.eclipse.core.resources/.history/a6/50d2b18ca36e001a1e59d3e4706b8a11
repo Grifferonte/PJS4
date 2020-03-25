@@ -1,0 +1,13 @@
+import java.security.NoSuchProviderException;
+import javax.mail.MessagingException;
+
+public class Test {
+	
+
+	public static void main(String[] args) throws NoSuchProviderException, MessagingException {
+		ConfigMail config = new ConfigMail();
+		config.mail();
+
+	}
+
+}
