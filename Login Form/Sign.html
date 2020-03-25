@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sign in</title>
+    <link rel="stylesheet" href="./CSS/Login.css">
+    <script type="text/javascript" src="./script/scriptForm.js"></script>
+  </head>
+  <body>
+
+      <form action="" method="" onsubmit="return Validate()" class="sign-form" name="inscriptionForm">
+        <h1> Sign in </h1>
+
+        <div class="login-txt">
+          <input type="text" placeholder="Prénom" name="prenom">
+        </div>
+        <div id="errorPrenom"></div>
+
+        <div class="login-txt">
+          <input type="text" placeholder="Nom" name="nom">
+        </div>
+        <div id="errorNom"></div>
+
+        <div class="login-txt">
+          <input type="text" placeholder="Utilisateur" name="utilisateur">
+        </div>
+        <div id="errorUtilisateur"></div>
+
+        <div class="login-txt">
+          <input type="password" placeholder="Mot de passe" name="mdp">
+        </div>
+        <div id="errorMdp"></div>
+
+        <div class="login-txt">
+          <input type="password" placeholder="Confirmer le mot de passe" name="confirmationMdp">
+        </div>
+
+        <input type="submit" class="login-btn" value="S'inscrire">
+
+
+      </form>
+
+
+  </body>
+</html>
