@@ -12,7 +12,6 @@ import Fichier.OpérationFichier;
 
 public class main {
 	public static void main(String[] args) {
-		//Panneau pan = new Panneau();
 		JTextArea field = new JTextArea();
 		field.setLineWrap(true);
 		Frame fenetre = new Frame();
@@ -21,6 +20,7 @@ public class main {
 		fenetre.setVisible(true);
 		try {
 			OpérationFichier.lireFichier("hello.txt", field);
+			//OpérationFichier.écrireFichier("hello.txt", field); -> ne marche pas
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
