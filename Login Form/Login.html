@@ -11,12 +11,12 @@
         <h1> Login </h1>
 
         <div class="login-txt">
-          <input type="text" placeholder="Email" name="login">
+          <input type="email" placeholder="Email" name="login" autocomplete="off">
         </div>
         <div id="errorLogin"></div>
 
         <div class="login-txt">
-          <input type="password" placeholder="Mot de passe" name="password">
+          <input type="password" placeholder="Mot de passe" name="password" autocomplete="off">
         </div>
         <div id="errorPassword"></div>
         <br>
@@ -32,6 +32,7 @@
 
   </body>
 </html>
+
 <script type="text/javascript">
   // creer les variables connexion
   let login = document.forms["connexionForm"]["login"];

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<title>Contact</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/png" href="images/LogoProjet.png" />
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+
+
+	<div class="container-contact">
+
+
+		<div class="wrap-contact">
+			<form class="contact-form validate-form" action="envoyerEmail" method="POST" onsubmit="return Validate()" name="contactForm">
+				<span class="contact-form-title">
+					Contactez nous !													
+				</span>
+
+				<div class="wrap-input validate-input">
+					<input class="input" type="email" name="email" placeholder="Email" autocomplete="off">
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="wrap-input validate-input">
+					<input class="input" type="text" name="objet" placeholder="Objet" autocomplete="off">
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="wrap-input validate-input">
+					<textarea class="input" name="message" placeholder="Votre message"></textarea>
+					<span class="focus-input"></span>
+				</div>
+
+				<div class="container-contact-form-btn">
+					<button class="contact-form-btn">
+						Envoyer
+					</button>
+				</div>
+			</form>
+
+			<div class="contact-more">
+				Notre assistance technique est à votre disposition : <span class="contact-more-highlight"> 06-51-34-76-07</span>
+			</div>
+		</div>
+	</div>
+
+
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+	// creer les variables
+	let email = document.forms["contactForm"]["email"];
+	let	objet = document.forms["contactForm"]["objet"];
+	let message = document.forms["contactForm"]["message"];
+	
+	// creer les events d'ecoute
+	email.addEventListener("blur", emailVerifie, true);
+	objet.addEventListener("blur", objetVerifie, true);
+	message.addEventListener("blur", messageVerifie, true);
+	
+	//verifier si les champs sont bon avant d'envoyer
+	function Validate(){
+		if(email.value == ""){
+			email.style.border = "1px solid red";
+			email.style.borderRadius = "20px";
+			email.focus();
+			return false;
+		}
+		if(objet.value == ""){
+			objet.style.border = "1px solid red";
+			objet.style.borderRadius = "20px";
+			objet.focus();
+			return false;
+		}
+		if(message.value == ""){
+			message.style.border = "1px solid red";
+			message.style.borderRadius = "20px";
+			message.focus();
+			return false;
+		}
+	}
+
+	// si les champs sont bon, alors c'est ok
+	function emailVerifie(){
+		if(email.value != ""){
+			email.style.border = "none";
+			return true;
+		}
+	}
+	function objetVerifie(){
+		if(objet.value != ""){
+			objet.style.border = "none";
+			return true;
+		}
+	}
+	function messageVerifie(){
+		if(message.value != ""){
+			message.style.border = "none";
+			return true;
+		}
+	}
+</script>
