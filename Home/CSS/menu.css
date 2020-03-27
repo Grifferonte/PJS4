@@ -29,10 +29,12 @@
 	text-align: center;
 	color: #f7f7f7;
 	position: relative;
-	border-bottom: 1px solid rgba(0,0,0,0.05);
 	-webkit-transition: background 0.1s ease-in-out;
 	-moz-transition: background 0.1s ease-in-out;
 	transition: background 0.1s ease-in-out;
+}
+.menu li {
+	margin-top: 20px;
 }
 
 .menu li a:hover,
