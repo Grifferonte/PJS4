@@ -38,7 +38,7 @@
 
 .menu li a:hover,
 .menu li:first-child a{
-    background: #f7f7f7;
+    background-color: #f7f7f7;
     color: #47a3da;
 }
 
@@ -61,12 +61,11 @@
 	font-size: 1.4em;
 	-webkit-font-smoothing: antialiased;
 }
-
+/*
 .menu li a.icon-logo:before {
-	font-weight: 700;
-	font-size: 300%;
-}
 
+}
+*/
 .icon-archive:before {
 	content: "e004";
 }

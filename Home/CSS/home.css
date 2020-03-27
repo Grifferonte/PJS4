@@ -1,5 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
 body {
-    margin : 0%;
+    background: -webkit-linear-gradient(left, rgba(56,182,255,0.5), rgba(42,38,235,0.7));
 }
 
 #bloc {
@@ -7,6 +13,9 @@ body {
     grid-template-columns: 10% 90%;
     margin-right: 2%;
 }
+
+/*-------------------- side page (icone/ menu) ---------------*/
+
 
 /*---------  tete de la main page (moteur de recherche/ parametre)  ---------*/
 header {
