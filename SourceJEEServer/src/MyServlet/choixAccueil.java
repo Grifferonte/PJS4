@@ -23,16 +23,23 @@ public class choixAccueil extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("CreerProjet") != null) {
+			else if (request.getParameter("DocsPublics") != null) {
 				try {
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/CreerProjet.jsp" ).forward( request, response );
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("tousDocs") != null) {
+			else if (request.getParameter("DocsFavoris") != null) {
 				try {
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/tousDocs.jsp" ).forward( request, response );
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsFavoris.jsp" ).forward( request, response );
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if (request.getParameter("DocsArchives") != null) {
+				try {
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsArchives.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}

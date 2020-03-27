@@ -8,7 +8,6 @@
     <servlet-name>EssaiCo</servlet-name>
     <url-pattern>/connexion</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>MyServletDocsPartages</servlet-name>
     <servlet-class>acces.connexion</servlet-class>
@@ -17,13 +16,12 @@
     <servlet-name>MyServletDocsPartages</servlet-name>
     <url-pattern>/DocsPartages</url-pattern>
   </servlet-mapping>
-  
   <servlet>
-    <servlet-name>MyServletTouDocs</servlet-name>
+    <servlet-name>MyServletDocsPublics</servlet-name>
     <servlet-class>acces.connexion</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>MyServletTouDocs</servlet-name>
+    <servlet-name>MyServletDocsPublics</servlet-name>
     <url-pattern>/TousDocs</url-pattern>
   </servlet-mapping>
 </web-app>
