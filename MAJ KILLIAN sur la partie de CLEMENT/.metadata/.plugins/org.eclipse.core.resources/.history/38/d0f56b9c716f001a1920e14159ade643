@@ -1,0 +1,81 @@
+package accesBDD;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import Partage.Drive;
+import Partage.Projet;
+import Partage.utilisateur;
+
+public class Requetes {
+	private static Requetes instance = new Requetes();
+	static {
+		JDBC.connexion();
+		Drive.getInstance().setData(instance);
+	}
+
+	private Requetes() {
+	}
+
+	public static Requetes getInstance() {
+		return instance;
+	}
+
+	public List<utilisateur> tousLesUtilisateurs() {
+
+		List<utilisateur> list = new ArrayList<>(); // la list est classée par odre alphabétique de pseudo
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM COMPTE ORDER BY pseudo;";
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					list.add(new Admin(res.getInt("idCompte"),res.getString("mail"),res.getString("pseudo"),res.getInt("idStockage")));
+				else if (res.getString("typeCompte").equals("client"))
+					list.add(new Client(res.getInt("idCompte"),res.getString("mail"),res.getString("pseudo"),res.getInt("idStockage")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public utilisateur getUser(String mail, String mdp) throws Exception {
+		
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM COMPTE WHERE mail = ? AND mdp = ?;";
+		try {
+			
+		PreparedStatement st = connection.prepareStatement(request);
+		st.setString(1, mail);
+		st.setString(2, mdp);
+		ResultSet res = st.executeQuery();
+		
+		while(res.next())
+			if(res.getString("typeCompte").equals("admin"))
+				return new Admin(res.getInt("idCompte"),res.getString("mail"),res.getString("pseudo"),res.getInt("idStockage"));
+			else if(res.getString("typeCompte").equals("client"))
+				return new Client(res.getInt("idCompte"),res.getString("mail"),res.getString("pseudo"),res.getInt("idStockage"));
+		
+		
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Projet> getDocsPartages(utilisateur u) {
+		return null;
+	}
+
+	public List<Projet> getDocuments(utilisateur u) {
+		return null;
+	}
+
+}

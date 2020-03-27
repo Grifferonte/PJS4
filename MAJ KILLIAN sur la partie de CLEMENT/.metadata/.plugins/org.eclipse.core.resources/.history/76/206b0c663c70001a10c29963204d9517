@@ -1,0 +1,15 @@
+import accesBDD.Requetes;
+
+public class main {
+
+	public static void main(String[] args) throws Exception {
+		Requetes r = new Requetes();
+		r.inscription("sexe", "sexe", "sexe");
+		r.inscription("a", "a", "a");
+		
+		System.out.println(r.tousLesUtilisateurs());
+		System.out.println(r.getUser("sexe","sexe"));
+
+	}
+
+}

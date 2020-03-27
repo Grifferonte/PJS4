@@ -1,0 +1,19 @@
+import Partage.utilisateur;
+import accesBDD.Requetes;
+
+public class main {
+
+	public static void main(String[] args) throws Exception {
+		Requetes r = new Requetes ();
+		utilisateur a = r.getUser("a@c", "1234");
+		utilisateur b = r.getUser("a@0c", "123456");
+		
+		System.out.println(r.tousLesUtilisateurs());
+		//System.out.println(r.getDocuments(a));
+		//System.out.println(r.getDocsPartages(b));
+		
+		
+
+	}
+
+}

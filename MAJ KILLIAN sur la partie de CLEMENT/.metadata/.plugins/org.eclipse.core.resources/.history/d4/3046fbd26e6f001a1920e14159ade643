@@ -1,0 +1,22 @@
+package accesBDD;
+
+import Partage.utilisateur;
+
+public abstract class AbstractUtilisateur implements utilisateur {
+	private int id;
+	private String login;
+
+	public int getId() {
+		return this.id;
+	}
+
+	@Override
+	public String getLogin() {
+		return this.login;
+	}
+
+	@Override
+	public void CréerProjet() {
+	}
+
+}

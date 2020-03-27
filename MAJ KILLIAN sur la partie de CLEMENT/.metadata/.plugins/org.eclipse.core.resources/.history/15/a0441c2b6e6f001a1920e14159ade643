@@ -1,0 +1,5 @@
+package accesBDD;
+
+public abstract class AbstractUtilisateur {
+
+}

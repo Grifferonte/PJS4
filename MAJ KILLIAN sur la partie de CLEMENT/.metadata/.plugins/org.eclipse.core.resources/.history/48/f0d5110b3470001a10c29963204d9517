@@ -1,0 +1,132 @@
+package accesBDD;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import Partage.Drive;
+import Partage.Projet;
+import Partage.utilisateur;
+import utilisateurs.Admin;
+import utilisateurs.Client;
+
+public class Requetes {
+	private static Requetes instance = new Requetes();
+	static {
+		JDBC.connexion();
+		Drive.getInstance().setData(instance);
+	}
+
+	public Requetes() {
+	}
+
+	public static Requetes getInstance() {
+		return instance;
+	}
+
+	public List<utilisateur> tousLesUtilisateurs() {
+
+		List<utilisateur> list = new ArrayList<>(); // la liste est classée par odre alphabétique de pseudo
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM COMPTE ORDER BY pseudo;";
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					list.add(new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage")));
+				else if (res.getString("typeCompte").equals("client"))
+					list.add(new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public utilisateur getUser(String mail, String mdp) throws Exception {
+
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM COMPTE WHERE mail = ? AND mdp = ?;";
+		try {
+
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, mail);
+			st.setString(2, mdp);
+			ResultSet res = st.executeQuery();
+
+			while (res.next())
+				if (res.getString("typeCompte").equals("admin"))
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+				else if (res.getString("typeCompte").equals("client"))
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Projet> getDocsPartages(utilisateur u) {
+		return null;
+	}
+
+	public List<Projet> getDocuments(utilisateur u) {
+		
+		List<Projet> list = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		
+		String request = "SELECT * FROM ENTITE WHERE idCompte = ? ;";
+		try {
+			
+		PreparedStatement st = connection.prepareStatement(request);
+		st.setString(1, "" +u.getId());
+		ResultSet res = st.executeQuery();
+		
+		while(res.next())
+			list.add(new Entite(res.getInt("idEntite"),res.getString("nomEntite"),res.getString("extension"),res.getString("typeEntite"),res.getString("dateStockage")));
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	public void inscription(String email, String mdp, String pseudo) {
+		
+		Connection connection = JDBC.getConnection();
+		String request = "INSERT INTO COMPTE (typeCompte,pseudo,mail,mdp) VALUES ('client',?,?,?); ";
+		
+		try {
+		PreparedStatement st = connection.prepareStatement(request);
+		st.setString(1, pseudo);
+		st.setString(2, email);
+		st.setString(3, mdp);
+		st.executeUpdate();
+		
+		utilisateur u = this.getUser(email, mdp);
+		request = "INSERT INTO STOCKAGE (idCompte,taille,dateCreation) VALUES (?,?,CURDATE())";
+		st = connection.prepareStatement(request);
+		st.setString(1, "" + u.getId());
+		st.setString(2, "500");
+		st.executeUpdate();
+		
+		request = "UPDATE FROM STOCKAGE SET idStockage= ? " ;
+		st = connection.prepareStatement(request);
+		st.setString(1,"" + u.getIdStockage() );
+		st.executeUpdate();
+		
+		}
+		catch(Exception e) {e.printStackTrace();}
+	}
+}

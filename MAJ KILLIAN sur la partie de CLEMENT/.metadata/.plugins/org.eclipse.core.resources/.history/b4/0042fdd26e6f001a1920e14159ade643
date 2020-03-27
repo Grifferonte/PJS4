@@ -1,0 +1,14 @@
+package accesBDD;
+
+public class Admin extends AbstractUtilisateur {
+	
+	public Admin(String id, String login) {
+		
+	}
+
+	@Override
+	public boolean isAdmin() {
+		return true;
+	}
+
+}

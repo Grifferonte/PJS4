@@ -1,0 +1,11 @@
+import accesBDD.Requetes;
+
+public class main {
+
+	public static void main(String[] args) {
+		Requetes r = new Requetes();
+		r.inscription("le", "mdp", "pseudo");
+
+	}
+
+}
