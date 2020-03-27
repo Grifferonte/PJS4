@@ -53,6 +53,31 @@
     max-height: 150px;
     max-width: 100px;
 }
+
+/* class for current item*/
+.menu li.current a {
+	background: #f7f7f7;
+	color: #47a3da;
+}
+
+/*---------------- icone menu non téléchargé ---------*/
+.fa-folder,
+.fa-users,
+.fa-star,
+.fa-paper-plane{
+	font-size:60px !important;
+	margin-top: 10px;
+    color:#47a3da !important;
+}
+.fa-folder:hover, 
+.fa-users:hover,
+.fa-star:hover,
+.fa-paper-plane:hover{
+	color: #f7f7f7 !important;
+}
+
+
+/*----------------- icone menu téléchargé -----------
 .icon-archive img {
 	margin: auto;
 	margin-top: 10px;
@@ -76,15 +101,7 @@
     margin-top: 10px;
     max-height: 100px;
     max-width: 50px;
-}
-
-/* class for current item*/
-.menu li.current a {
-	background: #f7f7f7;
-	color: #47a3da;
-}
-
-
+}*/
 /* Example for media query (depends on total height of menu)
 @media screen and (max-height: 34.9375em) { 
 
