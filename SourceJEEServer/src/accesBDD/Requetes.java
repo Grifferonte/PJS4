@@ -29,5 +29,16 @@ public class Requetes {
 	public List<Projet> getDocuments(utilisateur u) {
 		return null;
 	}
-
+	public Projet getDocumentByName(String nomDocument) {
+		return null;
+	}
+	public void supprimerDoc(int numDocument) {
+	
+	}
+	public void creerDoc(String nomDocument) {
+		
+	}
+	public void PartagerDoc(utilisateur u, int numDocument) {
+		
+	}
 }

@@ -35,4 +35,16 @@ public class Drive{
 	public List<Projet> getDocuments(utilisateur u){
 		return req.getDocuments(u);
 	}
+	public Projet getDocumentByName(String nomDocument) {
+		return req.getDocumentByName(nomDocument);
+	}
+	public void supprimerDoc(int numDocument) {
+		req.supprimerDoc(numDocument);
+	}
+	public void creerDoc(String nomDocument) {
+		req.creerDoc(nomDocument);
+	}
+	public void PartagerDoc(utilisateur u, int numDocument) {
+		req.PartagerDoc(u, numDocument);
+	}
 }

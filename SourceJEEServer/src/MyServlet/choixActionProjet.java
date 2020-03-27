@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Partage.Drive;
+
 /**
  * Servlet implementation class choixActionProjet
  */
@@ -17,22 +19,15 @@ public class choixActionProjet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("Partager") != null) {
-			try {
-				//********code**********
-				this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
-				//A modifier
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
+			//Code
 		}
 		else if (request.getParameter("ouvrir") != null) {
-			try {
-				//*****Code*********
-				this.getServletContext().getRequestDispatcher( "/WEB-INF/CreerProjet.jsp" ).forward( request, response );
-				//A modifier
-			} catch (ServletException | IOException e) {
-				e.printStackTrace();
-			}
+			//Tester si le projet est un répertoire ou un fichier
+			//Code pour ouvrir document (si txt l'ouvrir dans une fenetre java)
+		}
+		else if (request.getParameter("supprimer") != null) {
+			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
+			Drive.getInstance().supprimerDoc(numDoc);
 		}
 	}
 }

@@ -37,20 +37,6 @@ public class choixAccueil extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("nouveauDoc") != null) {
-				try {
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/nouveauDoc.jsp" ).forward( request, response );
-				} catch (ServletException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-			else if (request.getParameter("reserver") != null) {
-				try {
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/reserver.jsp" ).forward( request, response );
-				} catch (ServletException | IOException e) {
-					e.printStackTrace();
-				}
-			}	
 			else {
 				return;
 			}
