@@ -11,15 +11,11 @@
       <form action="" method="" onsubmit="return Validate()" class="sign-form" name="inscriptionForm">
         <h1> Sign in </h1>
 
-        <div class="login-txt">
-          <input type="text" placeholder="Prénom" name="prenom" autocomplete="off">
-        </div>
-        <div id="errorPrenom"></div>
 
         <div class="login-txt">
-          <input type="text" placeholder="Nom" name="nom" autocomplete="off">
+          <input type="text" placeholder="pseudo" name="pseudo" autocomplete="off">
         </div>
-        <div id="errorNom"></div>
+        <div id="errorPseudo"></div>
 
         <div class="login-txt">
           <input type="email" placeholder="Email" name="email" autocomplete="off">
@@ -52,37 +48,28 @@
 
 <script type="text/javascript">
   // creer les variables inscription
-  let prenom = document.forms["inscriptionForm"]["prenom"];
-  let nom = document.forms["inscriptionForm"]["nom"];
+  let pseudo = document.forms["inscriptionForm"]["pseudo"];
   let email = document.forms["inscriptionForm"]["email"];
   let mdp = document.forms["inscriptionForm"]["mdp"];
   let confirmationMdp = document.forms["inscriptionForm"]["confirmationMdp"];
 
-  let errorPrenom = document.getElementById("errorPrenom");
-  let errorNom = document.getElementById("errorNom");
+  let errorPseudo = document.getElementById("errorPseudo");
   let errorEmail = document.getElementById("errorEmail");
   let errorMdp = document.getElementById("errorMdp");
   let errorConfirmationMdp = document.getElementById("errorConfirmationMdp");
 
   // creer les events d'ecoute
-  prenom.addEventListener("blur", prenomVerifie, true);
-  nom.addEventListener("blur", nomVerifie, true);
+  pseudo.addEventListener("blur", pseudoVerifie, true);
   email.addEventListener("blur", emailVerifie, true);
   mdp.addEventListener("blur", mdpVerifie, true);
   confirmationMdp.addEventListener("blur", confirmationMdpVerifie, true);
 
   //verifier si les champs sont bon avant d'envoyer
   function Validate(){
-      if(prenom.value == ""){
-          errorPrenom.textContent = "Il faut mettre un Prenom";
-          errorPrenom.style.color = "red";
-          prenom.focus();
-          return false;
-      }
-      if (nom.value == ""){
-          errorNom.textContent = "Il faut mettre un Nom";
-          errorNom.style.color = "red";
-          nom.focus();
+      if (pseudo.value == ""){
+          errorPseudo.textContent = "Il faut mettre un pseudo";
+          errorPseudo.style.color = "red";
+          pseudo.focus();
           return false;
       }
       if (email.value == ""){
@@ -106,15 +93,9 @@
   }
 
   // si les champs sont bon, alors c'est ok
-  function prenomVerifie(){
-      if(prenom.value != ""){
-          errorPrenom.innerHTML = "";
-          return true;
-      }
-  }
-  function nomVerifie(){
-      if(nom.value != ""){
-          errorNom.innerHTML = "";
+  function pseudoVerifie(){
+      if(pseudo.value != ""){
+          errorPseudo.innerHTML = "";
           return true;
       }
   }
