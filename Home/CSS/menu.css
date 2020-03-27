@@ -23,7 +23,6 @@
 
 .menu li a {
 	display: block;
-	text-indent: -500em;
 	height: 5em;
 	width: 8em;
 	line-height: 5em;
@@ -42,9 +41,19 @@
     color: #47a3da;
 }
 
+.menu img {
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 150px;
+    max-width: 100px;
+}
+
 /* class for current item*/
 .menu li.current a {
-	background: #ffffff;
+	background: #f7f7f7;
 	color: #47a3da;
 }
 
