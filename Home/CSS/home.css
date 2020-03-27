@@ -2,10 +2,11 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
+    color: #f7f7f7;
 }
 
 body {
-    background: -webkit-linear-gradient(left, rgba(56,182,255,0.5), rgba(42,38,235,0.7));
+    background: #2a2b30;
 }
 
 #bloc {
