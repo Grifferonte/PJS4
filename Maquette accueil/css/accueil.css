@@ -4,54 +4,41 @@ body {
 
 
 header {
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
+    position : fixed;
+    left : 0;
+    right : 0;
     width: 100%;
-}
-
-#logo {
-}
-
-#barre {
-}
-
-
-
-#param {
-}
-
-
-nav {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: white;
-    text-align: center;
-}
-
-nav ul {
-    padding: 0%;
-}
-
-
-nav li {
-    padding: 10%;
-
-}
-
-nav a {
-    text-decoration: none;
-    color: dodgerblue ;
-
-}
-
-nav li:hover {
-    background-color:  lightblue;
-}
-
-
-#bloc {
+    top: 0;
+    height: 7em;
     display: grid;
-    grid-template-columns: 20% 75% 5%;
+    grid-template-columns: 8% 72% 20%;
+}
 
+
+header #imgLogo {
+    margin-left: 5%;
+    text-align: center;
+    max-height: 120%;
+    max-width: 120%;
+}
+
+header #barre, header #param{
+    background-color: #2a2b30;
+}
+#bloc {
+
+    padding-top: 112px;
+    display: grid;
+    grid-template-columns: 8% 92%;
+
+
+}
+
+#bloc1 {
+    background-color: #2a2b30;
+    display: grid;
+    grid-column-start: 2;
+    grid-template-columns: 95% 5%;
 }
 
 #bloc2 {
@@ -63,14 +50,7 @@ nav li:hover {
     margin: 3%;
 }
 
-#fichier{
-
-}
-
 #abo {
-
-    margin-top: 60%;
-
 }
 
 

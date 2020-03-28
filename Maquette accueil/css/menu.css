@@ -1,0 +1,55 @@
+nav {
+    margin-top: 2%;
+    position : fixed;
+    width: 8%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    text-align: center;
+}
+
+nav ul {
+    padding: 0%;
+
+
+}
+
+
+nav ul li {
+    padding: 10%;
+    height: 4em;
+    text-align: center;
+
+
+}
+
+nav a {
+    text-decoration: none;
+    color: dodgerblue ;
+
+}
+
+nav li:hover {
+    background-color:  lightblue;
+}
+
+.fa-folder,
+.fa-users,
+.fa-globe-asia,
+.fa-star,
+.fa-plus-square,
+.fa-paper-plane,
+.fa-trash-alt{
+    font-size:3em !important;
+    color:#47a3da !important;
+}
+
+.fa-folder:hover,
+.fa-users:hover,
+.fa-globe-asia:hover,
+.fa-star:hover,
+.fa-paper-plane:hover,
+.fa-folder-plus,
+.fa-trash-alt:hover{
+    color: #f7f7f7 !important;
+}
