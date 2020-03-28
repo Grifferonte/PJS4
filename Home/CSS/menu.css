@@ -39,7 +39,7 @@
 
 .menu li a:hover,
 .menu li:first-child a{
-    background-color: #47a3da;
+	background-color: #47a3da;
 }
 
 .menu li:first-child a{
@@ -62,48 +62,26 @@
 	color: #47a3da;
 }
 
-/*---------------- icone menu non téléchargé ---------*/
+/*---------------- icone menu  ---------*/
 .fa-folder,
 .fa-users,
+.fa-globe-asia,
 .fa-star,
-.fa-paper-plane{
+.fa-paper-plane,
+.fa-trash-alt{
 	font-size:60px !important;
 	margin-top: 10px;
     color:#47a3da !important;
 }
 .fa-folder:hover, 
 .fa-users:hover,
+.fa-globe-asia:hover,
 .fa-star:hover,
-.fa-paper-plane:hover{
+.fa-paper-plane:hover,
+.fa-trash-alt:hover{
 	color: #f7f7f7 !important;
 }
 
-
-/*----------------- icone menu téléchargé -----------
-.icon-archive img {
-	margin: auto;
-	margin-top: 10px;
-    max-height: 100px;
-    max-width: 60px;
-}
-.icon-groupe img {
-	margin: auto;
-	margin-top: 15px;
-    max-height: 100px;
-    max-width: 60px;
-}
-.icon-suivi img {
-	margin: auto;
-	margin-top: 10px;
-    max-height: 100px;
-    max-width: 60px;
-}
-.icon-contact img {
-    margin: auto;
-    margin-top: 10px;
-    max-height: 100px;
-    max-width: 50px;
-}*/
 /* Example for media query (depends on total height of menu)
 @media screen and (max-height: 34.9375em) { 
 
