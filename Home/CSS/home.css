@@ -46,5 +46,7 @@ header {
 
 #dossier1, #dossier2, #dossier3, #abo{
     margin: 3%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #f7f7f7;
 }
 
