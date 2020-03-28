@@ -1,11 +1,23 @@
 package EnvoiFichier;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 
 public class SendToRepository extends HttpServlet{
 
@@ -13,37 +25,46 @@ public class SendToRepository extends HttpServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final int TAILLE_TAMPON = 10000;
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String serveur = "adresseDuServeur";
-		  int port = 21;
-		  String user = "nomUtilisateur";
-		  String password = "votreMotdePasse";
+		String server = "localhost";
+	      int port = 2121;
+	      String user = "anonymous";
+	      String pass = "me@nowhere.com";
+	      FTPClient ftpClient = new FTPClient();
+	      ftpClient.connect(server, port);
+	      //showServerReply(ftpClient);
+	      int replyCode = ftpClient.getReplyCode();
+	      if (!FTPReply.isPositiveCompletion(replyCode)) {
+	          System.out.println("Operation failed. Server reply code: " + replyCode);
+	          return;
+	      }
+	      boolean success = ftpClient.login(user, pass);
+	      //showServerReply(ftpClient);
+	      if (!success) {
+	          System.out.println("Could not login to the server");
+	          return;
+	      }
+			InputStream fis = new FileInputStream("C:/fichiers/test.txt");
+	        OutputStream os = ftpClient.storeFileStream("test.txt");
 
-		  FTPClient ftpClient = new FTPClient();
-		  try {
-
-		   ftpClient.connect(serveur, port);
-		   ftpClient.login(user, password );
-		   ftpClient.enterLocalPassiveMode();
-
-		   ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
-		   // Approche 1: upload d'un fichier en utilisant InputStream
-		   File file = new File("C:/plugins et styles.txt");
-
-		   String chemin = "plugins et styles.txt";
-		   InputStream inputStream = new FileInputStream(file);
-
-		   System.out.println("Début de l'upload");
-		   //résultat de l'upload
-		   boolean res = ftpClient.storeFile(chemin, inputStream);
-		   //fermet le flut de lecture
-		   inputStream.close();
-		   
-		   if (res==true) {
-		     System.out.println("Le fichier "+chemin+" a été transféré avec succès");
-		   }
-
+	      byte buf[] = new byte[4800];
+	      int bytesRead = fis.read(buf);
+	      while (bytesRead != -1) {
+	          os.write(buf, 0, bytesRead);
+	          bytesRead = fis.read(buf);
+	      }
+	      fis.close();
+	      os.close();
+	      if(!ftpClient.completePendingCommand()) {
+	      	ftpClient.logout();
+	      	ftpClient.disconnect();
+	          System.err.println("File transfer failed.");
+	          System.exit(1);
+	      }
+	      else {
+	    	  System.out.println("File transfer success");
+	      }
 	}
 }

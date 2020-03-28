@@ -12,14 +12,15 @@ import Fichier.OpérationFichier;
 
 public class main {
 	public static void main(String[] args) {
-		JTextArea field = new JTextArea();
+		/*JTextArea field = new JTextArea();
 		field.setLineWrap(true);
 		Frame fenetre = new Frame();
 		//fenetre.setContentPane(pan);
 		fenetre.add(field);
-		fenetre.setVisible(true);
+		fenetre.setVisible(true);*/
 		try {
-			OpérationFichier.lireFichier("hello.txt", field);
+			//OpérationFichier.lireFichier("hello.txt", field);
+			OpérationFichier.UploadFichier();
 			//OpérationFichier.écrireFichier("hello.txt", field); -> ne marche pas
 		} catch (IOException e) {
 			e.printStackTrace();

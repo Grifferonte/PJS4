@@ -7,6 +7,16 @@
 
 <servlet-mapping>
 	<servlet-name>Download</servlet-name>
-	<url-pattern>/fichiers/*</url-pattern>
+	<url-pattern>/fichiersDown</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>UpLoad</servlet-name>
+	<servlet-class>EnvoiFichier.SendToRepository</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>UpLoad</servlet-name>
+	<url-pattern>/fichiersUp</url-pattern>
 </servlet-mapping>
 </web-app>

@@ -59,4 +59,45 @@ public class OpérationFichier {
       out.write(field.getText()); 
       out.close();
   }
+  
+  public static void UploadFichier() throws SocketException, IOException {
+	  String server = "localhost";
+      int port = 2121;
+      String user = "anonymous";
+      String pass = "me@nowhere.com";
+      FTPClient ftpClient = new FTPClient();
+      ftpClient.connect(server, port);
+      //showServerReply(ftpClient);
+      int replyCode = ftpClient.getReplyCode();
+      if (!FTPReply.isPositiveCompletion(replyCode)) {
+          System.out.println("Operation failed. Server reply code: " + replyCode);
+          return;
+      }
+      boolean success = ftpClient.login(user, pass);
+      //showServerReply(ftpClient);
+      if (!success) {
+          System.out.println("Could not login to the server");
+          return;
+      }
+		InputStream fis = new FileInputStream("C:/fichiers/test.txt");
+        OutputStream os = ftpClient.storeFileStream("test.txt");
+
+      byte buf[] = new byte[4800];
+      int bytesRead = fis.read(buf);
+      while (bytesRead != -1) {
+          os.write(buf, 0, bytesRead);
+          bytesRead = fis.read(buf);
+      }
+      fis.close();
+      os.close();
+      if(!ftpClient.completePendingCommand()) {
+      	ftpClient.logout();
+      	ftpClient.disconnect();
+          System.err.println("File transfer failed.");
+          System.exit(1);
+      }
+      else {
+    	  System.out.println("File transfer success");
+      }
+  }
 } 
