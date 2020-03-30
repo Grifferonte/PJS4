@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class LoadOnInitServlet
  */
+
 @WebServlet (urlPatterns="/initializeResources", loadOnStartup=1)
 public class LoadOnInitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,14 +23,12 @@ public class LoadOnInitServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
-		System.out.println("rrr");
-		
 		
 		try {
 			Class.forName("accesBDD.Requetes");
 			System.out.println("******************");
 		} catch (ClassNotFoundException e) {
-			// TODO Bloc catch généré automatiquement
+			// TODO Bloc catch gï¿½nï¿½rï¿½ automatiquement
 			e.printStackTrace();
 		}
 	}

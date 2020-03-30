@@ -2,6 +2,7 @@ package MyServlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,8 @@ import Partage.Drive;
 /**
  * Servlet implementation class choixActionProjet
  */
+
+@WebServlet("/choixAction")
 public class choixActionProjet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -22,7 +25,7 @@ public class choixActionProjet extends HttpServlet {
 			//Code
 		}
 		else if (request.getParameter("ouvrir") != null) {
-			//Tester si le projet est un répertoire ou un fichier
+			//Tester si le projet est un rï¿½pertoire ou un fichier
 			//Code pour ouvrir document (si txt l'ouvrir dans une fenetre java)
 		}
 		else if (request.getParameter("supprimer") != null) {

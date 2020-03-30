@@ -3,6 +3,7 @@ package MyServlet;
 import java.io.IOException;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +13,11 @@ import Partage.utilisateur;
 import accesBDD.Requetes;
 
 
+
+@WebServlet("/co")
 public class connexion extends HttpServlet{
 	/**
-	 * Classe de connexion à la base de donnée 
+	 * Classe de connexion ï¿½ la base de donnï¿½e 
 	 */
 	private static final long serialVersionUID = 1L;
 	

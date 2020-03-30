@@ -21,21 +21,21 @@
 		<p>Bienvenue <%=((utilisateur)session.getAttribute("client")).getLogin()%></p><br>
 	<%} %>
 	<p>Que voulez vous faire</p><br>
-	<form method="get" action="http://localhost:8080/JavaEEProjet/choixAccServlet?choixClient=choix">
+	<form method="get" action="choixAccueil">
 	<button type="submit" name="tousMesDocuments" value="liste des documents">Liste de tous mes documents</button><br>
-	<button type="submit" name="CréerProjet" value="Projet"> Créer un projet</button><br>
-	<button type="submit" name="PartagésAvecMoi" value="Partage">Partagés avec moi</button><br>
+	<button type="submit" name="CreerProjet" value="Projet"> Creer un projet</button><br>
+	<button type="submit" name="PartagesAvecMoi" value="Partage">Partages avec moi</button><br>
 	<button type="submit" name="ListUsers" value="Utilisateurs" id="btnListUsr">liste de tous les utilisateurs</button><br>
 	</form>
-	<form method="get" action="http://localhost:8080/JavaEEProjet/EntreeServlet" >
-	<button type="submit" value="revenir à la page d'accueil">se déconnecter</button>
+	<form method="get" action="EntreeServlet" >
+	<button type="submit" value="revenir a la page d'accueil">se deconnecter</button>
 	</form>
 		
 </body>
 <script>
 	function disableButton(){
 		document.getElementById("btnListUsr").disabled = true;
-		document.getElementById("btnListUsr").innerHTML += " (<br> vous n'êtes pas administrateur <br>, cette  fonctionnalité n'est pas <br> accessible pour vous) ";
+		document.getElementById("btnListUsr").innerHTML += " (<br> vous n'etes pas administrateur <br>, cette  fonctionnalitï¿½ n'est pas <br> accessible pour vous) ";
 		
 	}
 	<%if (!((utilisateur)session.getAttribute("client")).isAdmin()){ %>

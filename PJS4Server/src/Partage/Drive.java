@@ -47,4 +47,10 @@ public class Drive{
 	public void PartagerDoc(utilisateur u, int numDocument) {
 		req.PartagerDoc(u, numDocument);
 	}
+	
+	public void inscritpion(String mail, String motdepasse, String pseudo) {
+	
+		req.inscription(mail, motdepasse, pseudo);
+		
+	}
 }
