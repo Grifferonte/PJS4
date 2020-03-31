@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import LoginFTP.FTPConnectAndLogin;
-
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 /**
  * Servlet implementation class LoadOnInitServlet
  */
@@ -26,7 +27,7 @@ public class LoadOnInitServlet extends HttpServlet {
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
 		try {
-			FTPConnectAndLogin.connect();
+			FTPConnectAndLogin.getInstance().connect();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

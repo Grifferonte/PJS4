@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form method="get" action="http://localhost:8080/PJS4_Project/connexion?m=mail&mdp=motDePasse">
+<form method="get" action="http://localhost:8080/PJS4Server/co?m=mail&mdp=motDePasse">
 	<input type="text" name="mail" placeholder="entrez votre mail">mail</input>
 	<input type="password" name="motDePasse" placeholder="entrez votre mot de passe">mot de passe</input>
 	<button type="submit" value="soumettre"></button>

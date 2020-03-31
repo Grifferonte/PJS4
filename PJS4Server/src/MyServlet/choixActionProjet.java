@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -18,6 +20,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
+
+import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
 
 /**
@@ -97,7 +103,27 @@ public class choixActionProjet extends HttpServlet {
 			
 		}
 		else if (request.getParameter("upload") != null) {
-			
+			FTPClient ftpClient = FTPConnectAndLogin.getInstance().connect();
+			InputStream fis = new FileInputStream("C:/fichiers/test.txt");
+	        OutputStream os = ftpClient.storeFileStream("test.txt");
+
+	      byte buf[] = new byte[4800];
+	      int bytesRead = fis.read(buf);
+	      while (bytesRead != -1) {
+	          os.write(buf, 0, bytesRead);
+	          bytesRead = fis.read(buf);
+	      }
+	      fis.close();
+	      os.close();
+	      if(!ftpClient.completePendingCommand()) {
+	      	ftpClient.logout();
+	      	ftpClient.disconnect();
+	          System.err.println("File transfer failed.");
+	          System.exit(1);
+	      }
+	      else {
+	    	  System.out.println("File transfer success");
+	      }
 		}
 	}
 }

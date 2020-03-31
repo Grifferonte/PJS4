@@ -36,18 +36,19 @@ public class inscription extends HttpServlet{
 			}
 		}
 		
-		Drive.getInstance().inscritpion(mail, mdp, pseudo);
-		try {
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		else {
+		
+			Drive.getInstance().inscritpion(mail, mdp, pseudo);
+			try {
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		
 	}
 
 }

@@ -22,7 +22,6 @@ public class connexion extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
-		Requetes.getInstance();
 		String mail = request.getParameter( "mail" );
 		String motDePasse = request.getParameter("motDePasse");
 		try {

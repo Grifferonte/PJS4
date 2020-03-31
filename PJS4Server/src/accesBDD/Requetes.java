@@ -12,7 +12,6 @@ import Partage.Projet;
 import Partage.utilisateur;
 import persistance.Admin;
 import persistance.Client;
-import persistance.Entite;
 
 public class Requetes {
 	private static Requetes instance = new Requetes();
@@ -54,7 +53,7 @@ public class Requetes {
 	public utilisateur getUser(String mail, String mdp) throws Exception {
 
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM COMPTE WHERE mail = ? AND mdp = ?;";
+		String request = "SELECT * FROM COMPTE WHERE mail = ? AND motDePasse = ?;";
 		try {
 
 			PreparedStatement st = connection.prepareStatement(request);
@@ -64,10 +63,10 @@ public class Requetes {
 
 			while (res.next())
 				if (res.getString("typeCompte").equals("admin"))
-					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
 							res.getInt("idStockage"));
 				else if (res.getString("typeCompte").equals("client"))
-					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
 							res.getInt("idStockage"));
 
 		} catch (SQLException e) {
@@ -97,9 +96,9 @@ public class Requetes {
 				st.setString(1, "" + i);
 				res = st.executeQuery();
 
-				while (res.next())
-					list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage")));
+				//while (res.next())
+					//list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							//res.getString("typeEntite"), res.getString("dateStockage")));
 			}
 
 		} catch (Exception e) {
@@ -121,9 +120,9 @@ public class Requetes {
 			st.setString(1, "" + u.getId());
 			ResultSet res = st.executeQuery();
 
-			while (res.next())
-				list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-						res.getString("typeEntite"), res.getString("dateStockage")));
+			//while (res.next())
+				//list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+						//res.getString("typeEntite"), res.getString("dateStockage")));
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
