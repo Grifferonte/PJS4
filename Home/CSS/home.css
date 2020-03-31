@@ -21,7 +21,7 @@ body {
 /*---------  tete de la main page (moteur de recherche/ parametre)  ---------*/
 header {
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 50% 50%;
     width: 100%;
 }
 
@@ -33,8 +33,35 @@ header {
 
 
 
-#param {
+.user {
+    float: right;
+    margin-top: 40px;
+    margin-right: 10%;
 }
+.fa-user,
+.fa-cogs,
+.fa-sign-out-alt{
+    font-size: 50px !important;
+    color: #f7f7f7;
+}
+.menuParam{
+    opacity: 0;
+    transition: 1s opacity;
+    
+    padding-right: 20px;
+    float: left;
+    
+}
+.sousMenuParam1,
+.sousMenuParam2{
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.user:hover .menuParam {
+    opacity: 1;
+    transition: 1s opacity;
+}
+
 
 
 /*------------------ main page (dossiers/ abo) ---------------*/
