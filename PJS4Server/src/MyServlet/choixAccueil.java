@@ -6,6 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import Partage.Drive;
+import Partage.utilisateur;
 
 /**
  * Servlet implementation class choixAccueil
@@ -19,8 +23,11 @@ public class choixAccueil extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		synchronized(this) {
+			HttpSession session=request.getSession();
+			utilisateur u = (utilisateur) session.getAttribute("client");
 			if (request.getParameter("DocsPartages") != null) {
 				try {
+					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsPartages(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
@@ -28,6 +35,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsPublics") != null) {
 				try {
+					request.setAttribute("listeDocsPublics", Drive.getInstance().getDocsPublics(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
@@ -35,6 +43,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsFavoris") != null) {
 				try {
+					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsFavoris(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsFavoris.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
@@ -42,6 +51,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsArchives") != null) {
 				try {
+					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsArchives(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsArchives.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();

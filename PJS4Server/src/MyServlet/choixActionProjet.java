@@ -162,7 +162,7 @@ public class choixActionProjet extends HttpServlet {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			try {
-				OpérationFichier.écrireFichier(nomUt, nomFichier, field);
+				OperationFichier.ecrireFichier(nomUt, nomFichier, field);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

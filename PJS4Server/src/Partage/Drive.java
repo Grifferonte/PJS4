@@ -32,6 +32,18 @@ public class Drive {
 	public List<Projet> getDocsPartages(utilisateur u) {
 		return req.getDocsPartages(u);
 	}
+	
+	public List<Projet> getDocsArchives(utilisateur u){
+		return req.getTousLesDocumentsArchives(u);
+	}
+	
+	public List<Projet> getDocsFavoris(utilisateur u){
+		return req.getTousLesDocumentsFavoris(u);
+	}
+	
+	public List<Projet> getDocsPublics(utilisateur u){
+		return req.getTousLesDocumentsPublics(u);
+	}
 
 	public List<Projet> getDocuments(utilisateur u) {
 		return req.getDocuments(u);
