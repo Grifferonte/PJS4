@@ -12,19 +12,19 @@ CREATE TABLE STOCKAGE(
 
 CREATE TABLE COMPTE(
    idCompte INTEGER NOT NULL AUTO_INCREMENT,
-   typeCompte VARCHAR(50),
-   pseudo VARCHAR(50),
-   mail VARCHAR(50),
-   mdp VARCHAR (15),
+   typeCompte VARCHAR(8),
+   pseudo VARCHAR(16),
+   mail VARCHAR(32),
+   mdp VARCHAR (16),
    idStockage INTEGER
 );
 
 CREATE TABLE ENTITE(
    idEntite INTEGER NOT NULL AUTO_INCREMENT,
-   nomEntite VARCHAR(31),
+   nomEntite VARCHAR(16),
    extension VARCHAR(4),
    dateStockage DATE,
-   typeEntite VARCHAR(15),
+   typeEntite VARCHAR(16),
    visibilite VARCHAR(8),
    public BOOLEAN,
    tailleEntite INTEGER,
