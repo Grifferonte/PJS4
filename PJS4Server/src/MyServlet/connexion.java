@@ -27,14 +27,14 @@ public class connexion extends HttpServlet{
 		try {
 			utilisateur u = Drive.getInstance().getUser(mail, motDePasse);
 			request.setAttribute("User", u);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("UtilisateurExistePas", e.getMessage());
 			try {
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
 			} catch (ServletException | IOException ex) {
 				ex.printStackTrace();
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("UtilisateurExistePas", e.getMessage());
 		}
 		/*System.out.println(mail);
 		System.out.println(motDePasse);
