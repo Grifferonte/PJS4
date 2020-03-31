@@ -25,7 +25,7 @@ CREATE TABLE ENTITE(
    extension VARCHAR(4),
    dateStockage DATE,
    typeEntite VARCHAR(16),
-   visibilite VARCHAR(8),
+   visibilite VARCHAR(16),
    public BOOLEAN,
    tailleEntite INTEGER,
    idCompte INTEGER NOT NULL
