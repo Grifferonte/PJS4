@@ -19,7 +19,7 @@ public class inscription extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String mail = (String) request.getAttribute("mail");
 		String pseudo = (String) request.getAttribute("pseudo");
@@ -29,9 +29,8 @@ public class inscription extends HttpServlet{
 		if(mdp != mdp2) {
 			
 			try {
+				request.setAttribute("erreur", "veuillez entrer des mots de passe valides");
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/Inscription.jsp" ).forward( request, response );
-				FTPClient client = FTPConnectAndLogin.getInstance().connect();
-				client.makeDirectory(pseudo);
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -42,15 +41,11 @@ public class inscription extends HttpServlet{
 		}
 		
 		else {
-		
 			Drive.getInstance().inscritpion(mail, mdp, pseudo);
-			
+			FTPConnectAndLogin.getInstance().connect().makeDirectory("/classes/" + pseudo);
 			try {
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
 			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
