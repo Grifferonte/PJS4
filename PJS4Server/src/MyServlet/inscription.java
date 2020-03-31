@@ -30,6 +30,8 @@ public class inscription extends HttpServlet{
 			
 			try {
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/Inscription.jsp" ).forward( request, response );
+				FTPClient client = FTPConnectAndLogin.getInstance().connect();
+				client.makeDirectory(pseudo);
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -42,9 +44,8 @@ public class inscription extends HttpServlet{
 		else {
 		
 			Drive.getInstance().inscritpion(mail, mdp, pseudo);
+			
 			try {
-				FTPClient client = FTPConnectAndLogin.getInstance().connect();
-				client.makeDirectory(pseudo);
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block

@@ -32,12 +32,6 @@ public abstract class AbstractProjet implements Projet{
 	}
 
 	@Override
-	public void put(utilisateur u) {
-		Drive.getInstance().creerDoc(u, this.nom);
-		
-	}
-
-	@Override
 	public void Partager(utilisateur u1, utilisateur u2) {
 		Drive.getInstance().PartagerDoc(u1, u2, this.id);
 		

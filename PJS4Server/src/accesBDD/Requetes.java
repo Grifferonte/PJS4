@@ -12,6 +12,8 @@ import Partage.Projet;
 import Partage.utilisateur;
 import persistance.Admin;
 import persistance.Client;
+import persistance.Fichier;
+import persistance.Repertoire;
 
 public class Requetes {
 	private static Requetes instance = new Requetes();
@@ -61,14 +63,14 @@ public class Requetes {
 			st.setString(2, mdp);
 			ResultSet res = st.executeQuery();
 
-			while (res.next())
+			while (res.next()) {
 				if (res.getString("typeCompte").equals("admin"))
 					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
 							res.getInt("idStockage"));
 				else if (res.getString("typeCompte").equals("client"))
 					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
 							res.getInt("idStockage"));
-
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -96,9 +98,15 @@ public class Requetes {
 				st.setString(1, "" + i);
 				res = st.executeQuery();
 
-				//while (res.next())
-					//list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							//res.getString("typeEntite"), res.getString("dateStockage")));
+				while (res.next()) {
+					if (res.getString("type").equals("repertoire"))
+						list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+								res.getString("typeEntite"), res.getString("dateStockage")));
+					else
+						list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"),
+								res.getString("extension"), res.getString("typeEntite"),
+								res.getString("dateStockage")));
+				}
 			}
 
 		} catch (Exception e) {
@@ -120,9 +128,14 @@ public class Requetes {
 			st.setString(1, "" + u.getId());
 			ResultSet res = st.executeQuery();
 
-			//while (res.next())
-				//list.add(new Entite(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-						//res.getString("typeEntite"), res.getString("dateStockage")));
+			while (res.next()) {
+				if (res.getString("type").equals("repertoire"))
+					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+				else
+					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -170,6 +183,43 @@ public class Requetes {
 		}
 	}
 
+	public void changerMotDePasse(utilisateur u, String newMDP) {
+
+		Connection connection = JDBC.getConnection();
+
+		try {
+
+			String update = "UPDATE COMPTE SET mdp = ? WHERE idCompte = ?;";
+			PreparedStatement requete = connection.prepareStatement(update);
+			requete.setString(1, newMDP);
+			requete.setString(2, "" + u.getId());
+			requete.executeUpdate();
+
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void changerPseudo(utilisateur u, String newPseudo) {
+
+		Connection connection = JDBC.getConnection();
+
+		try {
+			String update = "UPDATE COMPTE SET pseudo = ? WHERE idCompte = ?;";
+			PreparedStatement requete = connection.prepareStatement(update);
+			requete.setString(1, newPseudo);
+			requete.setString(2, "" + u.getId());
+			requete.executeUpdate();
+
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Projet getDocumentByName(String nomDocument) {
 		// TODO Auto-generated method stub
 		return null;
@@ -177,16 +227,162 @@ public class Requetes {
 
 	public void supprimerDoc(int numDocument) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void creerDoc(utilisateur u, String nomDocument) {
-		// TODO Auto-generated method stub
-		
+	public void creerNouveauDoc(utilisateur u, String nom) {
+
+		Connection connection = JDBC.getConnection();
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,idCompte) VALUES(?,'txt',CURDATE(),'fichier texte',?);";
+		String update = "UPDATE STOCKAGE SET nombreElements = nombreElements +1 WHERE idCompte = ? ";
+		try {
+			PreparedStatement st = connection.prepareStatement(insert);
+			st.setString(1, nom);
+			st.setString(2, "" + u.getId());
+			st.executeUpdate();
+
+			st = connection.prepareStatement(update);
+			st.setString(1, "" + u.getId());
+			st.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void creerNouveauDossier(utilisateur u, String nom) {
+		Connection connection = JDBC.getConnection();
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,idCompte) VALUES(?,null,CURDATE(),'Dossier',?);";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(insert);
+			st.setString(1, nom);
+			st.setString(2, "" + u.getId());
+			st.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void renommerDocument(utilisateur u, int numDoc, String nouveauNom) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + numDoc);
+			ResultSet res = st.executeQuery();
+			while (res.next())
+				if (u.getId() == res.getInt("idCompte")) {
+					String update = "UPDATE ENTITE SET nomEntite = ? WHERE idEntite = ?;";
+					PreparedStatement requete = connection.prepareStatement(update);
+					requete.setString(1, nouveauNom);
+					requete.executeUpdate();
+				}
+
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
-		// TODO Auto-generated method stub
-		
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + numDocument);
+			ResultSet res = st.executeQuery();
+			while (res.next())
+				if (u1.getId() == res.getInt("idCompte")) {
+					String insert = "INSERT INTO PARTAGE (idCompte, idCompte2,idEntite,datePartage) VALUES (?,?,?,CURDATE());";
+					PreparedStatement requete = connection.prepareStatement(insert);
+					requete.setString(1, "" + u1.getId());
+					requete.setString(2, "" + u2.getId());
+					requete.setString(1, "" + numDocument);
+					requete.executeUpdate();
+					
+					
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public List<Projet> getTousLesDocumentsPublics(utilisateur u) {
+		List<Projet> list = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND public = 1;";
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + u.getId());
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+				else
+					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
+		List<Projet> list = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND visibilite ='favoris';";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + u.getId());
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+				else
+					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public List<Projet> getTousLesDocumentsArchives(utilisateur u) {
+		List<Projet> list = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND visibilite ='archive';";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + u.getId());
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+				else
+					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

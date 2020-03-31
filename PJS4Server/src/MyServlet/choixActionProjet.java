@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -19,10 +20,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
+import Fichier.OpérationFichier;
 import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
 
@@ -100,7 +104,19 @@ public class choixActionProjet extends HttpServlet {
 			Drive.getInstance().supprimerDoc(numDoc);
 		}
 		else if (request.getParameter("ouvrir") != null) {
-			
+			String nomUtilisateur = null;
+			String nomFichier = request.getParameter("nomFichier");
+			JTextArea field = new JTextArea();
+			field.setLineWrap(true);
+			JFrame fenetre = new JFrame();
+			fenetre.add(field);
+			fenetre.setVisible(true);
+			try {
+				//Onclick sur le bouton d'enregistrement de la fenetre;
+				OpérationFichier.écrireFichier(nomUtilisateur, nomFichier, field);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		else if (request.getParameter("upload") != null) {
 			FTPClient ftpClient = FTPConnectAndLogin.getInstance().connect();

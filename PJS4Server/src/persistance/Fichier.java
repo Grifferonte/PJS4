@@ -27,5 +27,11 @@ public class Fichier extends AbstractProjet {
 	public String toString() {
 		return "Fichier";
 	}
+	
+	@Override
+	public void put(utilisateur u) {
+		Drive.getInstance().creerNouveauDoc(u, this.getNom());
+		
+	}
 
 }
