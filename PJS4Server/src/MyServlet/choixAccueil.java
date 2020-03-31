@@ -35,7 +35,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsPublics") != null) {
 				try {
-					request.setAttribute("listeDocsPublics", Drive.getInstance().getDocsPublics(u));
+					request.setAttribute("listeDocsPublics", Drive.getInstance().getTousLesDocumentsPublics(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
@@ -43,7 +43,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsFavoris") != null) {
 				try {
-					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsFavoris(u));
+					request.setAttribute("listeDocsFavoris", Drive.getInstance().getTousLesDocumentsFavoris(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsFavoris.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class choixAccueil extends HttpServlet {
 			}
 			else if (request.getParameter("DocsArchives") != null) {
 				try {
-					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsArchives(u));
+					request.setAttribute("listeArchives", Drive.getInstance().getTousLesDocumentsArchives(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsArchives.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();

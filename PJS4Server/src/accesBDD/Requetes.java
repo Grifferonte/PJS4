@@ -22,7 +22,7 @@ public class Requetes {
 		Drive.getInstance().setData(instance);
 	}
 
-	private Requetes() {
+	public Requetes() {
 	}
 
 	public static Requetes getInstance() {
@@ -55,7 +55,7 @@ public class Requetes {
 	public utilisateur getUser(String mail, String mdp) throws Exception {
 
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM COMPTE WHERE mail = ? AND motDePasse = ?;";
+		String request = "SELECT * FROM COMPTE WHERE mail = ? AND mdp = ?;";
 		try {
 
 			PreparedStatement st = connection.prepareStatement(request);
@@ -65,10 +65,10 @@ public class Requetes {
 
 			while (res.next()) {
 				if (res.getString("typeCompte").equals("admin"))
-					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
 							res.getInt("idStockage"));
 				else if (res.getString("typeCompte").equals("client"))
-					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("nom"),
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
 							res.getInt("idStockage"));
 			}
 		} catch (SQLException e) {
@@ -99,7 +99,7 @@ public class Requetes {
 				res = st.executeQuery();
 
 				while (res.next()) {
-					if (res.getString("type").equals("repertoire"))
+					if (res.getString("typeEntite").equals("repertoire"))
 						list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
 								res.getString("typeEntite"), res.getString("dateStockage")));
 					else
@@ -129,7 +129,7 @@ public class Requetes {
 			ResultSet res = st.executeQuery();
 
 			while (res.next()) {
-				if (res.getString("type").equals("repertoire"))
+				if (res.getString("typeEntite").equals("repertoire"))
 					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
 							res.getString("typeEntite"), res.getString("dateStockage")));
 				else
@@ -225,15 +225,43 @@ public class Requetes {
 		return null;
 	}
 
-	public void supprimerDoc(int numDocument) {
-		// TODO Auto-generated method stub
+	public void supprimerDoc(utilisateur u, int numDocument) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
 
+		try {
+			PreparedStatement req = connection.prepareStatement(request);
+			ResultSet res = req.executeQuery();
+			while (res.next())
+				if (u.getId() == res.getInt("idCompte")) {
+					String delete = "DELETE FROM ENTITE WHERE idEntite = ?; ";
+					PreparedStatement deleteR = connection.prepareStatement(delete);
+					deleteR.setString(1, "" + numDocument);
+					deleteR.executeUpdate();
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void supprimerCompte(utilisateur u) {
+		Connection connection = JDBC.getConnection();
+		String delete = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		
+		try {
+			PreparedStatement req = connection.prepareStatement(delete);
+			req.executeUpdate();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void creerNouveauDoc(utilisateur u, String nom) {
 
 		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,idCompte) VALUES(?,'txt',CURDATE(),'fichier texte',?);";
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte) VALUES(?,'txt',CURDATE(),'fichier texte',0,?);";
 		String update = "UPDATE STOCKAGE SET nombreElements = nombreElements +1 WHERE idCompte = ? ";
 		try {
 			PreparedStatement st = connection.prepareStatement(insert);
@@ -252,7 +280,7 @@ public class Requetes {
 
 	public void creerNouveauDossier(utilisateur u, String nom) {
 		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,idCompte) VALUES(?,null,CURDATE(),'Dossier',?);";
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte) VALUES(?,null,CURDATE(),'Dossier',0,?);";
 
 		try {
 			PreparedStatement st = connection.prepareStatement(insert);
@@ -278,6 +306,7 @@ public class Requetes {
 					String update = "UPDATE ENTITE SET nomEntite = ? WHERE idEntite = ?;";
 					PreparedStatement requete = connection.prepareStatement(update);
 					requete.setString(1, nouveauNom);
+					requete.setString(2, "" + numDoc);
 					requete.executeUpdate();
 				}
 
@@ -288,7 +317,7 @@ public class Requetes {
 		}
 	}
 
-	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
+	public void partagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
 		Connection connection = JDBC.getConnection();
 		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?";
 
@@ -302,10 +331,17 @@ public class Requetes {
 					PreparedStatement requete = connection.prepareStatement(insert);
 					requete.setString(1, "" + u1.getId());
 					requete.setString(2, "" + u2.getId());
-					requete.setString(1, "" + numDocument);
+					requete.setString(3, "" + numDocument);
 					requete.executeUpdate();
-					
-					
+
+					String recursif = "SELECT idEntite2 FROM CONTIENT WHERE idEntite = ?; ";
+					PreparedStatement requeteRecursive = connection.prepareStatement(recursif);
+					requeteRecursive.setString(1, "" + numDocument);
+					ResultSet resultat = requeteRecursive.executeQuery();
+
+					while (resultat.next())
+						this.partagerDoc(u1, u2, resultat.getInt("idEntite2"));
+
 				}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -385,4 +421,86 @@ public class Requetes {
 		}
 		return list;
 	}
+
+	public utilisateur getUtilisateurByMail(String mail) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM COMPTE WHERE mail = ? ";
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, mail);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+				else if (res.getString("typeCompte").equals("client"))
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void updateVisibilite(utilisateur u, String visibilite) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		try {
+			PreparedStatement req = connection.prepareStatement(request);
+			ResultSet res = req.executeQuery();
+			while (res.next())
+				if (u.getId() == res.getInt("idCompte")) {
+					String update = "UPDATE ENTITE SET visibilite = ? ";
+					PreparedStatement requete = connection.prepareStatement(update);
+					requete.setString(1, visibilite);
+					requete.executeUpdate();
+
+				}
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateDocumentPrive(utilisateur u) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		try {
+			PreparedStatement req = connection.prepareStatement(request);
+			ResultSet res = req.executeQuery();
+			while (res.next())
+				if (u.getId() == res.getInt("idCompte")) {
+					String update = "UPDATE ENTITE SET public = 0 ";
+					PreparedStatement requete = connection.prepareStatement(update);
+					requete.executeUpdate();
+				}
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateDocumentPublic(utilisateur u) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		try {
+			PreparedStatement req = connection.prepareStatement(request);
+			ResultSet res = req.executeQuery();
+			while (res.next())
+				if (u.getId() == res.getInt("idCompte")) {
+					String update = "UPDATE ENTITE SET public = 1 ";
+					PreparedStatement requete = connection.prepareStatement(update);
+					requete.executeUpdate();
+				}
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

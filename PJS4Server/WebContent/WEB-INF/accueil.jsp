@@ -13,12 +13,9 @@
 	<%} 
 	else{%>
 		<%utilisateur u = (utilisateur) request.getAttribute("User"); %>
-		<%String log = (String) request.getAttribute("login"); %>
-		<%String mdp = (String) request.getAttribute("mdp"); %>
 		<% session.setAttribute("client", u) ;%>
-		<% session.setAttribute("logclient", log) ;%>
-		<% session.setAttribute("Mdpclient", mdp) ;%>
-		<p>Bienvenue <%=((utilisateur)session.getAttribute("client")).getLogin()%></p><br>
+		<% session.setAttribute("pseudo", u.getLogin()) ;%>
+		<p>Bienvenue <%=((utilisateur)session.getAttribute("pseudo"))%></p><br>
 	<%} %>
 	<p>Que voulez vous faire</p><br>
 	<form method="get" action="choixAccueil">

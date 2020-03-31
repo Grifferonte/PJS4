@@ -29,7 +29,7 @@ import javax.swing.JTextArea;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
-import Fichier.OperationFichier;
+import Fichier.OpérationFichier;
 import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
 
@@ -71,13 +71,13 @@ public class choixActionProjet extends HttpServlet {
 		      out.close();
 			
 			
-			/* Initialise la rï¿½ponse HTTP */
+			/* Initialise la réponse HTTP */
 			response.reset();
 			response.setBufferSize( DEFAULT_BUFFER_SIZE );
 			response.setHeader( "Content-Length", String.valueOf( fichierTel.length() ) );
 			response.setHeader( "Content-Disposition", "attachment; filename=\"" + fichierTel.getName() + "\"" );
 			
-			/* Prï¿½pare les flux */
+			/* Prépare les flux */
 			BufferedInputStream entree = null;
 			BufferedOutputStream sortie = null;
 			try {
@@ -85,7 +85,7 @@ public class choixActionProjet extends HttpServlet {
 			    entree = new BufferedInputStream( new FileInputStream( fichierTel ), TAILLE_TAMPON );
 			    sortie = new BufferedOutputStream( response.getOutputStream(), TAILLE_TAMPON );
 			 
-			    /* Lit le fichier et ï¿½crit son contenu dans la rï¿½ponse HTTP */
+			    /* Lit le fichier et écrit son contenu dans la réponse HTTP */
 			    byte[] tampon = new byte[TAILLE_TAMPON];
 			    int longueur;
 			    while ( ( longueur= entree.read( tampon ) ) > 0 ) {
@@ -104,7 +104,7 @@ public class choixActionProjet extends HttpServlet {
 		}
 		else if (request.getParameter("supprimer") != null) {
 			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
-			Drive.getInstance().supprimerDoc(numDoc);
+			//Drive.getInstance().supprimerDoc(null, numDoc);
 		}
 		else if (request.getParameter("ouvrir") != null) {
 			String nomUtilisateur = null;
@@ -117,12 +117,6 @@ public class choixActionProjet extends HttpServlet {
 			fenetre.add(field);
 			fenetre.add(bouton);
 			fenetre.setVisible(true);
-			try {
-				//Onclick sur le bouton d'enregistrement de la fenetre;
-				OperationFichier.ecrireFichier(nomUtilisateur, nomFichier, field);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		else if (request.getParameter("upload") != null) {
 			FTPClient ftpClient = FTPConnectAndLogin.getInstance().connect();
@@ -162,7 +156,7 @@ public class choixActionProjet extends HttpServlet {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			try {
-				OperationFichier.ecrireFichier(nomUt, nomFichier, field);
+				OpérationFichier.écrireFichier(nomUt, nomFichier, field);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
