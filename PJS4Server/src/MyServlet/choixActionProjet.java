@@ -26,7 +26,7 @@ import javax.swing.JTextArea;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
-import Fichier.OpérationFichier;
+import Fichier.OperationFichier;
 import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
 
@@ -68,13 +68,13 @@ public class choixActionProjet extends HttpServlet {
 		      out.close();
 			
 			
-			/* Initialise la réponse HTTP */
+			/* Initialise la rï¿½ponse HTTP */
 			response.reset();
 			response.setBufferSize( DEFAULT_BUFFER_SIZE );
 			response.setHeader( "Content-Length", String.valueOf( fichierTel.length() ) );
 			response.setHeader( "Content-Disposition", "attachment; filename=\"" + fichierTel.getName() + "\"" );
 			
-			/* Prépare les flux */
+			/* Prï¿½pare les flux */
 			BufferedInputStream entree = null;
 			BufferedOutputStream sortie = null;
 			try {
@@ -82,7 +82,7 @@ public class choixActionProjet extends HttpServlet {
 			    entree = new BufferedInputStream( new FileInputStream( fichierTel ), TAILLE_TAMPON );
 			    sortie = new BufferedOutputStream( response.getOutputStream(), TAILLE_TAMPON );
 			 
-			    /* Lit le fichier et écrit son contenu dans la réponse HTTP */
+			    /* Lit le fichier et ï¿½crit son contenu dans la rï¿½ponse HTTP */
 			    byte[] tampon = new byte[TAILLE_TAMPON];
 			    int longueur;
 			    while ( ( longueur= entree.read( tampon ) ) > 0 ) {
@@ -113,7 +113,7 @@ public class choixActionProjet extends HttpServlet {
 			fenetre.setVisible(true);
 			try {
 				//Onclick sur le bouton d'enregistrement de la fenetre;
-				OpérationFichier.écrireFichier(nomUtilisateur, nomFichier, field);
+				OperationFichier.ecrireFichier(nomUtilisateur, nomFichier, field);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

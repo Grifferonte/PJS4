@@ -49,9 +49,9 @@ public class OperationFichier {
       in.close();
   }
   
-  public static void ecrireFichier(String fichier, JTextArea field) throws IOException {
+  public static void ecrireFichier(String nomUti, String nomFichier, JTextArea field) throws IOException {
 	  //code pour �crire sur un fichier sur serveur ftp, ne marche pas
-	  URL myUrl = new URL("ftp://localhost:2121/texte/bonjour.txt");
+	  URL myUrl = new URL("ftp://localhost:2121/classes/"+ nomUti +"/" + nomFichier);
       URLConnection yc = myUrl.openConnection();
       BufferedWriter out = new BufferedWriter(new OutputStreamWriter(yc.getOutputStream()));
       out.write(field.getText()); 
