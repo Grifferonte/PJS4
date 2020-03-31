@@ -1,5 +1,7 @@
 package MyServlet;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -20,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
@@ -109,7 +112,10 @@ public class choixActionProjet extends HttpServlet {
 			JTextArea field = new JTextArea();
 			field.setLineWrap(true);
 			JFrame fenetre = new JFrame();
+			JButton bouton = new JButton("Enregistrer");
+			bouton.addMouseListener(new BoutonEnregListener(nomUtilisateur, nomFichier, field));
 			fenetre.add(field);
+			fenetre.add(bouton);
 			fenetre.setVisible(true);
 			try {
 				//Onclick sur le bouton d'enregistrement de la fenetre;
@@ -140,6 +146,50 @@ public class choixActionProjet extends HttpServlet {
 	      else {
 	    	  System.out.println("File transfer success");
 	      }
+		}
+	}
+	
+	private final class BoutonEnregListener implements MouseListener{
+		private String nomFichier;
+		private String nomUt;
+		private JTextArea field;
+		
+		public BoutonEnregListener(String n, String nom, JTextArea field) {
+			this.nomFichier = n;
+			this.nomUt = nom;
+			this.field = field;
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			try {
+				OpérationFichier.écrireFichier(nomUt, nomFichier, field);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }
