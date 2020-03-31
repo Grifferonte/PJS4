@@ -1,4 +1,6 @@
--- PROTOTYPE DE LA BASE DE DONNEES DU PROJET
+
+/* ------------------BASE DE DONNEES PJS4------------------ */
+/* --------------------Armand Drouineau---------------------- */
 
 CREATE TABLE STOCKAGE(
    idStockage INTEGER NOT NULL AUTO_INCREMENT,
@@ -64,7 +66,7 @@ CREATE TABLE PUBLIC_DOCUMENTS(
    idEntite INTEGER
 );
 
--- PRIMARY KEYS
+/* ------------------PRIMARY KEYS DES TABLES------------------ */
 
 ALTER TABLE COMPTE
 ADD CONSTRAINT PK_COMPTE PRIMARY KEY(idCompte);
@@ -93,7 +95,7 @@ ADD CONSTRAINT PK_GROUPE PRIMARY KEY(idGroupe);
 ALTER TABLE PUBLIC_DOCUMENTS
 ADD CONSTRAINT PK_PUBLIC_DOCS PRIMARY KEY(idEntite);
 
--- FOREIGN KEYS / UNIQUE
+/* ------------------ALTER TABLE DES TABLES------------------ */
 
 ALTER TABLE COMPTE
 ADD CONSTRAINT FK_COMPTE FOREIGN KEY(idStockage)REFERENCES STOCKAGE(idStockage),
@@ -126,7 +128,7 @@ ADD CONSTRAINT FK_idGroupe FOREIGN KEY (idGroupe) REFERENCES GROUPE(idGroupe);
 ALTER TABLE PUBLIC_DOCUMENTS
 ADD CONSTRAINT FK_PUBLIC_DOCS FOREIGN KEY(idEntite) REFERENCES ENTITE(idEntite) ON DELETE CASCADE;
 
--- JEU DE TEST
+/* ------------------JEU DE TEST------------------ */
 
 INSERT INTO COMPTE (idCompte, typeCompte, pseudo, mail, mdp, idStockage) VALUES ('client', 'kiki','a@c','1234', 3);
 INSERT INTO COMPTE (idCompte, typeCompte, pseudo, mail, mdp, idStockage) VALUES ('admin', 'kiki0','a@0c','123456', 2);
