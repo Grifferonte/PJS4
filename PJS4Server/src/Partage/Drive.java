@@ -41,11 +41,11 @@ public class Drive{
 	public void supprimerDoc(int numDocument) {
 		req.supprimerDoc(numDocument);
 	}
-	public void creerDoc(String nomDocument) {
-		req.creerDoc(nomDocument);
+	public void creerDoc(utilisateur u, String nomDocument) {
+		req.creerDoc(u, nomDocument);
 	}
-	public void PartagerDoc(utilisateur u, int numDocument) {
-		req.PartagerDoc(u, numDocument);
+	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
+		req.PartagerDoc(u1, u2, numDocument);
 	}
 	
 	public void inscritpion(String mail, String motdepasse, String pseudo) {

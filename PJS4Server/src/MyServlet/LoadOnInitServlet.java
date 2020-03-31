@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import LoginFTP.FTPConnectAndLogin;
+
 /**
  * Servlet implementation class LoadOnInitServlet
  */
@@ -23,7 +25,11 @@ public class LoadOnInitServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig arg0) throws ServletException {
 		super.init(arg0);
-		
+		try {
+			FTPConnectAndLogin.connect();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			Class.forName("accesBDD.Requetes");
 			System.out.println("******************");

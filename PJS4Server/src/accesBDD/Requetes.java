@@ -10,8 +10,9 @@ import java.util.List;
 import Partage.Drive;
 import Partage.Projet;
 import Partage.utilisateur;
-import utilisateurs.Admin;
-import utilisateurs.Client;
+import persistance.Admin;
+import persistance.Client;
+import persistance.Entite;
 
 public class Requetes {
 	private static Requetes instance = new Requetes();
@@ -180,12 +181,12 @@ public class Requetes {
 		
 	}
 
-	public void creerDoc(String nomDocument) {
+	public void creerDoc(utilisateur u, String nomDocument) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void PartagerDoc(utilisateur u, int numDocument) {
+	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
 		// TODO Auto-generated method stub
 		
 	}
