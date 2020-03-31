@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.net.ftp.FTPClient;
+
+import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
 
 
@@ -40,6 +43,8 @@ public class inscription extends HttpServlet{
 		
 			Drive.getInstance().inscritpion(mail, mdp, pseudo);
 			try {
+				FTPClient client = FTPConnectAndLogin.getInstance().connect();
+				client.makeDirectory(pseudo);
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block

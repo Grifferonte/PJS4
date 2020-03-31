@@ -36,7 +36,7 @@ import org.apache.commons.net.io.CopyStreamEvent;
 import org.apache.commons.net.io.CopyStreamListener;
 import org.apache.commons.net.util.TrustManagerUtils;
 
-public class OpérationFichier {
+public class OperationFichier {
   public static void lireFichier(String fichier, JTextArea field) throws IOException{ 
 	  //code pour lire un fichier depuis serveur ftp
 	  URL myUrl = new URL("ftp://localhost:2121/README.txt");
@@ -49,8 +49,8 @@ public class OpérationFichier {
       in.close();
   }
   
-  public static void écrireFichier(String fichier, JTextArea field) throws IOException {
-	  //code pour écrire sur un fichier sur serveur ftp, ne marche pas
+  public static void ecrireFichier(String fichier, JTextArea field) throws IOException {
+	  //code pour ï¿½crire sur un fichier sur serveur ftp, ne marche pas
 	  URL myUrl = new URL("ftp://localhost:2121/texte/bonjour.txt");
       URLConnection yc = myUrl.openConnection();
       BufferedWriter out = new BufferedWriter(new OutputStreamWriter(yc.getOutputStream()));
