@@ -12,5 +12,11 @@
 	<input type="password" name="motDePasse" placeholder="entrez votre mot de passe">mot de passe</input>
 	<button type="submit" value="soumettre"></button>
 </form>
+
+<form method="get" action="inscription">
+	<input type="hidden" name="param" value="InscEnCours"/>
+	<button type="submit" value="Pas encore inscrit ? Créez vous un compte !"></button>
+</form>
+
 </body>
 </html>

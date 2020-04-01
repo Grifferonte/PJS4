@@ -155,14 +155,14 @@ public class Requetes {
 			st.setString(1, pseudo);
 			st.setString(2, email);
 			st.setString(3, mdp);
-			st.executeUpdate();
+			st.execute();
 
 			utilisateur u = this.getUser(email, mdp);
 			request = "INSERT INTO STOCKAGE (idCompte,taille,dateCreation) VALUES (?,?,CURDATE())";
 			st = connection.prepareStatement(request);
 			st.setString(1, "" + u.getId());
 			st.setString(2, "500");
-			st.executeUpdate();
+			st.execute();
 
 			request = "SELECT idStockage FROM STOCKAGE WHERE idCompte = ?";
 			st = connection.prepareStatement(request);
