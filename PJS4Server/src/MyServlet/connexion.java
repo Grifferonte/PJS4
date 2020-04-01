@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Partage.Drive;
 import Partage.utilisateur;
@@ -25,7 +26,9 @@ public class connexion extends HttpServlet{
 		String mail = request.getParameter( "mail" );
 		String motDePasse = request.getParameter("motDePasse");
 		try {
+			HttpSession session = request.getSession();
 			utilisateur u = Drive.getInstance().getUser(mail, motDePasse);
+			session.setAttribute("dossierCourant", "/classes/"+u.getPseudo());
 			request.setAttribute("User", u);
 		} catch (Exception e) {
 			e.printStackTrace();

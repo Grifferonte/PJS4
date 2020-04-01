@@ -17,6 +17,10 @@ public abstract class AbstractUtilisateur implements utilisateur {
 	public int getId() {
 		return this.id;
 	}
+	
+	public String getPseudo() {
+		return this.pseudo;
+	}
 
 	@Override
 	public String getLogin() {

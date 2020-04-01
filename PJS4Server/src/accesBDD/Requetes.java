@@ -15,7 +15,7 @@ import persistance.Client;
 import persistance.Fichier;
 import persistance.Repertoire;
 
-public class Requetes {
+public class Requetes{
 	private static Requetes instance = new Requetes();
 	static {
 		JDBC.connexion();

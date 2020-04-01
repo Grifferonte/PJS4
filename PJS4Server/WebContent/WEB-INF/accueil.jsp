@@ -19,14 +19,23 @@
 	<%} %>
 	<p>Que voulez vous faire</p><br>
 	<form method="get" action="choixAccueil">
-	<button type="submit" name="tousMesDocuments" value="liste des documents">Liste de tous mes documents</button><br>
-	<button type="submit" name="CreerProjet" value="Projet"> Creer un projet</button><br>
-	<button type="submit" name="PartagesAvecMoi" value="Partage">Partages avec moi</button><br>
-	<button type="submit" name="ListUsers" value="Utilisateurs" id="btnListUsr">liste de tous les utilisateurs</button><br>
+	<button type="submit" name="docsPublics" value="DocsPublics">Liste de tous mes documents</button><br>
+	<button type="submit" name="docsFavoris" value="DocsFavoris"> Mes documents favoris</button><br>
+	<button type="submit" name="docsPartages" value="DocsPartages">Partages avec moi</button><br>
+	<button type="submit" name="docsArchives" value="DocsArchives">Documents Archives</button><br>
 	</form>
+	
+<p>Choisissez un document à télécharger sur votre serveur</p>
+<form method ="get" action="choixAction" name ="upload" value="upload">
+  <input type="file" id="myFile" name="filename" value="fichierUp">
+  <input type="submit">
+</form>
+	
 	<form method="get" action="EntreeServlet" >
 	<button type="submit" value="revenir a la page d'accueil">se deconnecter</button>
 	</form>
+		
+		
 		
 </body>
 <script>

@@ -7,4 +7,5 @@ public interface utilisateur {
 	public String getLogin();
 	public void CreerProjet();
 	public boolean isAdmin();
+	public String getPseudo();
 }
