@@ -37,8 +37,8 @@ public class Drive {
 		return req.getDocuments(u);
 	}
 
-	public Projet getDocumentByName(String nomDocument) {
-		return req.getDocumentByName(nomDocument);
+	public Projet getDocumentById(int numDocument) {
+		return req.getDocumentById(numDocument);
 	}
 
 	public void supprimerDoc(utilisateur u, int numDocument) {
@@ -101,6 +101,14 @@ public class Drive {
 	
 	public List<Projet> getTousLesDocumentsPublics(utilisateur u) {
 		return req.getTousLesDocumentsArchives(u);
+	}
+	
+	public List<Projet> getDocumentInside(Projet p){
+		return req.getDocumentsInside(p);
+	}
+	
+	public Projet getRepertoirePere(Projet p) {
+		return req.getRepertoirePere(p);
 	}
 	
 

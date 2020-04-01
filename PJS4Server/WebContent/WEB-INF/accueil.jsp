@@ -14,15 +14,15 @@
 	else{%>
 		<%utilisateur u = (utilisateur) request.getAttribute("User"); %>
 		<% session.setAttribute("client", u) ;%>
-		<% session.setAttribute("pseudo", u.getLogin()) ;%>
-		<p>Bienvenue <%=((utilisateur)session.getAttribute("pseudo"))%></p><br>
+		<% session.setAttribute("pseudo", u.getPseudo()) ;%>
+		<p>Bienvenue <%=(session.getAttribute("pseudo"))%></p><br>
 	<%} %>
 	<p>Que voulez vous faire</p><br>
-	<form method="get" action="choixAccueil">
-	<button type="submit" name="docsPublics" value="DocsPublics">Liste de tous mes documents</button><br>
-	<button type="submit" name="docsFavoris" value="DocsFavoris"> Mes documents favoris</button><br>
-	<button type="submit" name="docsPartages" value="DocsPartages">Partages avec moi</button><br>
-	<button type="submit" name="docsArchives" value="DocsArchives">Documents Archives</button><br>
+	<form method="get" action="choixAccueil?choixClient=choix">
+	<button type="submit" name="Publics" value="DocsPublics">Liste de tous mes documents</button><br>
+	<button type="submit" name="Favoris" value="DocsFavoris"> Mes documents favoris</button><br>
+	<button type="submit" name="Partages" value="DocsPartages">Partages avec moi</button><br>
+	<button type="submit" name="Archives" value="DocsArchives">Documents Archives</button><br>
 	</form>
 	
 <p>Choisissez un document à télécharger sur votre serveur</p>

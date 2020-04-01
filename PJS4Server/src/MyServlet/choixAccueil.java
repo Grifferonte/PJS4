@@ -25,7 +25,7 @@ public class choixAccueil extends HttpServlet {
 		synchronized(this) {
 			HttpSession session=request.getSession();
 			utilisateur u = (utilisateur) session.getAttribute("client");
-			if (request.getParameter("DocsPartages") != null) {
+			if (request.getParameter("Partages") != null) {
 				try {
 					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsPartages(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
@@ -33,7 +33,7 @@ public class choixAccueil extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("DocsPublics") != null) {
+			else if (request.getParameter("Publics") != null) {
 				try {
 					request.setAttribute("listeDocsPublics", Drive.getInstance().getTousLesDocumentsPublics(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
@@ -41,15 +41,16 @@ public class choixAccueil extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("DocsFavoris") != null) {
+			else if (request.getParameter("Favoris") != null) {
 				try {
+					System.out.println("hello");
 					request.setAttribute("listeDocsFavoris", Drive.getInstance().getTousLesDocumentsFavoris(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsFavoris.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("DocsArchives") != null) {
+			else if (request.getParameter("Archives") != null) {
 				try {
 					request.setAttribute("listeArchives", Drive.getInstance().getTousLesDocumentsArchives(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsArchives.jsp" ).forward( request, response );
@@ -58,6 +59,7 @@ public class choixAccueil extends HttpServlet {
 				}
 			}
 			else {
+				System.out.println("rien");
 				return;
 			}
 		}

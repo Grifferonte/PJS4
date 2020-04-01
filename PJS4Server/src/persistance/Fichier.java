@@ -11,8 +11,8 @@ import accesBDD.Requetes;
 public class Fichier extends AbstractProjet {
 	private String extension;
 	
-	public Fichier(int id, String nom, String extension, String type, String dateStockage) {
-		super(id, nom, dateStockage);
+	public Fichier(int id, String nom, String extension, String type, String dateStockage, String chemin) {
+		super(id, nom, dateStockage, chemin);
 		this.extension = extension;
 	}
 	
@@ -32,6 +32,13 @@ public class Fichier extends AbstractProjet {
 	public void put(utilisateur u) {
 		Drive.getInstance().creerNouveauDoc(u, this.getNom());
 		
+	}
+
+
+	@Override
+	public String getUrlServeur() {
+		// TODO Auto-generated method stub
+		return this.getCheminFTP();
 	}
 
 }

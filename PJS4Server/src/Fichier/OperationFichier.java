@@ -37,9 +37,9 @@ import org.apache.commons.net.io.CopyStreamListener;
 import org.apache.commons.net.util.TrustManagerUtils;
 
 public class OperationFichier {
-  public static void lireFichier(String fichier, JTextArea field) throws IOException{ 
+  public static void lireFichier(String CheminFichier, JTextArea field) throws IOException{ 
 	  //code pour lire un fichier depuis serveur ftp
-	  URL myUrl = new URL("ftp://localhost:2121/README.txt");
+	  URL myUrl = new URL("ftp://localhost:2121" + CheminFichier);
       URLConnection yc = myUrl.openConnection();
       BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 
@@ -49,9 +49,9 @@ public class OperationFichier {
       in.close();
   }
   
-  public static void ecrireFichier(String nomUti, String nomFichier, JTextArea field) throws IOException {
+  public static void ecrireFichier(String cheminFichier, JTextArea field) throws IOException {
 	  //code pour �crire sur un fichier sur serveur ftp, ne marche pas
-	  URL myUrl = new URL("ftp://localhost:2121/classes/"+ nomUti +"/" + nomFichier);
+	  URL myUrl = new URL("ftp://localhost:2121" + cheminFichier);
       URLConnection yc = myUrl.openConnection();
       BufferedWriter out = new BufferedWriter(new OutputStreamWriter(yc.getOutputStream()));
       out.write(field.getText()); 

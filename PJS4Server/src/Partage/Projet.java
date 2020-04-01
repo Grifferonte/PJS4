@@ -7,4 +7,5 @@ public interface Projet {
 	public void Partager(utilisateur u1, utilisateur u2);
 	public String getNom();
 	public int getId();
+	public String getUrlServeur();
 }
