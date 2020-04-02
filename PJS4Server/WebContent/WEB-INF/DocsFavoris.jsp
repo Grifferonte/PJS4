@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Bonjour</title>
 </head>
 <body>
 
@@ -34,12 +34,18 @@
 					</form>
 				<%}else {%>
 					<form style="visibility:hidden" id=<%=p.getId() %> method="get" action="choixActionProjet">
-					<input type="hidden" name="UrlServeur" value=<%=p.getUrlServeur() %>/>
-					<button type="submit" name="Ouvrir" value="ouvrirDoc">Ouvrir</button><br>
-					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
-					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
-					<button type="submit" name="Telecharger" value="TelechargerDoc">Telecharger</button><br>
+						<input type="hidden" name="UrlServeur" value=<%=p.getUrlServeur() %>/>
+						<button type="submit" name="Ouvrir" value="ouvrirDoc">Ouvrir</button><br>
+						<button type="submit" name="Partager" value="PartagerDoc" onclick="afficherInputpartage()">Partager</button><br>
+						<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
+						<button type="submit" name="Telecharger" value="TelechargerDoc">Telecharger</button><br>
 					</form>
+					
+					<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionProjet" >
+						<input style="visibility:hidden" type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
+						<button type="submit" name="Partager" value="Partager">Partager</button>>
+					</form>
+					
 				<%} %>
 			</div>
 		<%
@@ -50,6 +56,9 @@
 <script>
 function afficherForm(id){
 	document.getElementById(id).style.visibility = 'visible';
+}
+function afficherInputPartage(){
+	document.getElementByName("formPartage").style.visibility = 'visible';
 }
 </script>
 </html>
