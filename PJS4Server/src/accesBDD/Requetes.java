@@ -269,6 +269,32 @@ public class Requetes{
 		}
 		return null;
 	}
+	
+	public Projet getDocumentByCheminFTP(String cheminFTP) {
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM ENTITE WHERE cheminFTP = ? ;";
+		try {
+
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, cheminFTP);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("cheminFTP"));
+				else
+					return new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage"),res.getString("cheminFTP"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public void supprimerDoc(utilisateur u, int numDocument) {
 		Connection connection = JDBC.getConnection();
@@ -423,7 +449,7 @@ public class Requetes{
 	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND visibilite ='favoris' AND IdDossierParent=-1;";
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.typeEntite, E1.dateStockage, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.IdDossierParent = E2.idEntite WHERE E1.idCompte = ? AND E1.visibilite ='favoris' AND E2.typeEntite = 'Racine';";
 
 		try {
 			PreparedStatement st = connection.prepareStatement(request);
@@ -573,11 +599,11 @@ public List<Projet> getDocumentsInside(Projet p) {
 		
 		return list;
 	}
- 
+ 	
 	public Projet getRepertoirePere(Projet p) {
 		
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE AS E INNER JOIN CONTIENT AS C ON E.idEntite =C.idEntite2 WHERE C.idEntite2 = ?; ";
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite =E2.IdDossierParent WHERE E2.idEntite = ?; ";
 		
 		
 		try {
@@ -585,8 +611,8 @@ public List<Projet> getDocumentsInside(Projet p) {
 			req.setString(1, ""+p.getId());
 			ResultSet res = req.executeQuery();
 			while(res.next())
-				return new Repertoire(res.getInt("E.idEntite"), res.getString("E.nomEntite"),
-						res.getString("E.typeEntite"), res.getString("E.dateStockage"), res.getString("cheminFTP"));
+				return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+						res.getString("typeEntite"), res.getString("dateStockage"), res.getString("cheminFTP"));
 	}
 		catch(Exception e) {e.printStackTrace();}
 		

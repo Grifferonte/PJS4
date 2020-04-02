@@ -53,22 +53,22 @@ public class choixActionProjet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Projet pere = Drive.getInstance().getRepertoirePere(Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere"))));
 		if (request.getParameter("Partager") != null) {
 			try {
 				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
 				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
 				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
+				
+				request.setAttribute("idProjet", pere.getId());
+			    request.setAttribute("Rep", "ActionRep");
 				this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		else if (request.getParameter("Telecharger") != null) {
-			String cheminFichierServer = request.getParameter("UrlServeur");
-			String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
-			System.out.println(cheminFichier);
-			//Tester si le projet est un r�pertoire ou un fichier
-			//Code pour ouvrir document (si txt l'ouvrir dans une fenetre java)
+			String cheminFichier = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjet"))).getUrlServeur();
 			URL myUrl = new URL("ftp://localhost:2121" + cheminFichier);
 		      URLConnection yc = myUrl.openConnection();
 		      BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
@@ -115,6 +115,9 @@ public class choixActionProjet extends HttpServlet {
 			        entree.close();
 			    } catch ( IOException ignore ) {
 			    }
+			    
+			    request.setAttribute("idProjet", pere.getId());
+			    request.setAttribute("Rep", "ActionRep");
 			    this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 			}
 		}
@@ -124,7 +127,11 @@ public class choixActionProjet extends HttpServlet {
 			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
 			Drive.getInstance().supprimerDoc((utilisateur) session.getAttribute("client"), numDoc);
 			FTPConnectAndLogin.getInstance().connect().deleteFile(cheminFichier);
-			this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
+			
+			request.setAttribute("Rep", "ActionRep");
+			request.setAttribute("idProjet", pere.getId());
+			
+		    this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("Ouvrir") != null) {
 			String nomUtilisateur = (String) session.getAttribute("pseudo");
@@ -144,10 +151,13 @@ public class choixActionProjet extends HttpServlet {
 			fenetre.add(bouton);
 			OperationFichier.lireFichier(cheminFichier, field);
 			bouton.addMouseListener(new BoutonEnregListener(cheminFichier, field));
+			
+			request.setAttribute("Rep", "ActionRep");
+			request.setAttribute("idProjet", pere.getId());
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("OuvrirRep") != null) {
-			request.setAttribute("Rep", "ActionRepertoire");
+			request.setAttribute("Rep", "ActionRep");
 			request.setAttribute("idProjet", request.getParameter("idProjet"));
 			System.out.println("rep");
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );

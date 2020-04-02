@@ -115,5 +115,13 @@ public class Drive {
 		return req.getRepertoirePere(p);
 	}
 	
+	public Projet getDocumentByCheminFTP(String cheminFTP) {
+		return req.getDocumentByCheminFTP(cheminFTP);
+	}
+
+	public List<Projet> getDocumentsInside(String urlDossierCourant) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
