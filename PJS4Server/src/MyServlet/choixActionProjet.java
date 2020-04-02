@@ -58,6 +58,7 @@ public class choixActionProjet extends HttpServlet {
 				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
 				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
 				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
+				this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -114,6 +115,7 @@ public class choixActionProjet extends HttpServlet {
 			        entree.close();
 			    } catch ( IOException ignore ) {
 			    }
+			    this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 			}
 		}
 		else if (request.getParameter("Supprimer") != null) {
@@ -122,6 +124,7 @@ public class choixActionProjet extends HttpServlet {
 			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
 			Drive.getInstance().supprimerDoc((utilisateur) session.getAttribute("client"), numDoc);
 			FTPConnectAndLogin.getInstance().connect().deleteFile(cheminFichier);
+			this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("Ouvrir") != null) {
 			String nomUtilisateur = (String) session.getAttribute("pseudo");
@@ -138,10 +141,10 @@ public class choixActionProjet extends HttpServlet {
 				JTextArea field = new JTextArea();
 				field.setLineWrap(true);
 				JFrame fenetre = new JFrame();
-				fenetre.setTitle("Ma première fenêtre Java");
-			    //Définit sa taille : 400 pixels de large et 100 pixels de haut
+				fenetre.setTitle("Ma premiï¿½re fenï¿½tre Java");
+			    //Dï¿½finit sa taille : 400 pixels de large et 100 pixels de haut
 			    fenetre.setSize(400, 100);
-			    //Nous demandons maintenant à notre objet de se positionner au centre
+			    //Nous demandons maintenant ï¿½ notre objet de se positionner au centre
 			    fenetre.setLocationRelativeTo(null);
 				fenetre.add(field);
 				fenetre.setVisible(true);
@@ -150,6 +153,7 @@ public class choixActionProjet extends HttpServlet {
 				OperationFichier.lireFichier(cheminFichier, field);
 				bouton.addMouseListener(new BoutonEnregListener(cheminFichier, field));
 			}
+			this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 	}
 	

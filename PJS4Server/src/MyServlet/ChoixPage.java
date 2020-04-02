@@ -35,8 +35,8 @@ public class ChoixPage extends HttpServlet {
 				try {
 					String nomFichier = request.getParameter("nomFichier");
 					Drive.getInstance().creerNouveauDoc(u, nomFichier, cheminFichier);
-					//Ajouter la création sur le serveur
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
+					//Ajouter la crï¿½ation sur le serveur
+					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
@@ -45,8 +45,8 @@ public class ChoixPage extends HttpServlet {
 				try {
 					String nomDossier = request.getParameter("nomFichier");
 					Drive.getInstance().creerNouveauDoc(u, nomDossier, cheminFichier);
-					//Ajouter la création sur le serveur
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
+					//Ajouter la crï¿½ation sur le serveur
+					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
@@ -62,7 +62,7 @@ public class ChoixPage extends HttpServlet {
 						nouveauChemin2 += nouveauChemin1[i] + "/";
 					}*/
 					request.setAttribute("listeDocsPublics", Drive.getInstance().getTousLesDocumentsPublics(u));
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
+					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
@@ -88,6 +88,7 @@ public class ChoixPage extends HttpServlet {
 		      }
 		      else {
 		    	  System.out.println("File transfer success");
+		    	  this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
 		      }
 			}
 		}
