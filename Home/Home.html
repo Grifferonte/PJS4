@@ -60,11 +60,11 @@
 
                 <div id="dossier1" oncontextmenu="return contextMenuBloc()">
 
-                    <figure id="1" oncontextmenu="return supprimer(this)">
+                    <figure id="1">
                         <i class="fas fa-folder"></i>
                         <figcaption ondblclick="renommer(this)">Dossier</figcaption>
                     </figure>
-                    <figure id="2" oncontextmenu="return supprimer(this)">
+                    <figure id="2" >
                         <i class="fas fa-file"></i>
                         <figcaption ondblclick="renommer(this)">Fichier</figcaption>
                     </figure>
@@ -78,7 +78,7 @@
                 <div id="dossier3">
                    
                 </div>
-                <div id="abo"> 
+                <div id="abo">
                  
                 </div>
             </div>
@@ -87,6 +87,20 @@
         </div>
     
     </div>
+    <menu id="ctxMenu">
+        <menu title="File">
+            <menu title="Save"></menu>
+            <menu title="Save As"></menu>
+            <menu title="Open"></menu>
+        </menu>
+        <menu title="Edit">
+            <menu title="Cut"></menu>
+            <menu title="Copy"></menu>
+            <menu title="Paste"></menu>
+            <menu title="Rename" onclick="renommer()"></menu>
+            <menu title="Delete" onclick="supprimer()"></menu>
+        </menu>
+    </menu>
     <footer>
 
 
@@ -98,24 +112,39 @@
 </html>
 
 <script type="text/javascript">
-    
-    function supprimer(doc){
-        if(confirm("Voulez-vous vraiment supprimer ?"))
-             doc.parentNode.removeChild(doc);
-        return false;
-    }
 
-    function renommer(nom){
-        sauvegarde = nom.innerHTML;
+    //marche pas
+    function supprimer(){
+        if(confirm("Voulez-vous vraiment supprimer ?"))
+             Event.target.parentNode.remove();
+        //return false;
+    }
+    //marche pas
+    function renommer(){
         nouveauNom = prompt("Nouveau nom");
         if(nouveauNom!="")
-            nom.innerHTML = nouveauNom;
-        else
-            nom.innerHTML = sauvegarde;
+            Event.currentTarget.childNodes[0].innerHTML = nouveauNom;
         
     }
-
+    /*
     function contextMenuBloc(){
         return false;
-    }
+    }*/
+    
+    // affiche le context menu (clique droit) a la postion du clique
+    var notepad = document.getElementById("dossier1");
+    notepad.addEventListener("contextmenu",function(event){
+        event.preventDefault();
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "block";
+        ctxMenu.style.left = (event.pageX - 10)+"px";
+        ctxMenu.style.top = (event.pageY - 10)+"px";
+    },false);
+    notepad.addEventListener("click",function(event){
+        var ctxMenu = document.getElementById("ctxMenu");
+        ctxMenu.style.display = "";
+        ctxMenu.style.left = "";
+        ctxMenu.style.top = "";
+    },false);
+
 </script>
