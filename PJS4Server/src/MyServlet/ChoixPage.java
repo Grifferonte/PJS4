@@ -34,7 +34,7 @@ public class ChoixPage extends HttpServlet {
 			if (request.getParameter("ajouterDoc") != null) {
 				try {
 					String nomFichier = request.getParameter("nomFichier");
-					Drive.getInstance().creerNouveauDoc(u, nomFichier);
+					Drive.getInstance().creerNouveauDoc(u, nomFichier, cheminFichier);
 					//Ajouter la création sur le serveur
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
@@ -44,7 +44,7 @@ public class ChoixPage extends HttpServlet {
 			if (request.getParameter("ajouterDossier") != null) {
 				try {
 					String nomDossier = request.getParameter("nomFichier");
-					Drive.getInstance().creerNouveauDoc(u, nomDossier);
+					Drive.getInstance().creerNouveauDoc(u, nomDossier, cheminFichier);
 					//Ajouter la création sur le serveur
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {

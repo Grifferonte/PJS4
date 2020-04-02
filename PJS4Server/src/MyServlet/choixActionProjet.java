@@ -54,7 +54,13 @@ public class choixActionProjet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (request.getParameter("Partager") != null) {
-			//Code
+			try {
+				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
+				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
+				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else if (request.getParameter("Telecharger") != null) {
 			String cheminFichierServer = request.getParameter("UrlServeur");

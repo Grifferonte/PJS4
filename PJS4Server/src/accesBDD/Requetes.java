@@ -76,6 +76,30 @@ public class Requetes{
 		}
 		return null;
 	}
+	
+	public utilisateur getUserByMail(String mail) throws Exception {
+
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM COMPTE WHERE mail = ?;";
+		try {
+
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, mail);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+				else if (res.getString("typeCompte").equals("client"))
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public List<Projet> getDocsPartages(utilisateur u) {
 
@@ -258,16 +282,17 @@ public class Requetes{
 		
 	}
 
-	public void creerNouveauDoc(utilisateur u, String nom) {
+	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP) {
 
 		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte) VALUES(?,'txt',CURDATE(),'fichier texte',0,?);";
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte, cheminFTP) VALUES(?,'txt',CURDATE(),'fichier texte',0,?,?);";
 		String update = "UPDATE STOCKAGE SET nombreElements = nombreElements +1 WHERE idCompte = ? ";
 		try {
 			PreparedStatement st = connection.prepareStatement(insert);
 			st.setString(1, nom);
 			st.setString(2, "" + u.getId());
-			st.executeUpdate();
+			st.setString(3, cheminFTP);
+			st.execute();
 
 			st = connection.prepareStatement(update);
 			st.setString(1, "" + u.getId());
@@ -278,14 +303,15 @@ public class Requetes{
 		}
 	}
 
-	public void creerNouveauDossier(utilisateur u, String nom) {
+	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP) {
 		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte) VALUES(?,null,CURDATE(),'Dossier',0,?);";
+		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte, cheminFTP) VALUES(?,null,CURDATE(),'Dossier',0,?,?);";
 
 		try {
 			PreparedStatement st = connection.prepareStatement(insert);
 			st.setString(1, nom);
 			st.setString(2, "" + u.getId());
+			st.setString(3, cheminFTP);
 			st.executeUpdate();
 
 		} catch (Exception e) {

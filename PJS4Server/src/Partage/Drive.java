@@ -28,6 +28,10 @@ public class Drive {
 	public utilisateur getUser(String mail, String mdp) throws Exception {
 		return req.getUser(mail, mdp);
 	}
+	
+	public utilisateur getUserByMail(String mail) throws Exception {
+		return req.getUserByMail(mail);
+	}
 
 	public List<Projet> getDocsPartages(utilisateur u) {
 		return req.getDocsPartages(u);
@@ -45,12 +49,12 @@ public class Drive {
 		req.supprimerDoc(u,numDocument);
 	}
 
-	public void creerNouveauDoc(utilisateur u, String nom) {
-		req.creerNouveauDoc(u, nom);
+	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP) {
+		req.creerNouveauDoc(u, nom, cheminFTP);
 	}
 	
-	public void creerNouveauDossier(utilisateur u, String nom) {
-		req.creerNouveauDossier(u, nom);
+	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP) {
+		req.creerNouveauDossier(u, nom, cheminFTP);
 	}
 
 	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {
