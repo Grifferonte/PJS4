@@ -16,7 +16,7 @@ public class Repertoire extends AbstractProjet{
 	
 	@Override
 	public void put(utilisateur u) {
-		Drive.getInstance().creerNouveauDossier(u, this.getNom());
+		Drive.getInstance().creerNouveauDossier(u, this.getNom(), this.getCheminFTP());
 		
 	}
 

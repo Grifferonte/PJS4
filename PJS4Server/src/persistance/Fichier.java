@@ -30,7 +30,7 @@ public class Fichier extends AbstractProjet {
 	
 	@Override
 	public void put(utilisateur u) {
-		Drive.getInstance().creerNouveauDoc(u, this.getNom());
+		Drive.getInstance().creerNouveauDoc(u, this.getNom(), this.getCheminFTP());
 		
 	}
 

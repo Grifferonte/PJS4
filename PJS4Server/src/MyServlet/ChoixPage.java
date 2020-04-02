@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
@@ -21,7 +22,7 @@ import Partage.utilisateur;
 /**
  * Servlet implementation class ChoixPage
  */
-@WebServlet("/ChoixPage")
+@WebServlet("/ChoixActionPage")
 public class ChoixPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -36,7 +37,7 @@ public class ChoixPage extends HttpServlet {
 					String nomFichier = request.getParameter("nomFichier");
 					Drive.getInstance().creerNouveauDoc(u, nomFichier, cheminFichier);
 					//Ajouter la cr�ation sur le serveur
-					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+					this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
@@ -46,23 +47,7 @@ public class ChoixPage extends HttpServlet {
 					String nomDossier = request.getParameter("nomFichier");
 					Drive.getInstance().creerNouveauDoc(u, nomDossier, cheminFichier);
 					//Ajouter la cr�ation sur le serveur
-					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
-				} catch (ServletException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-			else if (request.getParameter("RevenirDossierParent") != null) {
-				try {
-					/*String[] nouveauChemin1 = cheminFichier.split("/");
-					if (nouveauChemin1[nouveauChemin1.length-2].equals(u.getPseudo())) {
-						request.setAttribute("PasDossierParent", "Pas de dossier parent");
-					}
-					String nouveauChemin2 = new String();
-					for (int i=0 ; i<nouveauChemin1.length-1; ++i ) {
-						nouveauChemin2 += nouveauChemin1[i] + "/";
-					}*/
-					request.setAttribute("listeDocsPublics", Drive.getInstance().getTousLesDocumentsPublics(u));
-					this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+					this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
@@ -88,7 +73,7 @@ public class ChoixPage extends HttpServlet {
 		      }
 		      else {
 		    	  System.out.println("File transfer success");
-		    	  this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+		    	  this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 		      }
 			}
 		}

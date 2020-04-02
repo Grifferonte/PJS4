@@ -245,7 +245,28 @@ public class Requetes{
 	}
 
 	public Projet getDocumentById(int numDoc) {
-		// TODO Auto-generated method stub
+		Connection connection = JDBC.getConnection();
+
+		String request = "SELECT * FROM ENTITE WHERE idEntite = ? ;";
+		try {
+
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setInt(1, numDoc);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("cheminFTP"));
+				else
+					return new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage"),res.getString("cheminFTP"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -402,7 +423,7 @@ public class Requetes{
 	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND visibilite ='favoris';";
+		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND visibilite ='favoris' AND IdDossierParent=-1;";
 
 		try {
 			PreparedStatement st = connection.prepareStatement(request);
@@ -532,18 +553,19 @@ public List<Projet> getDocumentsInside(Projet p) {
 		
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE AS E INNER JOIN CONTIENT AS C ON E.idEntite = C.idEntite2 WHERE C.idEntite = ? ";
+		String request = "SELECT E2.idEntite, E2.nomEntite, E2.extension, E2.dateStockage, E2.typeEntite, E2.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite = E2.idDossierParent WHERE E1.idEntite = ? ";
+		
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
 			req.setString(1, ""+p.getId());
 			ResultSet res = req.executeQuery();
 			while(res.next()) {
-					if (res.getString("E.typeEntite").equals("repertoire"))
-						list.add(new Repertoire(res.getInt("E.idEntite"), res.getString("E.nomEntite"),
-								res.getString("E.typeEntite"), res.getString("E.dateStockage"), res.getString("cheminFTP")));
+					if (res.getString("E2.typeEntite").equals("repertoire"))
+						list.add(new Repertoire(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"),
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("E2.cheminFTP")));
 				else
-					list.add(new Fichier(res.getInt("E.idEntite"), res.getString("E.nomEntite"), res.getString("E.extension"),
-							res.getString("E.typeEntite"), res.getString("E.dateStockage"), res.getString("cheminFTP")));
+					list.add(new Fichier(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"), res.getString("E2.extension"),
+							res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("E2.cheminFTP")));
 			}
 		}
 		

@@ -41,7 +41,7 @@ import Partage.utilisateur;
  * Servlet implementation class choixActionProjet
  */
 
-@WebServlet("/choixAction")
+@WebServlet("/choixActionProjet")
 public class choixActionProjet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -58,7 +58,7 @@ public class choixActionProjet extends HttpServlet {
 				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
 				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
 				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
-				this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+				this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -115,7 +115,7 @@ public class choixActionProjet extends HttpServlet {
 			        entree.close();
 			    } catch ( IOException ignore ) {
 			    }
-			    this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+			    this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 			}
 		}
 		else if (request.getParameter("Supprimer") != null) {
@@ -124,39 +124,35 @@ public class choixActionProjet extends HttpServlet {
 			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
 			Drive.getInstance().supprimerDoc((utilisateur) session.getAttribute("client"), numDoc);
 			FTPConnectAndLogin.getInstance().connect().deleteFile(cheminFichier);
-			this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+			this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("Ouvrir") != null) {
 			String nomUtilisateur = (String) session.getAttribute("pseudo");
 			String cheminFichierServer = request.getParameter("UrlServeur");
 			String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
-			System.out.println(cheminFichier);
-			
-			FTPFile[] listDocs = FTPConnectAndLogin.getInstance().connect().listDirectories(cheminFichier);
-			
-			if (listDocs != null) {
-				request.setAttribute("ListDocsInside", listDocs);
-			}
-			else {
-				JTextArea field = new JTextArea();
-				field.setLineWrap(true);
-				JFrame fenetre = new JFrame();
-				fenetre.setTitle("Ma premi�re fen�tre Java");
-			    //D�finit sa taille : 400 pixels de large et 100 pixels de haut
-			    fenetre.setSize(400, 100);
-			    //Nous demandons maintenant � notre objet de se positionner au centre
-			    fenetre.setLocationRelativeTo(null);
-				fenetre.add(field);
-				fenetre.setVisible(true);
-				JButton bouton = new JButton("Enregistrer");
-				fenetre.add(bouton);
-				OperationFichier.lireFichier(cheminFichier, field);
-				bouton.addMouseListener(new BoutonEnregListener(cheminFichier, field));
-			}
-			this.getServletContext().getRequestDispatcher( (String) session.getAttribute("pageCourante") ).forward( request, response );
+			JTextArea field = new JTextArea();
+			field.setLineWrap(true);
+			JFrame fenetre = new JFrame();
+			fenetre.setTitle("Ma premi�re fen�tre Java");
+		    //D�finit sa taille : 400 pixels de large et 100 pixels de haut
+		    fenetre.setSize(400, 100);
+		    //Nous demandons maintenant � notre objet de se positionner au centre
+		    fenetre.setLocationRelativeTo(null);
+			fenetre.add(field);
+			fenetre.setVisible(true);
+			JButton bouton = new JButton("Enregistrer");
+			fenetre.add(bouton);
+			OperationFichier.lireFichier(cheminFichier, field);
+			bouton.addMouseListener(new BoutonEnregListener(cheminFichier, field));
+			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+		}
+		else if (request.getParameter("OuvrirRep") != null) {
+			request.setAttribute("Rep", "ActionRepertoire");
+			request.setAttribute("idProjet", request.getParameter("idProjet"));
+			System.out.println("rep");
+			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 	}
-	
 	private final class BoutonEnregListener implements MouseListener{
 		private String cheminFichier;
 		private JTextArea field;
@@ -173,32 +169,29 @@ public class choixActionProjet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
-
+	
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-
+	
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-
+	
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-
+	
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
-	}
-	public void trouverFileOrDirectory(String projet) {
-		
 	}
 }
