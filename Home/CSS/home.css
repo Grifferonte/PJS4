@@ -7,6 +7,7 @@
 
 body {
     background: #2a2b30;
+    min-width: 870px;
 }
 
 #bloc {
@@ -75,5 +76,28 @@ header {
     margin: 3%;
     background-color: rgba(255, 255, 255, 0.3);
     border: 1px solid #f7f7f7;
+    display: flex;
+    flex-flow: row wrap;
+    
+    min-height: 400px;
+    padding: 20px;
 }
+
+figure .fa-folder,
+.fa-file{
+    font-size:100px !important;
+    margin-bottom: 10px;
+}
+
+figure .fa-folder{
+    color: #47a3da;
+}
+
+figure{
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+
 

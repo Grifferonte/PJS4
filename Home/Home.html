@@ -58,72 +58,28 @@
 
             <div id="blocDossier">
 
-                <div id="dossier1">
-                    blabla
+                <div id="dossier1" oncontextmenu="return contextMenuBloc()">
 
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-
+                    <figure id="1" oncontextmenu="return supprimer(this)">
+                        <i class="fas fa-folder"></i>
+                        <figcaption ondblclick="renommer(this)">Dossier</figcaption>
+                    </figure>
+                    <figure id="2" oncontextmenu="return supprimer(this)">
+                        <i class="fas fa-file"></i>
+                        <figcaption ondblclick="renommer(this)">Fichier</figcaption>
+                    </figure>
 
                 </div>
 
                 <div id="dossier2">
-                    caca
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                 
                 </div>
 
                 <div id="dossier3">
-                    albéric pd
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                   
                 </div>
                 <div id="abo"> 
-                    abonnement
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                 
                 </div>
             </div>
 
@@ -140,3 +96,26 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+    
+    function supprimer(doc){
+        if(confirm("Voulez-vous vraiment supprimer ?"))
+             doc.parentNode.removeChild(doc);
+        return false;
+    }
+
+    function renommer(nom){
+        sauvegarde = nom.innerHTML;
+        nouveauNom = prompt("Nouveau nom");
+        if(nouveauNom!="")
+            nom.innerHTML = nouveauNom;
+        else
+            nom.innerHTML = sauvegarde;
+        
+    }
+
+    function contextMenuBloc(){
+        return false;
+    }
+</script>
