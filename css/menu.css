@@ -4,31 +4,31 @@
     bottom: 0;
     left: 0;
     right: 0;
-    max-height: 150px;
-    max-width: 100px;
+    max-height: 7em;
 }
 nav {
+    z-index: 3;
     overflow: hidden;
     top: 0;
     left: 0;
     height: 100%;
-    background-color: white;
+    background-color: #f7f7f7;
     position : fixed;
     width: 8%;
-    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul {
     padding: 0%;
 }
 
-nav ul li a {
+nav li a {
     line-height: 7em;
     text-align: center;
     display: block;
     height: 7em;
-    margin : auto;
     text-decoration: none;
     color: dodgerblue ;
     position: relative;
@@ -41,6 +41,9 @@ nav li:hover {
     background-color:  lightblue;
 }
 
+nav li:first-child a {
+    background-color: #f7f7f7;
+}
 
 .fa-folder,
 .fa-users,
