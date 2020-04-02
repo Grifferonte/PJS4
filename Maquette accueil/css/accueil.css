@@ -1,0 +1,50 @@
+body {
+    background-color: #2a2b30;
+    margin : 0%;
+}
+
+
+header {
+    position : fixed;
+    left : 0;
+    right : 0;
+    width: 100%;
+    top: 0;
+    height: 7em;
+    display: grid;
+    grid-template-columns: 8% 72% 20%;
+}
+
+
+header #barre{
+    grid-column-start: 2;
+
+}
+header #barre, header #param{
+    background-color: #2a2b30;
+}
+#bloc {
+    height: 100%;
+    padding-top: 112px;
+    display: grid;
+    grid-template-columns: 8% 92%;
+
+
+}
+
+#bloc1 {
+    height: 100%;
+    grid-column-start: 2;
+}
+
+#bloc2 {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+#fichier, #fichier2, #fichier3 {
+    margin: 3%;
+}
+
+
+
