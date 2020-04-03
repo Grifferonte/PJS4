@@ -91,9 +91,10 @@ public class ChoixPage extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("rechercheDocs") != null) {
+			else if (request.getParameter("recherche") != null) {
 				String motsClefs = request.getParameter("motsClefs");
 				request.setAttribute("motsClefs", motsClefs);
+				
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp" ).forward( request, response );
 			}
 			else if (request.getParameter("changerPseudo") != null) {
@@ -111,6 +112,25 @@ public class ChoixPage extends HttpServlet {
 				request.setAttribute("Rep", "ActionRep");
 				request.setAttribute("idProjet", pere.getId());
 				this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+			}
+			
+			else if (request.getParameter("DocsPublicsSuiviUt") != null) {
+				int idUtSuivi = Integer.parseInt(request.getParameter("pseudoUtSuivi"));
+				request.setAttribute("idPseudSuivi", idUtSuivi);
+				request.setAttribute("DocsPublicsSuiviUt", "OK");
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp").forward( request, response );
+			}
+			
+			else if (request.getParameter("suivre") != null) {
+				int idUtSuivi = Integer.parseInt(request.getParameter("pseudoUtSuivi"));
+				try {
+					utilisateur UtSuivi = Drive.getInstance().getUserById(idUtSuivi);
+					request.setAttribute("MessageConfirmation", "Vous suivez désormais cette personne");
+					Drive.getInstance().suivreUtilisateur((utilisateur) session.getAttribute("client"), UtSuivi );
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp").forward( request, response );
 			}
 		}
 	}

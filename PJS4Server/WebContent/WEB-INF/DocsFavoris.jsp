@@ -9,8 +9,8 @@
 </head>
 <body>
 	<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionPage" >
-		<input type="hidden" name="rechercheDocs"/>
-		<input type="text" name="motsClefs" value="mailPartage" placeholder="Entrez un mot-clef">
+		<input type="hidden" name="recherche"/>
+		<input type="text" name="motsClefs" placeholder="Entrez un mot-clef">
 		<button type="submit" name="Envoyer" value="Envoyer">Partager</button>>
 	</form>
 <% session.setAttribute("pageCourante","/DocsFavoris.jsp");%>
@@ -55,7 +55,8 @@
 					</form>
 					
 					<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionProjet" >
-						<input style="visibility:hidden" type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
+						<input style="visibility:hidden" type="text" name="Partager" value="Partager">
+						<input type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<button type="submit" name="Partager" value="Partager">Partager</button>>
@@ -63,6 +64,7 @@
 					
 					<form style="visibility:hidden" name="formRename" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="Renommer" value="RenommerDoc" placeholder="Entrez le nouveau nom du document">
+						<input type="text" name="NewName" placeholder="Entrez le nouveau nom du document">
 						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<button type="submit" name="Rename" value="Renommer">Renommer le document</button>>
@@ -70,6 +72,7 @@
 					
 					<form style="visibility:hidden" name="formUpdate" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="ChangerVisibilite" value="ChangerVisibiliteDoc" placeholder="">
+						<input type="text" name="NewVisibility" placeholder="Entrez le nouveau nom du document">
 						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<button type="submit" name="Partager" value="Partager">Changer la visibilité</button>>

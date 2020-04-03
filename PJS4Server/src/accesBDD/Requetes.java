@@ -604,7 +604,7 @@ public List<Projet> getDocumentsInside(Projet p) {
 	public List<Projet> getDocumentsBySearch(String motsClefs) {
 		List<Projet> listDocs = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE WHERE NomEntite = '*?*' AND typeEntite <> ?; ";
+		String request = "SELECT * FROM ENTITE WHERE NomEntite = '*?*' AND typeEntite <> ? AND typeEntite='public'; ";
 			try {
 				PreparedStatement req = connection.prepareStatement(request);
 				req.setString(1, motsClefs );
@@ -624,5 +624,52 @@ public List<Projet> getDocumentsInside(Projet p) {
 			}
 			return listDocs;
 		
+	}
+	public List<utilisateur> getUsersBySearch(String motsClefs) {
+		List<utilisateur> listUsers = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM Compte WHERE pseudo = '*?*' ; ";
+			try {
+				PreparedStatement req = connection.prepareStatement(request);
+				req.setString(1, motsClefs );
+				ResultSet res = req.executeQuery();
+				while(res.next()) {
+					if (res.getString("typeCompte").equals("Admin")) {
+						listUsers.add(new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"), res.getInt("idStockage")));
+				}else {
+						listUsers.add(new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"), res.getInt("idStockage")));
+				}
+			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return listUsers;
+	}
+	
+	public void SuivreUtilisateur(utilisateur u1, utilisateur u2) {
+		
+	}
+
+	public utilisateur getUserById(int idUt) {
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM COMPTE WHERE idCompte = ?;";
+		try {
+
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setInt(1, idUt);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+				else if (res.getString("typeCompte").equals("client"))
+					return new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

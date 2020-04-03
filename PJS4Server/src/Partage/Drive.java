@@ -32,6 +32,10 @@ public class Drive {
 	public utilisateur getUserByMail(String mail) throws Exception {
 		return req.getUserByMail(mail);
 	}
+	
+	public utilisateur getUserById(int idUt) throws Exception {
+		return req.getUserById(idUt);
+	}
 
 	public List<Projet> getDocsPartages(utilisateur u) {
 		return req.getDocsPartages(u);
@@ -121,6 +125,14 @@ public class Drive {
 
 	public List<Projet> getDocumentsBySearch(String motsClefs){
 		return req.getDocumentsBySearch(motsClefs);
+	}
+	
+	public List<utilisateur> getUsersBySearch(String motsClefs){
+		return req.getUsersBySearch(motsClefs);
+	}
+	
+	public void suivreUtilisateur(utilisateur u1, utilisateur u2) {
+		req.SuivreUtilisateur(u1, u2);
 	}
 	
 	

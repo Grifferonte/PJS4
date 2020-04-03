@@ -34,6 +34,8 @@ import javax.swing.JTextArea;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+
+import EnvoiMail.ConfigMail;
 import Fichier.OperationFichier;
 import LoginFTP.FTPConnectAndLogin;
 import Partage.Drive;
@@ -71,6 +73,10 @@ public class choixActionProjet extends HttpServlet {
 				utilisateur user1 = Drive.getInstance().getUserByMail(((utilisateur) session.getAttribute("client")).getLogin());
 				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
 				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
+				
+				String BodyMail = user1.getPseudo() + "vous a partagé le projet" + Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjet"))).getNom();
+				ConfigMail mail = new ConfigMail("Partage de documents", BodyMail, user1.getLogin() );
+				mail.sendMailGmail();
 				
 				request.setAttribute("idProjet", pere.getId());
 			    request.setAttribute("Rep", "ActionRep");
@@ -183,6 +189,7 @@ public class choixActionProjet extends HttpServlet {
 			Projet projetActuel = Drive.getInstance().getDocumentById(idProjet);
 			Drive.getInstance().renommerDocument((utilisateur) session.getAttribute("client"), idProjet, NouveauNom);
 			FTPConnectAndLogin.getInstance().connect().rename(projetActuel.getUrlServeur(), UrlDossierCourant + "/" + NouveauNom);
+			
 			request.setAttribute("idProjet", pere.getId());
 			request.setAttribute("Rep", "ActionRep");
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );

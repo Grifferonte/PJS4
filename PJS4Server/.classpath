@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/Users/cleme/Downloads/commons-fileupload-1.4-bin (1)/commons-fileupload-1.4-bin/commons-fileupload-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/cleme/Downloads/javax.mail.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
