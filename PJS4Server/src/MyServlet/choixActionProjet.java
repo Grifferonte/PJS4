@@ -53,10 +53,11 @@ public class choixActionProjet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere")));
+		String idProjetPere = request.getParameter("idProjetPere");
+		Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(idProjetPere));
 		if (request.getParameter("Partager") != null) {
 			try {
-				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
+				utilisateur user1 = Drive.getInstance().getUserByMail(((utilisateur) session.getAttribute("client")).getLogin());
 				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
 				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
 				
@@ -139,7 +140,7 @@ public class choixActionProjet extends HttpServlet {
 			JTextArea field = new JTextArea();
 			field.setLineWrap(true);
 			JFrame fenetre = new JFrame();
-			fenetre.setTitle("Ma premi�re fen�tre Java");
+			fenetre.setTitle("file");
 		    //D�finit sa taille : 400 pixels de large et 100 pixels de haut
 		    fenetre.setSize(400, 100);
 		    //Nous demandons maintenant � notre objet de se positionner au centre
@@ -157,7 +158,8 @@ public class choixActionProjet extends HttpServlet {
 		}
 		else if (request.getParameter("OuvrirRep") != null) {
 			request.setAttribute("Rep", "ActionRep");
-			request.setAttribute("idProjet", request.getParameter("idProjet"));
+			int idProjet = Integer.parseInt(request.getParameter("idProjet"));
+			request.setAttribute("idProjet", idProjet);
 			System.out.println("rep");
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 		}

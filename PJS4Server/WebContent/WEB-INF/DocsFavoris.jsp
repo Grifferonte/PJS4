@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     <%@page import="java.util.List,Partage.* " %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -15,7 +15,8 @@
 
 <% int i = 1; List<Projet> list = null; %>
 		<%if (request.getAttribute("Rep") != null){ %>
-			<%list = Drive.getInstance().getDocumentInside(Drive.getInstance().getDocumentById((int) request.getAttribute("idProjet"))); %>
+			<%int idProjet = (Integer) request.getAttribute("idProjet"); %>
+			<%list = Drive.getInstance().getDocumentInside(Drive.getInstance().getDocumentById(idProjet)); %>
 			<%System.out.println("rep2"); %>
 		<%}else{%>
   			<%list = Drive.getInstance().getTousLesDocumentsFavoris(u); %>
@@ -29,16 +30,16 @@
 				<p><%=p.getId()%></p>
 				<% if (p.toString().equals("Repertoire")){ %>
 					<form id=<%=p.getId() %> method="get" action="choixActionProjet">
-					<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>>
-					<input type="hidden" name="idProjet" value=<%=p.getId() %>>
+					<input type="text" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>>
+					<input type="text" name="idProjet" value=<%=p.getId()%>>
 					<button type="submit" name="OuvrirRep" value="OuvrirRepertoire">OuvrirRepertoire</button><br>
 					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
 					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
 					</form>
 				<%}else {%>
 					<form style="visibility:hidden" id=<%=p.getId() %> method="get" action="choixActionProjet">
-					<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>/>
-					<input type="hidden" name="idProjet" value=<%=p.getId()%>/>
+					<input type="text" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>>
+					<input type="text" name="idProjet" value=<%=p.getId()%>>
 					<button type="submit" name="Ouvrir" value="ouvrirDoc">Ouvrir</button><br>
 					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
 					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
@@ -58,7 +59,7 @@
 		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId() %>>
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="hidden" name="Rep" value="ajouterRep"/>
-		<input type="text" name="directory"/>Ajouter un répertoire
+		<input type="text" name="directory"/>Ajouter un rÃ©pertoire
 		<button type="submit"></button>
 	</form>
 	<form method="get" action="ChoixActionPage">

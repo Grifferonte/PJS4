@@ -68,7 +68,8 @@ public class ChoixPage extends HttpServlet {
 			    	  System.out.println("File transfer success");
 			    	  this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 			      }
-					request.setAttribute("Rep", "ActionRepertoire");
+					
+			      request.setAttribute("Rep", "ActionRepertoire");
 					request.setAttribute("idProjet", pere.getId());
 					this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 				} catch (ServletException | IOException e) {
@@ -81,6 +82,7 @@ public class ChoixPage extends HttpServlet {
 					String nomRep = request.getParameter("directory");
 					Drive.getInstance().creerNouveauDossier(u, nomRep, chemin);
 					FTPConnectAndLogin.getInstance().connect().makeDirectory(UrlDossierCourant + "/" + nomRep);
+					
 					request.setAttribute("Rep", "ActionRepertoire");
 					request.setAttribute("idProjet", pere.getId());
 					this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );

@@ -11,8 +11,8 @@ import accesBDD.Requetes;
 public class Fichier extends AbstractProjet {
 	private String extension;
 	
-	public Fichier(int id, String nom, String extension, String type, String dateStockage, String chemin) {
-		super(id, nom, dateStockage, chemin);
+	public Fichier(int id, String nom, String extension, String type, String v, String dateStockage, String chemin) {
+		super(id, nom, dateStockage, v, chemin);
 		this.extension = extension;
 	}
 	

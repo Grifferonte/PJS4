@@ -4,6 +4,7 @@ public abstract class AbstractProjet implements Projet{
 	private int id;
 	private String nom;
 	private String cheminFTP;
+	private String visibilite;
 
 	/*
 	 * Les deux attributs ci-dessous sont peut-être à remanier avec de l'héritage et les requêtes associées également
@@ -11,11 +12,12 @@ public abstract class AbstractProjet implements Projet{
 	 */
 	private String dateStockage;
 	
-	public AbstractProjet(int id, String nom, String dateStockage, String chemin) {
+	public AbstractProjet(int id, String nom, String dateStockage, String v, String chemin) {
 		this.id = id;
 		this.nom = nom;
 		this.dateStockage = dateStockage;
 		this.cheminFTP = chemin;
+		this.visibilite = v;
 	}
 	
 	public int getId() {
@@ -37,7 +39,10 @@ public abstract class AbstractProjet implements Projet{
 	public String getCheminFTP() {
 		return cheminFTP;
 	}
-	
+	@Override
+	public String getVisibilite() {
+		return this.visibilite;
+	}
 	@Override
 	public void Partager(utilisateur u1, utilisateur u2) {
 		Drive.getInstance().PartagerDoc(u1, u2, this.id);
