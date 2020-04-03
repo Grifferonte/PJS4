@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -45,6 +44,12 @@ public class ChoixPage extends HttpServlet {
 				try {
 					String cheminFichier = request.getParameter("cheminFichier");
 					String nomFichier = request.getParameter("nomFichier");
+					int publicOuPrive = Integer.parseInt(request.getParameter("privOuPubl"));
+					int idProjetPere = Integer.parseInt(request.getParameter("idProjetPere"));
+					
+					Drive.getInstance().creerNouveauDoc(u, nomFichier, cheminFichier,idProjetPere,publicOuPrive);
+					
+					
 					//Drive.getInstance().creerNouveauDoc(u, nomFichier, chemin);
 					
 					
@@ -81,7 +86,12 @@ public class ChoixPage extends HttpServlet {
 				try {
 					System.out.println("ajoutRep");
 					String nomRep = request.getParameter("directory");
-					Drive.getInstance().creerNouveauDossier(u, nomRep, chemin);
+					String cheminFichier = request.getParameter("cheminFichier");
+					int publicOuPrive = Integer.parseInt(request.getParameter("privOuPubl"));
+					int idProjetPere = Integer.parseInt(request.getParameter("idProjetPere"));
+					
+					
+					Drive.getInstance().creerNouveauDossier(u, nomRep, cheminFichier, idProjetPere, publicOuPrive);
 					FTPConnectAndLogin.getInstance().connect().makeDirectory(UrlDossierCourant + "/" + nomRep);
 					
 					request.setAttribute("Rep", "ActionRepertoire");
@@ -125,7 +135,7 @@ public class ChoixPage extends HttpServlet {
 				int idUtSuivi = Integer.parseInt(request.getParameter("pseudoUtSuivi"));
 				try {
 					utilisateur UtSuivi = Drive.getInstance().getUserById(idUtSuivi);
-					request.setAttribute("MessageConfirmation", "Vous suivez désormais cette personne");
+					request.setAttribute("MessageConfirmation", "Vous suivez dï¿½sormais cette personne");
 					Drive.getInstance().suivreUtilisateur((utilisateur) session.getAttribute("client"), UtSuivi );
 				} catch (Exception e) {
 					e.printStackTrace();

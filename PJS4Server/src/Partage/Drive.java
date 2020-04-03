@@ -53,12 +53,12 @@ public class Drive {
 		req.supprimerDoc(u,numDocument);
 	}
 
-	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP) {
-		req.creerNouveauDoc(u, nom, cheminFTP);
+	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP,int idParent, int publicOuPrive) {
+		req.creerNouveauDoc(u, nom, idParent, cheminFTP, publicOuPrive);
 	}
 	
-	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP) {
-		req.creerNouveauDossier(u, nom, cheminFTP);
+	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP,int idParent, int publicOuPrive) {
+		req.creerNouveauDossier(u, nom, idParent, cheminFTP, publicOuPrive);
 	}
 
 	public void PartagerDoc(utilisateur u1, utilisateur u2, int numDocument) {

@@ -179,34 +179,19 @@ public class Requetes{
 			st.setString(1, pseudo);
 			st.setString(2, email);
 			st.setString(3, mdp);
-			st.execute();
-
-			utilisateur u = this.getUser(email, mdp);
-			request = "INSERT INTO STOCKAGE (idCompte,taille,dateCreation) VALUES (?,?,CURDATE())";
-			st = connection.prepareStatement(request);
-			st.setString(1, "" + u.getId());
-			st.setString(2, "500");
-			st.execute();
-
-			request = "SELECT idStockage FROM STOCKAGE WHERE idCompte = ?";
-			st = connection.prepareStatement(request);
-			st.setString(1, "" + u.getId());
-			ResultSet res = st.executeQuery();
-			String idStockage = null;
-			while (res.next())
-				idStockage = "" + res.getInt("idStockage");
-
-			request = "UPDATE COMPTE SET idStockage= ? WHERE idCompte = ? ";
-			st = connection.prepareStatement(request);
-			st.setString(1, idStockage);
-			st.setString(2, "" + u.getId());
 			st.executeUpdate();
-
+			
+			utilisateur u = this.getUser(email, mdp);
+			
+			request = "INSERT INTO ENTITE (nomEntite,dateStockage,typeEntite,idCompte,cheminFTP) VALUES(?,CURDATE(),'Racine',?,'/classes/')";
+			st = connection.prepareStatement(request);
+			st.setString(1, u.getPseudo());
+			st.setString(2, ""+u.getId());
+			st.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 	public void changerMotDePasse(utilisateur u, String newMDP) {
 
 		Connection connection = JDBC.getConnection();
@@ -315,51 +300,45 @@ public class Requetes{
 		}
 	}
 
-	public void supprimerCompte(utilisateur u) {
+
+	public void creerNouveauDoc(utilisateur u, String nom, int idParent, String FTP, int publicOuPrive) {
+		String insert;
+		PreparedStatement st;
 		Connection connection = JDBC.getConnection();
-		String delete = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
-		
 		try {
-			PreparedStatement req = connection.prepareStatement(delete);
-			req.executeUpdate();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte,cheminFTP,IdDossierParent) VALUES(?,'txt',CURDATE(),'fichier texte',?,?,?,?);";
+				st = connection.prepareStatement(insert);
+				st.setString(1, nom);
+				st.setString(2, "" + publicOuPrive);
+				st.setString(3, "" + u.getId());
 
-	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP) {
+				st.setString(4, FTP);
+				st.setString(5, "" + idParent);
 
-		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte, cheminFTP) VALUES(?,'txt',CURDATE(),'fichier texte',0,?,?);";
-		String update = "UPDATE STOCKAGE SET nombreElements = nombreElements +1 WHERE idCompte = ? ";
-		try {
-			PreparedStatement st = connection.prepareStatement(insert);
-			st.setString(1, nom);
-			st.setString(2, "" + u.getId());
-			st.setString(3, cheminFTP);
-			st.execute();
-
-			st = connection.prepareStatement(update);
-			st.setString(1, "" + u.getId());
-			st.executeUpdate();
-
+				st.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP) {
+public void creerNouveauDossier(utilisateur u, String nom, int idParent, String FTP, int publicOuPrive) {
+		String insert;
+		PreparedStatement st;
 		Connection connection = JDBC.getConnection();
-		String insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte, cheminFTP) VALUES(?,null,CURDATE(),'Dossier',0,?,?);";
 
 		try {
-			PreparedStatement st = connection.prepareStatement(insert);
-			st.setString(1, nom);
-			st.setString(2, "" + u.getId());
-			st.setString(3, cheminFTP);
-			st.executeUpdate();
+			
+				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte,cheminFTP,IdDossierParent) VALUES(?,null,CURDATE(),'Dossier',?,?,?,?);";
+				st = connection.prepareStatement(insert);
+				st.setString(1, nom);
+				st.setString(2, "" + publicOuPrive);
+				st.setString(3, "" + u.getId());
+				st.setString(4, FTP);
+				st.setString(5, "" + idParent);
+
+				st.executeUpdate();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -672,4 +651,52 @@ public List<Projet> getDocumentsInside(Projet p) {
 		}
 		return null;
 	}
+	
+	public void supprimerCompte(utilisateur u) {
+		Connection connection = JDBC.getConnection();
+		String delete = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+
+		try {
+			PreparedStatement req = connection.prepareStatement(delete);
+			req.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public List<utilisateur> getCompteSuivis(utilisateur u) {
+        List<utilisateur> list = new ArrayList<>();
+        ArrayList<Integer> listBis = new ArrayList<>();
+        Connection connection = JDBC.getConnection();
+
+        String request = "SELECT S.idCompteSuiveur FROM COMPTE AS C INNER JOIN SUIVI AS S ON C.idCompte = S.idCompteSuiveur WHERE C.idCompte = ?;";
+        try {
+            PreparedStatement st = connection.prepareStatement(request);
+            st.setString(1, "" + u.getId());
+            ResultSet res = st.executeQuery();
+            while (res.next())
+                listBis.add(res.getInt("S.idCompteSuiveur"));
+
+            request = "SELECT * FROM COMPTE WHERE idCompte = ?";
+            for (int i : listBis) {
+                st = connection.prepareStatement(request);
+                st.setString(1, "" + i);
+                res = st.executeQuery();
+                while (res.next()) {
+                    if (res.getString("typeCompte").equals("admin"))
+                        list.add(new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+                                res.getInt("idStockage")));
+                    else if (res.getString("typeCompte").equals("client"))
+                        list.add(new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+                                res.getInt("idStockage")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }
