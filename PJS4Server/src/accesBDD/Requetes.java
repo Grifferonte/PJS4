@@ -517,61 +517,42 @@ public class Requetes{
 		return null;
 	}
 
-	public void updateVisibilite(utilisateur u, String visibilite) {
+	public void updateVisibilite(int idDoc, String visibilite) {
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		String request = "UPDATE Entite SET visiblite = ? WHERE idEntite = ?";
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
-			ResultSet res = req.executeQuery();
-			while (res.next())
-				if (u.getId() == res.getInt("idCompte")) {
-					String update = "UPDATE ENTITE SET visibilite = ? ";
-					PreparedStatement requete = connection.prepareStatement(update);
-					requete.setString(1, visibilite);
-					requete.executeUpdate();
-
-				}
+			req.setString(1, visibilite);
+			req.setInt(2, idDoc);
+			req.executeUpdate();
 		}
-
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void updateDocumentPrive(utilisateur u) {
+	public void updateDocumentPrive(int idDoc) {
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		String request = "UPDATE Entite SET public= 0 FROM ENTITE WHERE idEntite = ?;";
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
-			ResultSet res = req.executeQuery();
-			while (res.next())
-				if (u.getId() == res.getInt("idCompte")) {
-					String update = "UPDATE ENTITE SET public = 0 ";
-					PreparedStatement requete = connection.prepareStatement(update);
-					requete.executeUpdate();
-				}
-		}
-
-		catch (Exception e) {
+			req.setInt(1, idDoc);
+			req.executeUpdate();
+			
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void updateDocumentPublic(utilisateur u) {
+	public void updateDocumentPublic(int idDoc) {
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT idCompte FROM ENTITE WHERE idEntite = ?;";
+		String request = "UPDATE Entite SET public= 1 FROM ENTITE WHERE idEntite = ?;";
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
-			ResultSet res = req.executeQuery();
-			while (res.next())
-				if (u.getId() == res.getInt("idCompte")) {
-					String update = "UPDATE ENTITE SET public = 1 ";
-					PreparedStatement requete = connection.prepareStatement(update);
-					requete.executeUpdate();
-				}
-		}
-
-		catch (Exception e) {
+			req.setInt(1, idDoc);
+			req.executeUpdate();
+			
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

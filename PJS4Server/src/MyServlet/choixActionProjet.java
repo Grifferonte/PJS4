@@ -163,12 +163,31 @@ public class choixActionProjet extends HttpServlet {
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("OuvrirRep") != null) {
-			request.setAttribute("Rep", "ActionRep");
 			int idProjet = Integer.parseInt(request.getParameter("idProjet"));
+			
 			request.setAttribute("idProjet", idProjet);
-			System.out.println("rep");
+			request.setAttribute("Rep", "ActionRep");
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
+		else if (request.getParameter("RenommerDoc") != null) {
+			String NouveauNom = request.getParameter("NewName");
+			int idProjet = Integer.parseInt(request.getParameter("idProjet"));
+			Drive.getInstance().renommerDocument((utilisateur) session.getAttribute("client"), idProjet, NouveauNom);
+			//FTPConnectAndLogin.getInstance().connect().rename(from, to);
+			request.setAttribute("idProjet", pere.getId());
+			request.setAttribute("Rep", "ActionRep");
+			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+		}
+		else if (request.getParameter("ChangerVisibiliteDoc") != null) {
+			String NouvelleVisibilite = request.getParameter("NewVisibility");
+			int idDocument = Integer.parseInt(request.getParameter("idProjet"));
+			//Drive.getInstance().updateVisibility(idDocument);
+			
+			request.setAttribute("idProjet", pere.getId());
+			request.setAttribute("Rep", "ActionRep");
+			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+		}
+		
 	}
 	private final class BoutonEnregListener implements MouseListener{
 		private String cheminFichier;

@@ -96,6 +96,22 @@ public class ChoixPage extends HttpServlet {
 				request.setAttribute("motsClefs", motsClefs);
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp" ).forward( request, response );
 			}
+			else if (request.getParameter("changerPseudo") != null) {
+				String NouveauPseudo = request.getParameter("NewPseudo");
+				Drive.getInstance().changerPseudo((utilisateur) session.getAttribute("client"), NouveauPseudo);
+				
+				request.setAttribute("Rep", "ActionRep");
+				request.setAttribute("idProjet", pere.getId());
+				this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+			}
+			else if (request.getParameter("changerMotDePasse") != null) {
+				String NouveauMdp = request.getParameter("NewMdp");
+				Drive.getInstance().changerMotDePasse((utilisateur) session.getAttribute("client"), NouveauMdp);
+				
+				request.setAttribute("Rep", "ActionRep");
+				request.setAttribute("idProjet", pere.getId());
+				this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
+			}
 		}
 	}
 }

@@ -37,7 +37,9 @@
 					<input type="text" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>>
 					<input type="text" name="idProjet" value=<%=p.getId()%>>
 					<button type="submit" name="OuvrirRep" value="OuvrirRepertoire">OuvrirRepertoire</button><br>
-					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
+					<button type="submit" name="Renommer" value="RenommerDoc" onclick="afficherFormRename()">Renommer</button><br>
+					<button type="submit" name="ChangerVisibiliter" value="ChangerVisibiliteDoc" onclick="afficherFormUpdate()">Changer Visibilité</button><br>
+					<button type="submit" name="Partager" value="PartagerDoc" onclick="afficherFormPartage()">Partager</button><br>
 					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
 					</form>
 				<%}else {%>
@@ -45,14 +47,29 @@
 					<input type="text" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>>
 					<input type="text" name="idProjet" value=<%=p.getId()%>>
 					<button type="submit" name="Ouvrir" value="ouvrirDoc">Ouvrir</button><br>
-					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
+					<button type="submit" name="Renommer" value="RenommerDoc" onclick="afficherFormRename()">Renommer</button><br>
+					<button type="submit" name="ChangerVisibiliter" value="ChangerVisibiliteDoc" onclick="afficherFormUpdate()">Changer Visibilité</button><br>
+					<button type="submit" name="Partager" value="PartagerDoc" onclick="afficherFormPartage()">Partager</button><br>
 					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
 					<button type="submit" name="Telecharger" value="TelechargerDoc">Telecharger</button><br>
 					</form>
 					
 					<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
+						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<button type="submit" name="Partager" value="Partager">Partager</button>>
+					</form>
+					
+					<form style="visibility:hidden" name="formRename" method="get" action ="choixActionProjet" >
+						<input style="visibility:hidden" type="text" name="Renommer" value="RenommerDoc" placeholder="Entrez le nouveau nom du document">
+						<input type="text" name="idProjet" value=<%=p.getId()%>>
+						<button type="submit" name="Rename" value="Renommer">Renommer le document</button>>
+					</form>
+					
+					<form style="visibility:hidden" name="formUpdate" method="get" action ="choixActionProjet" >
+						<input style="visibility:hidden" type="text" name="ChangerVisibilite" value="ChangerVisibiliteDoc" placeholder="">
+						<input type="text" name="idProjet" value=<%=p.getId()%>>
+						<button type="submit" name="Partager" value="Partager">Changer la visibilité</button>>
 					</form>
 				<%} %>
 			</div>
@@ -84,8 +101,14 @@
 function afficherForm(id){
 	document.getElementById(id).style.visibility = 'visible';
 }
-function afficherInputPartage(){
+function afficherFormPartage(){
 	document.getElementByName("formPartage").style.visibility = 'visible';
+}
+function afficherFormRename(){
+	document.getElementByName("formRename").style.visibility = 'visible';
+}
+function afficherFormUpdate(){
+	document.getElementByName("formUpdate").style.visibility = 'visible';
 }
 </script>
 </html>
