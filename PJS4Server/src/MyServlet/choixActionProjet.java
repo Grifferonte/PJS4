@@ -58,6 +58,14 @@ public class choixActionProjet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String idProjetPere = request.getParameter("idProjetPere");
 		Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(idProjetPere));
+		
+		String cheminServer = request.getParameter("UrlServeur");
+		String[] cheminDecoupe = cheminServer.split("/");
+		String UrlDossierCourant = new String();
+		for (int i=0; i<cheminDecoupe.length-1; ++i) {
+			UrlDossierCourant += cheminDecoupe[i] + "/";
+		}
+		
 		if (request.getParameter("Partager") != null) {
 			try {
 				utilisateur user1 = Drive.getInstance().getUserByMail(((utilisateur) session.getAttribute("client")).getLogin());
@@ -172,8 +180,9 @@ public class choixActionProjet extends HttpServlet {
 		else if (request.getParameter("RenommerDoc") != null) {
 			String NouveauNom = request.getParameter("NewName");
 			int idProjet = Integer.parseInt(request.getParameter("idProjet"));
+			Projet projetActuel = Drive.getInstance().getDocumentById(idProjet);
 			Drive.getInstance().renommerDocument((utilisateur) session.getAttribute("client"), idProjet, NouveauNom);
-			//FTPConnectAndLogin.getInstance().connect().rename(from, to);
+			FTPConnectAndLogin.getInstance().connect().rename(projetActuel.getUrlServeur(), UrlDossierCourant + "/" + NouveauNom);
 			request.setAttribute("idProjet", pere.getId());
 			request.setAttribute("Rep", "ActionRep");
 			this.getServletContext().getRequestDispatcher( "/WEB-INF"+(String) session.getAttribute("pageCourante") ).forward( request, response );
@@ -181,7 +190,7 @@ public class choixActionProjet extends HttpServlet {
 		else if (request.getParameter("ChangerVisibiliteDoc") != null) {
 			String NouvelleVisibilite = request.getParameter("NewVisibility");
 			int idDocument = Integer.parseInt(request.getParameter("idProjet"));
-			//Drive.getInstance().updateVisibility(idDocument);
+			Drive.getInstance().updateVisibility(idDocument, NouvelleVisibilite);
 			
 			request.setAttribute("idProjet", pere.getId());
 			request.setAttribute("Rep", "ActionRep");

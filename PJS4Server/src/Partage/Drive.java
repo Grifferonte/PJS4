@@ -83,16 +83,16 @@ public class Drive {
 		req.supprimerCompte(u);
 	}
 	
-	public void updateDocumentPrive(utilisateur u) {
-		req.updateDocumentPrive(u);
+	public void updateDocumentPrive(int idDoc) {
+		req.updateDocumentPrive(idDoc);
 	}
 	
-	public void updateDocumentPublic(utilisateur u) {
-		req.updateDocumentPublic(u);
+	public void updateDocumentPublic(int idDoc) {
+		req.updateDocumentPublic(idDoc);
 	}
 	
-	public void updateVisibility(utilisateur u) {
-		req.updateDocumentPrive(u);
+	public void updateVisibility(int idDoc, String nouvelleVisibilite) {
+		req.updateVisibilite(idDoc, nouvelleVisibilite);
 	}
 	
 	public List<Projet> getTousLesDocumentsArchives(utilisateur u) {

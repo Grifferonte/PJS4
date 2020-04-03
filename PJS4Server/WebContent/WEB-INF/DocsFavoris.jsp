@@ -57,17 +57,20 @@
 					<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
+						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<button type="submit" name="Partager" value="Partager">Partager</button>>
 					</form>
 					
 					<form style="visibility:hidden" name="formRename" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="Renommer" value="RenommerDoc" placeholder="Entrez le nouveau nom du document">
+						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<button type="submit" name="Rename" value="Renommer">Renommer le document</button>>
 					</form>
 					
 					<form style="visibility:hidden" name="formUpdate" method="get" action ="choixActionProjet" >
 						<input style="visibility:hidden" type="text" name="ChangerVisibilite" value="ChangerVisibiliteDoc" placeholder="">
+						<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 						<input type="text" name="idProjet" value=<%=p.getId()%>>
 						<button type="submit" name="Partager" value="Partager">Changer la visibilité</button>>
 					</form>
