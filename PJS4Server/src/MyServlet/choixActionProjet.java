@@ -1,5 +1,7 @@
 package MyServlet;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedInputStream;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.apache.commons.net.ftp.FTPClient;
@@ -139,18 +142,21 @@ public class choixActionProjet extends HttpServlet {
 			//String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
 			JTextArea field = new JTextArea();
 			field.setLineWrap(true);
-			JFrame fenetre = new JFrame();
-			fenetre.setTitle("file");
-		    //D�finit sa taille : 400 pixels de large et 100 pixels de haut
-		    fenetre.setSize(400, 100);
-		    //Nous demandons maintenant � notre objet de se positionner au centre
-		    fenetre.setLocationRelativeTo(null);
-			fenetre.add(field);
+			JButton valider = new JButton("valider");
+			JPanel formulaire = new JPanel();
+			formulaire.setLayout(new GridLayout(1, 1));
+			formulaire.add(field);
+			valider.setPreferredSize(new Dimension(250, 100));
+			formulaire.add(valider);
+			JFrame fenetre = new JFrame("dimensionnement bouton");
+			fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fenetre.setContentPane(formulaire);
+			fenetre.pack();
+			//fenetre.setLocationRelativeTo(null);
 			fenetre.setVisible(true);
-			JButton bouton = new JButton("Enregistrer");
-			fenetre.add(bouton);
-			OperationFichier.lireFichier(cheminFichier, field);
-			bouton.addMouseListener(new BoutonEnregListener(cheminFichier, field));
+			
+			OperationFichier.lireFichier("", field);
+			valider.addMouseListener(new BoutonEnregListener(cheminFichier, field));
 			
 			request.setAttribute("Rep", "ActionRep");
 			request.setAttribute("idProjet", pere.getId());
