@@ -8,7 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionPage" >
+		<input type="hidden" name="rechercheDocs"/>
+		<input type="text" name="motsClefs" value="mailPartage" placeholder="Entrez un mot-clef">
+		<button type="submit" name="Envoyer" value="Envoyer">Partager</button>>
+	</form>
 <% session.setAttribute("pageCourante","/DocsFavoris.jsp");%>
 <%String dossierCourant = new String(); %>
 <%utilisateur u = (utilisateur) session.getAttribute("client"); %>
@@ -60,8 +64,8 @@
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="hidden" name="Rep" value="ajouterRep"/>
 		<input type="text" name="directory"/>Ajouter un répertoire
-		<input type="radio" name="prive" value="publique"> Publique
-		<input type="radio" name="publique" value="prive"> Prive
+		<input type="radio" name="privOuPubl" value="0"> Publique
+		<input type="radio" name="privOuOubl" value="1"> Prive
 		<button type="submit"></button>
 	</form>
 	<form method="get" action="ChoixPage">
@@ -70,8 +74,8 @@
 		<input type="text" name="nomFichier" placeholder="entrez le nom du fichier"/>
 		<input type="hidden" name="Fichier" value="ajouterFichier"/>
 		<input type="text" name="cheminFichier" placeholder="copiez-coller le chemin de votre fichier"/>
-		<input type="radio" name="prive" value="publique"> Publique
-		<input type="radio" name="publique" value="prive"> Prive
+		<input type="radio" name="privOuPubl" value="0"> Publique
+		<input type="radio" name="privOuPubl" value="1"> Prive
 		<button type="submit"></button>
 	</form>
 			

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -90,8 +91,10 @@ public class ChoixPage extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("upload") != null) {
-				
+			else if (request.getParameter("rechercheDocs") != null) {
+				String motsClefs = request.getParameter("motsClefs");
+				request.setAttribute("motsClefs", motsClefs);
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp" ).forward( request, response );
 			}
 		}
 	}

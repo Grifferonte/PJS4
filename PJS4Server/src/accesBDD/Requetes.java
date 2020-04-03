@@ -619,4 +619,29 @@ public List<Projet> getDocumentsInside(Projet p) {
 		
 		return null;
 	}
+
+	public List<Projet> getDocumentsBySearch(String motsClefs) {
+		List<Projet> listDocs = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM ENTITE WHERE NomEntite = '*?*' AND typeEntite <> ?; ";
+			try {
+				PreparedStatement req = connection.prepareStatement(request);
+				req.setString(1, motsClefs );
+				req.setString(2, "repertoire" );
+				ResultSet res = req.executeQuery();
+				while(res.next()) {
+					if (res.getString("E2.typeEntite").equals("repertoire")) {
+						listDocs.add(new Repertoire(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"),
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+				}else {
+						listDocs.add(new Fichier(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"), res.getString("E2.extension"),
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+				}
+			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return listDocs;
+		
+	}
 }

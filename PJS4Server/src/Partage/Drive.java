@@ -119,9 +119,10 @@ public class Drive {
 		return req.getDocumentByCheminFTP(cheminFTP);
 	}
 
-	public List<Projet> getDocumentsInside(String urlDossierCourant) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Projet> getDocumentsBySearch(String motsClefs){
+		return req.getDocumentsBySearch(motsClefs);
 	}
+	
+	
 
 }
