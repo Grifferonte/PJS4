@@ -1,6 +1,13 @@
-
 /* ------------------ BASE DE DONNEES PJS4 ------------------ */
 /* -------------------- Armand Drouineau ---------------------- */
+
+CREATE TABLE STOCKAGE(
+   idStockage INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+   taille INT,
+   dateCreation DATE,
+   nombreElements INT,
+   idCompteAssocie INT
+);
 
 CREATE TABLE COMPTE(
    idCompte INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -8,16 +15,9 @@ CREATE TABLE COMPTE(
    pseudo VARCHAR(16),
    mail VARCHAR(32),
    mdp VARCHAR (16),
-   UNIQUE KEY (mail)
-);
-
-CREATE TABLE STOCKAGE(
-   idStockage INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   taille INT,
-   dateCreation DATE,
-   nombreElements INT,
-   idCompte INT,
-   FOREIGN KEY (idCompte) REFERENCES COMPTE (idCompte)
+   UNIQUE KEY (mail),
+   idStockage INT DEFAULT NULL,
+   FOREIGN KEY (idStockage) REFERENCES STOCKAGE (idStockage)
 );
 
 CREATE TABLE ENTITE(
@@ -30,9 +30,17 @@ CREATE TABLE ENTITE(
    public BOOLEAN,
    tailleEntite INT NOT NULL,
    cheminFtp VARCHAR(50),
-   idParent INT NOT NULL,
+   idParent INT,
    idCompte INT NOT NULL,
    FOREIGN KEY (idCompte) REFERENCES COMPTE (idCompte)
+);
+
+CREATE TABLE SUIVI(
+idSuivi INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+idCompteSuiveur INT,
+idCompteSuivi INT,
+FOREIGN KEY (idCompteSuiveur) REFERENCES COMPTE (idCompte),
+FOREIGN KEY (idCompteSuivi) REFERENCES COMPTE (idCompte)
 );
 
 CREATE TABLE PARTAGE(
@@ -64,6 +72,58 @@ CREATE TABLE COUPLE_GROUPE_COMPTE(
    FOREIGN KEY (idGroupe) REFERENCES GROUPE (idGroupe)
 );
 
+/* ------------------ PROCEDURE ------------------ */
+
+-- BOUCLE DE RECUPERATION DE L'ID PARENT
+DELIMITER /
+CREATE OR REPLACE PROCEDURE P_APPELTRIGGER_CONTIENT(IN Param_idParent INT) 
+BEGIN
+DECLARE request INT;
+DECLARE c1 CURSOR FOR
+SELECT idParent
+FROM ENTITE
+WHERE idEntite = Param_idParent;
+SET max_sp_recursion_depth=25; 
+OPEN c1;
+FETCH c1 INTO request;
+IF(request IS NOT NULL) THEN
+INSERT INTO CONTIENT (idEntite, idEntite2) VALUES(request, Param_idParent);
+CALL P_APPELTRIGGER_CONTIENT(request);
+END IF; 
+CLOSE c1;
+END;
+/
+DELIMITER ;
+
+-- UPDATE DE L'ID STOCKAGE DANS LA TABLE COMPTE ********* MARCHE MANUELLEMENT
+
+DELIMITER /
+CREATE OR REPLACE PROCEDURE P_UPDATE_IDSTOCKAGE(IN Param_idCompte INT) 
+BEGIN
+DECLARE request INT;
+DECLARE request2 INT;
+DECLARE c2 CURSOR FOR
+SELECT idStockage
+FROM STOCKAGE
+WHERE idCompteAssocie = Param_idCompte;
+DECLARE c3 CURSOR FOR
+SELECT idStockage
+FROM COMPTE
+WHERE idCompte = Param_idCompte;
+OPEN c2;
+OPEN c3;
+FETCH c2 INTO request;
+FETCH c3 INTO request2;
+IF(request2 IS NULL) THEN
+UPDATE COMPTE SET idStockage = request WHERE idCompte = Param_idCompte;
+END IF;
+CLOSE c2;
+CLOSE c3;
+END;
+/
+DELIMITER ;
+
+
 /* ------------------TRIGGERS------------------ */
 
 -- SUPPRESSION TABLE CONTIENT 
@@ -85,21 +145,21 @@ CREATE OR REPLACE TRIGGER T_DELETE_STOCKAGE_COMPTE
 AFTER DELETE ON COMPTE
 FOR EACH ROW
 DELETE FROM STOCKAGE 
-WHERE STOCKAGE.idCompte = Old.idCompte;
+WHERE STOCKAGE.idCompteAssocie = Old.idCompte;
 
 -- UPDATE NOMBRE ELEMS STOCKAGE (suppression) 
-CREATE OR REPLACE TRIGGER T_UPDATE_ELEMS_STOCKAGE
+CREATE OR REPLACE TRIGGER T_UPDATE_ELEMS_STOCKAGE_SUPPR
 AFTER DELETE ON ENTITE
 FOR EACH ROW
 UPDATE STOCKAGE SET nombreElements = nombreElements -1 
-WHERE STOCKAGE.idCompte = Old.idCompte;
+WHERE STOCKAGE.idCompteAssocie = Old.idCompte;
 
 -- UPDATE NOMBRE ELEMS STOCKAGE (Ajout) 
-CREATE OR REPLACE TRIGGER T_UPDATE_ELEMS_STOCKAGE_2
+CREATE OR REPLACE TRIGGER T_UPDATE_ELEMS_STOCKAGE_AJOUT
 AFTER INSERT ON ENTITE
 FOR EACH ROW
 UPDATE STOCKAGE SET nombreElements = nombreElements +1 
-WHERE STOCKAGE.idCompte = New.idCompte;
+WHERE STOCKAGE.idCompteAssocie = New.idCompte;
 
 -- SUPPRESSION PARTAGE DOCS (cote idCompte) 
 CREATE OR REPLACE TRIGGER T_DELETE_PARTAGE_DOCS
@@ -115,10 +175,37 @@ FOR EACH ROW
 DELETE FROM ENTITE
 WHERE ENTITE.idCompte = Old.idCompte;
 
+-- AJOUT ESPACE DE STOCKAGE
+CREATE OR REPLACE TRIGGER T_AJOUT_STOCKAGE
+AFTER INSERT ON COMPTE
+FOR EACH ROW
+INSERT INTO STOCKAGE(taille, dateCreation, nombreElements, idCompteAssocie) VALUES(500, CURDATE(), 0, NEW.idCompte);
+
+-- UPDATE IDSTOCKAGE ******************************** NE MARCHE PAS 
+/*
+CREATE OR REPLACE TRIGGER T_UPDATE_IDSTOCKAGE
+BEFORE INSERT ON STOCKAGE
+FOR EACH ROW
+BEGIN 
+DECLARE request INT;
+CALL P_UPDATE_IDSTOCKAGE(NEW.idStockage);
+*/
+
+-- INSERTION TABLE CONTIENT
+DELIMITER /
+CREATE OR REPLACE TRIGGER T_INSERT_CONTIENT
+AFTER INSERT ON ENTITE
+FOR EACH ROW
+IF(NEW.idParent IS NOT NULL) THEN
+INSERT INTO CONTIENT (idEntite, idEntite2) VALUES(New.idParent, New.idEntite);
+CALL P_APPELTRIGGER_CONTIENT(NEW.idParent);
+END IF;
+/
+DELIMITER ;
+
 /* ------------------JEU DE TEST------------------ */
 
 INSERT INTO COMPTE (typeCompte, pseudo, mail, mdp) VALUES ('client', 'kiki','a@c','1234');
 INSERT INTO COMPTE (typeCompte, pseudo, mail, mdp) VALUES ('admin', 'kiki0','a@0c','123456');
-INSERT INTO STOCKAGE (taille, dateCreation, nombreElements, idCompte) VALUES(500, CURDATE(), 1, 1);
-INSERT INTO ENTITE (nomEntite, extension, dateStockage, typeEntite, visibilite, public, tailleEntite, idParent, idCompte) VALUES('MonRep', 'rep', CURDATE(), 'repertoire', 'non favori', 0, 50, -1, 1);
+INSERT INTO ENTITE (nomEntite, extension, dateStockage, typeEntite, visibilite, public, tailleEntite, idParent, idCompte) VALUES('MonRep', 'rep', CURDATE(), 'repertoire', 'non favori', 0, 50, null, 1);
 INSERT INTO PARTAGE(idCompte, idCompte2, idEntite, datePartage) VALUES(1,2,1,CURDATE());
