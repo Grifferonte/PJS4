@@ -55,19 +55,23 @@
 		<%
 		} 
 		%>
-	<form method="get" action="ChoixActionPage">
+	<form method="get" action="ChoixPage">
 		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId() %>>
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="hidden" name="Rep" value="ajouterRep"/>
 		<input type="text" name="directory"/>Ajouter un répertoire
+		<input type="radio" name="prive" value="publique"> Publique
+		<input type="radio" name="publique" value="prive"> Prive
 		<button type="submit"></button>
 	</form>
-	<form method="get" action="ChoixActionPage">
+	<form method="get" action="ChoixPage">
 		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId() %>>
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="text" name="nomFichier" placeholder="entrez le nom du fichier"/>
 		<input type="hidden" name="Fichier" value="ajouterFichier"/>
 		<input type="text" name="cheminFichier" placeholder="copiez-coller le chemin de votre fichier"/>
+		<input type="radio" name="prive" value="publique"> Publique
+		<input type="radio" name="publique" value="prive"> Prive
 		<button type="submit"></button>
 	</form>
 			
