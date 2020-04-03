@@ -100,7 +100,7 @@ figure{
 }
 
 
-/*----------------  context menu (clique droit)   ------------------*/
+/*----------------  context menu (clique droit)   ------------------
 #ctxMenu{
     display:none;
     z-index:100;
@@ -138,6 +138,6 @@ menu[title]:before{
 }
 menu:not([title]):before{
     content:"\2630";
-}
+}*/
 
 
