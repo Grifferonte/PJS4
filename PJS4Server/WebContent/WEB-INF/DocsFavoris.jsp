@@ -46,7 +46,8 @@
 					</form>
 					
 					<form style="visibility:hidden" name="formPartage" method="get" action ="choixActionProjet" >
-						<input style="visibility:hidden" type="text" name="partegeInput" value="mailPartage" placeholder="Entrez un mail avec qui partager">
+						<input  type="text" name="partegeInput" value="PseudoUser2" placeholder="Entrez un mail avec qui partager">
+						<input type="hidden" name="idDoc" value=<% p.getId();%>>
 						<button type="submit" name="Partager" value="Partager">Partager</button>>
 					</form>
 				<%} %>
@@ -58,7 +59,7 @@
 		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId() %>>
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="hidden" name="Rep" value="ajouterRep"/>
-		<input type="text" name="directory"/>Ajouter un répertoire
+		<input type="text" name="directory"/>Ajouter un rï¿½pertoire
 		<button type="submit"></button>
 	</form>
 	<form method="get" action="ChoixActionPage">
