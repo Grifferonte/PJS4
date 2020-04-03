@@ -39,7 +39,7 @@ public class ChoixPage extends HttpServlet {
 				UrlDossierCourant += cheminDecoupe[i] + "/";
 			}
 			String chemin = cheminServer.substring(0, cheminServer.length() -1);
-			Projet pere = Drive.getInstance().getRepertoirePere(Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere"))));
+			Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere")));
 			if (request.getParameter("ajouterFichier") != null) {
 				try {
 					String cheminFichier = request.getParameter("cheminFichier");

@@ -38,6 +38,7 @@
 				<%}else {%>
 					<form style="visibility:hidden" id=<%=p.getId() %> method="get" action="choixActionProjet">
 					<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId()%>/>
+					<input type="hidden" name="idProjet" value=<%=p.getId()%>/>
 					<button type="submit" name="Ouvrir" value="ouvrirDoc">Ouvrir</button><br>
 					<button type="submit" name="Partager" value="PartagerDoc">Partager</button><br>
 					<button type="submit" name="Supprimer" value="SupprimerDoc">Supprimer</button><br>
@@ -61,7 +62,7 @@
 		<button type="submit"></button>
 	</form>
 	<form method="get" action="ChoixActionPage">
-		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)) %>>
+		<input type="hidden" name="idProjetPere" value=<%=Drive.getInstance().getRepertoirePere(list.get(0)).getId() %>>
 		<input type="hidden" name="UrlServeur" value=<%=dossierCourant %>>
 		<input type="text" name="nomFichier" placeholder="entrez le nom du fichier"/>
 		<input type="hidden" name="Fichier" value="ajouterFichier"/>

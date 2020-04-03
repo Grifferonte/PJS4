@@ -53,7 +53,7 @@ public class choixActionProjet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Projet pere = Drive.getInstance().getRepertoirePere(Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere"))));
+		Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere")));
 		if (request.getParameter("Partager") != null) {
 			try {
 				utilisateur user1 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser1"));
@@ -134,9 +134,8 @@ public class choixActionProjet extends HttpServlet {
 		    this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 		}
 		else if (request.getParameter("Ouvrir") != null) {
-			String nomUtilisateur = (String) session.getAttribute("pseudo");
-			String cheminFichierServer = request.getParameter("UrlServeur");
-			String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
+			String cheminFichier = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjet"))).getUrlServeur();
+			//String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
 			JTextArea field = new JTextArea();
 			field.setLineWrap(true);
 			JFrame fenetre = new JFrame();
