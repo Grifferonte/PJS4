@@ -1,4 +1,4 @@
-	// creer les variables
+// creer les variables
 	let email = document.forms["contactForm"]["email"];
 	let	objet = document.forms["contactForm"]["objet"];
 	let message = document.forms["contactForm"]["message"];
@@ -9,12 +9,6 @@
 	message.addEventListener("blur", messageVerifie, true);
 
 	//verifier si les champs sont bon avant d'envoyer
-
-	function retour() {
-		document.location.href='../html/accueil.html';
-	}
-
-
 	function Validate(){
 		if(email.value == ""){
 			email.style.border = "1px solid red";

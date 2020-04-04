@@ -30,9 +30,13 @@ header #blocBarre{
     margin-top: 40px;
     margin-right: 10%;
 }
-.fa-user,
 .fa-cogs,
 .fa-sign-out-alt{
+    font-size: 50px !important;
+    color : #f7f7f7;
+}
+
+header .fa-user {
     font-size: 50px !important;
     color : #f7f7f7;
 }

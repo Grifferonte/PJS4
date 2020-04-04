@@ -51,7 +51,8 @@ body {
 }
 
 figure .fa-folder,
-.fa-file{
+.fa-file,
+.fa-user{
     font-size:100px !important;
     margin-bottom: 10px;
     text-decoration-color: #f7f7f7;
@@ -66,7 +67,11 @@ figure{
     text-align: center;
 }
 figure .fa-file {
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+figure .fa-user {
+    font-size: 110px !important;
 }
 
 
