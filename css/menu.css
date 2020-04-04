@@ -7,6 +7,7 @@
     max-height: 7em;
 }
 nav {
+    min-width: 120px;
     z-index: 3;
     overflow: hidden;
     top: 0;
@@ -28,7 +29,7 @@ nav li a {
     line-height: 7em;
     text-align: center;
     display: block;
-    height: 7em;
+    height: 6em;
     text-decoration: none;
     color: dodgerblue ;
     position: relative;
@@ -52,7 +53,13 @@ nav li:first-child a {
 .fa-plus-square,
 .fa-paper-plane,
 .fa-trash-alt{
-    margin-top: 20%;
+    margin-top: 10%;
+    font-size:3em !important;
+    color:#47a3da !important;
+}
+
+nav .fa-search {
+    margin-top: 10%;
     font-size:3em !important;
     color:#47a3da !important;
 }
@@ -64,5 +71,9 @@ nav li:first-child a {
 .fa-paper-plane:hover,
 .fa-plus-square:hover,
 .fa-trash-alt:hover{
+    color: #f7f7f7 !important;
+}
+
+nav .fa-search:hover {
     color: #f7f7f7 !important;
 }

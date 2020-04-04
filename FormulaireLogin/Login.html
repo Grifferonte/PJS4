@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="icon" type="image/png" href="images/LogoProjet.png" />
+    <link rel="stylesheet" href="./CSS/Login.css">
+  </head>
+  <body>
+
+      <form action="" method="POST" onsubmit="return ValidateConnexion()" class="login-form" name="connexionForm">
+        <h1> Login </h1>
+
+        <div class="login-txt">
+          <input type="email" placeholder="Email" name="login" autocomplete="off">
+        </div>
+        <div id="errorLogin"></div>
+
+        <div class="login-txt">
+          <input type="password" placeholder="Mot de passe" name="password" autocomplete="off">
+        </div>
+        <div id="errorPassword"></div>
+        <br>
+
+        <input type="submit" class="login-btn" value="Se connecter">
+
+        <div class="bottom-text">
+          Pas encore inscrit ? <a href="Sign.html">S'inscrire</a>
+        </div>
+
+      </form>
+
+
+  </body>
+</html>
+
+<script type="text/javascript" src="./JS/login.js"></script>

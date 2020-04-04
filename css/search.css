@@ -1,0 +1,56 @@
+#blocChek{
+    position: absolute;
+    top: 50%;
+    left: 13%;
+    transform: translate(-50%,-50%);
+
+}
+
+#blocChek  h4 {
+    opacity: 80%;
+    margin-bottom: 20%;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+input[type="checkbox"]{
+    position: relative;
+    width: 80px;
+    height: 40px;
+    -webkit-appearance: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    outline: none;
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+    transition: .5s;
+}
+
+input:checked[type="checkbox"] {
+background: #47a3da;
+
+}
+
+input[type="checkbox"]:before {
+    content: '';
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    background: white;
+    transition: .5s;
+    box-shadow: 0 2px 5px rgba(0,0,0,2);
+    transform: scale(1.1);
+}
+
+input:checked[type="checkbox"]:before {
+left: 42px;
+}
+
+#blocBarre h1 {
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-left: 25%;
+    margin-top: 2.5%;
+}
+

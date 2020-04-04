@@ -1,0 +1,56 @@
+header {
+    min-width: 1330px;
+    z-index: 2;
+    position : fixed;
+    left : 0;
+    right : 0;
+    width: 100%;
+    top: 0;
+    height: 7em;
+    display: grid;
+    grid-template-columns: 8% 72% 20%;
+    border-bottom: 2px #f7f7f7 solid;
+
+}
+
+
+header #blocBarre{
+    grid-column-start: 2;
+    background-color:#2a2b30;
+
+}
+
+#param {
+    grid-column-start: 3;
+    background-color : #2a2b30 ;
+}
+
+.user {
+    float: right;
+    margin-top: 40px;
+    margin-right: 10%;
+}
+.fa-user,
+.fa-cogs,
+.fa-sign-out-alt{
+    font-size: 50px !important;
+    color : #f7f7f7;
+}
+
+.menuParam{
+    opacity: 0;
+    transition: 1s opacity;
+    padding-right: 20px;
+    float: left;
+
+}
+
+.sousMenuParam1,
+.sousMenuParam2{
+    margin-left: 8px;
+    margin-right: 8px;
+}
+.user:hover .menuParam {
+    opacity: 1;
+    transition: 1s opacity;
+}
