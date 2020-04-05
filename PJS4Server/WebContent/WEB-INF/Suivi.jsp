@@ -2,22 +2,24 @@
     pageEncoding="ISO-8859-1"%>
     <%@page import="java.util.List,Partage.* " %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Tempest</title>
-    <link rel="icon" type="image/png" href="LogoProjet.png"/>
-    <link rel = stylesheet type="text/css" href="accueil.css">
-    <link rel = stylesheet type="text/css" href="menu.css">
-    <link rel = stylesheet type="text/css" href="header.css">
-    <link rel = stylesheet type="text/css" href="search.css">
+    <link rel="icon" type="image/png" href="LogoProjet.png" />
+    <link rel = stylesheet type="text/css" href="accueil.css" >
+    <link rel = stylesheet type="text/css" href="menu.css" >
+    <link rel = stylesheet type="text/css" href="header.css" >
     <script src="https://kit.fontawesome.com/5836357430.js"></script>
+
+
 </head>
 
+
+
 <body>
+
+
 
 <div id="bloc">
 
@@ -67,15 +69,9 @@
             </li>
         </ul>
     </nav>
-
     <div id="bloc1">
         <header>
             <div id="blocBarre">
-                <div id = "blocChek">
-                    <h4>Suivre</h4>
-                    <input type="checkbox" name="">
-                </div>
-                <h1>Nom personne</h1>
             </div>
             <div id="param">
                 <div class="user">
@@ -90,21 +86,39 @@
         </header>
         <div id="bloc2">
             <div id = "blocDossier">
-                <h4>Recherche</h4>
+                <h4>Personnes</h4>
+					<% List<utilisateur> listPersSuivies = Drive.getInstance().getPersonnesSuivies((utilisateur) session.getAttribute("client")); %>
+					<%for (utilisateur u : listPersSuivies){ %>
+						<div>
+							<%=u.getPseudo() %>
+							<br>
+							<%for (Projet p : Drive.getInstance().getTousLesDocumentsPublics(u)){ %>
+								<%if (p.toString().equals("Repertoire")){%>
+									<i class="fas fa-folder"></i>
+									<%=p.getNom() %>
+								<%}else{%>
+									<i class="fas fa-file"></i>
+									<%=p.getNom()%>
+								<%}%>
+							<%} %>
+							<br>
+						</div>
+					<%} %>
                 <div id="dossier">
-				<% if (request.getAttribute("motsClefs") != null){%>
-					<%List<Projet> listDocsSearch = Drive.getInstance().getDocumentsBySearch((String)request.getAttribute("motsClefs")); %>
-					<%List<utilisateur> listUsersSearch = Drive.getInstance().getUsersBySearch((String)request.getAttribute("motsClefs")); %>
-					<%for (Projet projet : listDocsSearch) {%>
-						<p><%=projet.getNom() %></p>
-					<%} %>
-					<%for (utilisateur u : listUsersSearch) {%>
-						<i class="fas fa-user"> </i>
-						<%System.out.println(u.getPseudo()); %>
-						<p><%=u.getPseudo() %></p>
-					<%} %>
-				<%} %>
+                    <figure id="1d">
+                        <i class="fas fa-folder"></i>
+                        <figcaption>Dossier</figcaption>
+                    </figure>
+                    <figure>
+                        <i class="fas fa-file"></i>
+                        <figcaption>Fichier</figcaption>
+                    </figure>
+
                 </div></div>
+				
+				
+				
+				
         </div>
     </div>
 </div>

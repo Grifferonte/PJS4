@@ -64,6 +64,7 @@ public class Requetes{
 			ResultSet res = st.executeQuery();
 
 			while (res.next()) {
+				System.out.println(res.getInt("idCompte"));
 				if (res.getString("typeCompte").equals("admin"))
 					return new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
 							res.getInt("idStockage"));
@@ -125,11 +126,11 @@ public class Requetes{
 				while (res.next()) {
 					if (res.getString("typeEntite").equals("repertoire"))
 						list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-								res.getString("typeEntite"), res.getString("dateStockage"),res.getString("visibilte"), res.getString("cheminFTP")));
+								res.getString("typeEntite"), res.getString("dateStockage"),res.getString("visibilite"), res.getString("cheminFTP")));
 					else
 						list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"),
 								res.getString("extension"), res.getString("typeEntite"),
-								res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+								res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 				}
 			}
 
@@ -155,10 +156,10 @@ public class Requetes{
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 				else
 					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 			}
 
 		} catch (SQLException e) {
@@ -180,14 +181,30 @@ public class Requetes{
 			st.setString(2, email);
 			st.setString(3, mdp);
 			st.executeUpdate();
-			
+
 			utilisateur u = this.getUser(email, mdp);
 			
 			request = "INSERT INTO ENTITE (nomEntite,dateStockage,typeEntite,idCompte,cheminFTP) VALUES(?,CURDATE(),'Racine',?,'/classes/')";
 			st = connection.prepareStatement(request);
 			st.setString(1, u.getPseudo());
-			st.setString(2, ""+u.getId());
+			st.setString(2, "" + u.getId());
 			st.executeUpdate();
+			
+			request = "SELECT idStockage FROM STOCKAGE WHERE idCompte = ?";
+			st = connection.prepareStatement(request);
+			st.setString(1, "" + u.getId());
+			ResultSet r = st.executeQuery();
+			while(r.next()) {
+				String update = "UPDATE COMPTE SET idStockage = ? WHERE idCompte = ?";
+				PreparedStatement stB = connection.prepareStatement(update);
+				stB.setString(1, ""+r.getInt("idStockage"));
+				stB.setString(2, ""+u.getId());
+				stB.executeUpdate();
+				
+			}
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -242,10 +259,10 @@ public class Requetes{
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP"));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP"));
 				else
 					return new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP"));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP"));
 			}
 
 		} catch (SQLException e) {
@@ -268,10 +285,10 @@ public class Requetes{
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"),  res.getString("cheminFTP"));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"),  res.getString("cheminFTP"));
 				else
 					return new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP"));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP"));
 			}
 
 		} catch (SQLException e) {
@@ -287,6 +304,7 @@ public class Requetes{
 
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
+			req.setInt(1, numDocument);
 			ResultSet res = req.executeQuery();
 			while (res.next())
 				if (u.getId() == res.getInt("idCompte")) {
@@ -301,21 +319,22 @@ public class Requetes{
 	}
 
 
-	public void creerNouveauDoc(utilisateur u, String nom, int idParent, String FTP, int publicOuPrive) {
+	public void creerNouveauDoc(utilisateur u, String nom, int idParent, String FTP, int publicOuPrive, String visibilite) {
 		String insert;
 		PreparedStatement st;
 		Connection connection = JDBC.getConnection();
 		try {
-				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte,cheminFTP,IdDossierParent) VALUES(?,'txt',CURDATE(),'fichier texte',?,?,?,?);";
+				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite, visibilite ,public, idCompte,cheminFTP,IdParent) VALUES(?,'txt',CURDATE(),'fichier',?,?,?,?,?);";
 				st = connection.prepareStatement(insert);
 				st.setString(1, nom);
-				st.setString(2, "" + publicOuPrive);
-				st.setString(3, "" + u.getId());
+				st.setString(2, visibilite);
+				st.setString(3, "" + publicOuPrive);
+				st.setString(4, "" + u.getId());
 
-				st.setString(4, FTP);
-				st.setString(5, "" + idParent);
+				st.setString(5, FTP);
+				st.setString(6, "" + idParent);
 
-				st.executeUpdate();
+				st.execute();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -329,7 +348,7 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 
 		try {
 			
-				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte,cheminFTP,IdDossierParent) VALUES(?,null,CURDATE(),'Dossier',?,?,?,?);";
+				insert = "INSERT INTO ENTITE (nomEntite,extension,dateStockage,typeEntite,public,idCompte,cheminFTP,IdParent) VALUES(?,null,CURDATE(),'Dossier',?,?,?,?);";
 				st = connection.prepareStatement(insert);
 				st.setString(1, nom);
 				st.setString(2, "" + publicOuPrive);
@@ -337,7 +356,7 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 				st.setString(4, FTP);
 				st.setString(5, "" + idParent);
 
-				st.executeUpdate();
+				st.execute();
 			
 
 		} catch (Exception e) {
@@ -404,8 +423,8 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 	public List<Projet> getTousLesDocumentsPublics(utilisateur u) {
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.visibilite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.IdParent = E2.idEntite WHERE E1.idCompte = ? AND E1.public = 1 AND E2.typeEntite = 'RepertoireRacine';";
 
-		String request = "SELECT * FROM ENTITE WHERE idCompte = ? AND public = 1;";
 		try {
 			PreparedStatement st = connection.prepareStatement(request);
 			st.setString(1, "" + u.getId());
@@ -413,10 +432,34 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 				else
 					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
+		List<Projet> list = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.visibilite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.IdParent = E2.idEntite WHERE E1.idCompte = ? AND E1.visibilite = 'favoris' AND E2.typeEntite = 'RepertoireRacine';";
+
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setString(1, "" + u.getId());
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				if (res.getString("typeEntite").equals("repertoire"))
+					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
+				else
+					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 			}
 
 		} catch (Exception e) {
@@ -425,10 +468,10 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 		return list;
 	}
 
-	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
+	public List<Projet> getTousLesDocumentsPrives(utilisateur u) {
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.typeEntite, E1.dateStockage, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.IdDossierParent = E2.idEntite WHERE E1.idCompte = ? AND E1.visibilite ='favoris' AND E2.typeEntite = 'Racine';";
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.visibilite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.IdParent = E2.idEntite WHERE E1.idCompte = ? AND E1.public = 0 AND E2.typeEntite = 'RepertoireRacine';";
 
 		try {
 			PreparedStatement st = connection.prepareStatement(request);
@@ -437,10 +480,10 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 				else
 					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 			}
 
 		} catch (Exception e) {
@@ -462,10 +505,10 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 			while (res.next()) {
 				if (res.getString("typeEntite").equals("repertoire"))
 					list.add(new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 				else
 					list.add(new Fichier(res.getInt("idEntite"), res.getString("nomEntite"), res.getString("extension"),
-							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP")));
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP")));
 			}
 
 		} catch (Exception e) {
@@ -535,24 +578,39 @@ public void creerNouveauDossier(utilisateur u, String nom, int idParent, String 
 			e.printStackTrace();
 		}
 	}
-public List<Projet> getDocumentsInside(Projet p) {
+public List<Projet> getDocumentsInside(Projet p, String visibilite) {
 		
 		List<Projet> list = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT E2.idEntite, E2.nomEntite, E2.extension, E2.dateStockage, E2.typeEntite, E2.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite = E2.idDossierParent WHERE E1.idEntite = ? AND E2.visibilte = ?";
-		Projet pere = this.getRepertoirePere(p);
+		ResultSet res = null;
+		if (!visibilite.contentEquals("tous")) {
+			try {
+				String request = "SELECT E2.idEntite, E2.nomEntite, E2.extension, E2.dateStockage, E2.typeEntite, E2.visibilite, E2.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite = E2.IdParent WHERE E1.idEntite = ? AND E2.visibilite = ?";
+				PreparedStatement req = connection.prepareStatement(request);
+				req.setString(1, ""+p.getId());
+				req.setString(2, visibilite);
+				res = req.executeQuery();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else {
+			try {
+				String request = "SELECT E2.idEntite, E2.nomEntite, E2.extension, E2.dateStockage, E2.typeEntite, E2.visibilite, E2.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite = E2.IdParent WHERE E1.idEntite = ?;";
+				PreparedStatement req = connection.prepareStatement(request);
+				req.setString(1, ""+p.getId());
+				res = req.executeQuery();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
-			PreparedStatement req = connection.prepareStatement(request);
-			req.setString(1, ""+p.getId());
-			req.setString(2, pere.getVisibilite());
-			ResultSet res = req.executeQuery();
 			while(res.next()) {
 					if (res.getString("E2.typeEntite").equals("repertoire"))
 						list.add(new Repertoire(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"),
-								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilite"), res.getString("E2.cheminFTP")));
 				else
 					list.add(new Fichier(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"), res.getString("E2.extension"),
-							res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+							res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilite"), res.getString("E2.cheminFTP")));
 			}
 		}
 		
@@ -564,17 +622,20 @@ public List<Projet> getDocumentsInside(Projet p) {
 	public Projet getRepertoirePere(Projet p) {
 		
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite =E2.IdDossierParent WHERE E2.idEntite = ?; ";
+		String request = "SELECT E1.idEntite, E1.nomEntite, E1.extension, E1.dateStockage, E1.typeEntite, E1.visibilite, E1.cheminFTP FROM ENTITE AS E1 INNER JOIN ENTITE AS E2 ON E1.idEntite =E2.IdParent WHERE E2.idEntite = ?; ";
 		
 		
 		try {
 			PreparedStatement req = connection.prepareStatement(request);
 			req.setString(1, ""+p.getId());
 			ResultSet res = req.executeQuery();
-			while(res.next())
-				return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
-						res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilte"), res.getString("cheminFTP"));
-	}
+			while(res.next()) {
+				if (res.getString("typeEntite").equals("repertoire") || res.getString("typeEntite").equals("RepertoireRacine")) {
+					return new Repertoire(res.getInt("idEntite"), res.getString("nomEntite"),
+							res.getString("typeEntite"), res.getString("dateStockage"), res.getString("visibilite"), res.getString("cheminFTP"));
+				}
+			}
+		}
 		catch(Exception e) {e.printStackTrace();}
 		
 		return null;
@@ -583,19 +644,19 @@ public List<Projet> getDocumentsInside(Projet p) {
 	public List<Projet> getDocumentsBySearch(String motsClefs) {
 		List<Projet> listDocs = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM ENTITE WHERE NomEntite = '*?*' AND typeEntite <> ? AND typeEntite='public'; ";
+		String request = "SELECT * FROM ENTITE WHERE NomEntite like ? AND typeEntite <> ? AND typeEntite='public'; ";
 			try {
 				PreparedStatement req = connection.prepareStatement(request);
-				req.setString(1, motsClefs );
+				req.setString(1, motsClefs + "%" );
 				req.setString(2, "repertoire" );
 				ResultSet res = req.executeQuery();
 				while(res.next()) {
 					if (res.getString("E2.typeEntite").equals("repertoire")) {
 						listDocs.add(new Repertoire(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"),
-								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilite"), res.getString("E2.cheminFTP")));
 				}else {
 						listDocs.add(new Fichier(res.getInt("E2.idEntite"), res.getString("E2.nomEntite"), res.getString("E2.extension"),
-								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilte"), res.getString("E2.cheminFTP")));
+								res.getString("E2.typeEntite"), res.getString("E2.dateStockage"), res.getString("visibilite"), res.getString("E2.cheminFTP")));
 				}
 			}
 			} catch (SQLException e) {
@@ -607,12 +668,13 @@ public List<Projet> getDocumentsInside(Projet p) {
 	public List<utilisateur> getUsersBySearch(String motsClefs) {
 		List<utilisateur> listUsers = new ArrayList<>();
 		Connection connection = JDBC.getConnection();
-		String request = "SELECT * FROM Compte WHERE pseudo = '*?*' ; ";
+		String request = "SELECT * FROM Compte WHERE pseudo like ? ; ";
 			try {
 				PreparedStatement req = connection.prepareStatement(request);
-				req.setString(1, motsClefs );
+				req.setString(1, motsClefs + "%" );
 				ResultSet res = req.executeQuery();
 				while(res.next()) {
+					System.out.println(res.getInt("idCompte"));
 					if (res.getString("typeCompte").equals("Admin")) {
 						listUsers.add(new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"), res.getInt("idStockage")));
 				}else {
@@ -626,9 +688,42 @@ public List<Projet> getDocumentsInside(Projet p) {
 	}
 	
 	public void SuivreUtilisateur(utilisateur u1, utilisateur u2) {
-		
+		Connection connection = JDBC.getConnection();
+		String request = "INSERT INTO Suvi(idCompteSuiveur, idCompteSuivi) VALUES (?,?);";
+		try {
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setInt(1, u1.getId());
+			st.setInt(2, u2.getId());
+			st.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public List<utilisateur> getPersonnesSuivies(utilisateur u) {
+		List<utilisateur> listPers = new ArrayList<>();
+		Connection connection = JDBC.getConnection();
+		String request = "SELECT * FROM Suivi INNER JOIN Compte ON Suivi.idCompteSuiveur = Compte.IdCompte  WHERE idCompteSuiveur = ?;";
+		try {
 
+			PreparedStatement st = connection.prepareStatement(request);
+			st.setInt(1, u.getId());
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				if (res.getString("typeCompte").equals("admin"))
+					listPers.add( new Admin(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage")));
+				else if (res.getString("typeCompte").equals("client"))
+					listPers.add(new Client(res.getInt("idCompte"), res.getString("mail"), res.getString("pseudo"),
+							res.getInt("idStockage")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listPers;
+	}
+	
 	public utilisateur getUserById(int idUt) {
 		Connection connection = JDBC.getConnection();
 		String request = "SELECT * FROM COMPTE WHERE idCompte = ?;";

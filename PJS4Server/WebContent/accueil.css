@@ -1,0 +1,83 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #f7f7f7;
+}
+body {
+    min-width: 1330px;
+    z-index: 1;
+    margin : 0%;
+    background-color: #2a2b30;
+    font-family: Google Sans,Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+}
+
+#bloc {
+    height: 100%;
+    padding-top: 112px;
+    display: grid;
+    grid-template-columns: 8% 92%;
+}
+
+
+
+#bloc1 {
+    height: 100%;
+    grid-column-start: 2;
+}
+
+#bloc2 {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+#bloc2 h4 {
+    opacity: 80%;
+    margin: 3% 3% 0 3%;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+
+#favoris, #dossier{
+    border: 1px solid #f7f7f7;
+    background-color: rgba(255, 255, 255, 0.3);
+    opacity: 80%;
+    display: flex;
+    flex-flow: row;
+    
+    width: 100em;
+    border-radius: 40px;
+    min-height: 400px;
+    margin: 1% 3% 0 3%;
+}
+
+figure .fa-folder,
+.fa-file,
+.fa-user{
+    font-size:100px !important;
+    margin-bottom: 10px;
+    text-decoration-color: #f7f7f7;
+@ -66,7 +67,11 @@ figure{
+    text-align: center;
+}
+figure .fa-file {
+    margin-top: 10px;
+}
+
+figure .fa-user {
+    font-size: 110px !important;
+}
+
+.SuiteProjet{
+	display: flex;
+    flex-direction: row;
+    width: 100em;
+    padding-left: 15px ;
+}
+
+
+
+
+
+
+

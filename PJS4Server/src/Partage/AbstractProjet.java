@@ -43,10 +43,5 @@ public abstract class AbstractProjet implements Projet{
 	public String getVisibilite() {
 		return this.visibilite;
 	}
-	@Override
-	public void Partager(utilisateur u1, utilisateur u2) {
-		Drive.getInstance().PartagerDoc(u1, u2, this.id);
-		
-	}
 
 }

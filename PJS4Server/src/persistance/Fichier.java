@@ -28,11 +28,6 @@ public class Fichier extends AbstractProjet {
 		return "Fichier";
 	}
 	
-	@Override
-	public void put(utilisateur u) {
-		Drive.getInstance().creerNouveauDoc(u, this.getNom(), this.getCheminFTP());
-		
-	}
 
 
 	@Override

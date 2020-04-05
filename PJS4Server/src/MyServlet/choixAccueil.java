@@ -25,42 +25,54 @@ public class choixAccueil extends HttpServlet {
 		synchronized(this) {
 			HttpSession session=request.getSession();
 			utilisateur u = (utilisateur) session.getAttribute("client");
-			if (request.getParameter("Partages") != null) {
+			if (request.getParameter("choix").equals("Partages")) {
 				try {
-					request.setAttribute("listeDocsPartages", Drive.getInstance().getDocsPartages(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/ListDocsPartages.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("Publics") != null) {
+			else if (request.getParameter("choix").equals("Publics")) {
 				try {
-					request.setAttribute("listeDocsPublics", Drive.getInstance().getTousLesDocumentsPublics(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsPublics.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
 			}
-			else if (request.getParameter("Favoris") != null) {
+			else if (request.getParameter("choix").equals("Archives")) {
 				try {
-					System.out.println("hello");
-					request.setAttribute("listeDocsFavoris", Drive.getInstance().getTousLesDocumentsFavoris(u));
-					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsFavoris.jsp" ).forward( request, response );
-				} catch (ServletException | IOException e) {
-					e.printStackTrace();
-				}
-			}
-			else if (request.getParameter("Archives") != null) {
-				try {
-					request.setAttribute("listeArchives", Drive.getInstance().getTousLesDocumentsArchives(u));
 					this.getServletContext().getRequestDispatcher( "/WEB-INF/DocsArchives.jsp" ).forward( request, response );
 				} catch (ServletException | IOException e) {
 					e.printStackTrace();
 				}
 			}
-			else {
-				System.out.println("rien");
-				return;
+			else if (request.getParameter("choix").equals("Recherche")) {
+				try {
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/Recherche.jsp" ).forward( request, response );
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if (request.getParameter("choix").equals("Suivi")) {
+				try {
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/Suivi.jsp" ).forward( request, response );
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if (request.getParameter("choix").equals("Contacts")) {
+				try {
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/Contact.jsp" ).forward( request, response );
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else if (request.getParameter("choix").equals("Parametres")) {
+				try {
+					this.getServletContext().getRequestDispatcher( "/WEB-INF/Parametres.jsp" ).forward( request, response );
+				} catch (ServletException | IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

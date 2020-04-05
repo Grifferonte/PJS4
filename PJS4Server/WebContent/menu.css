@@ -1,0 +1,79 @@
+#lienLogo img {
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 7em;
+}
+nav {
+    min-width: 120px;
+    z-index: 3;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #f7f7f7;
+    position : fixed;
+    width: 8%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul {
+    padding: 0%;
+}
+
+nav li a {
+    line-height: 7em;
+    text-align: center;
+    display: block;
+    height: 6em;
+    text-decoration: none;
+    color: dodgerblue ;
+    position: relative;
+    -webkit-transition: background 0.1s ease-in-out;
+    -moz-transition: background 0.1s ease-in-out;
+    transition: background 0.1s ease-in-out;
+}
+
+nav li:hover {
+    background-color:  lightblue;
+}
+
+nav li:first-child a {
+    background-color: #f7f7f7;
+}
+
+.fa-folder,
+.fa-users,
+.fa-globe-asia,
+.fa-star,
+.fa-plus-square,
+.fa-paper-plane,
+.fa-trash-alt{
+    margin-top: 10%;
+    font-size:3em !important;
+    color:#47a3da !important;
+}
+
+nav .fa-search {
+    margin-top: 10%;
+    font-size:3em !important;
+    color:#47a3da !important;
+}
+
+.fa-folder:hover,
+.fa-users:hover,
+.fa-globe-asia:hover,
+.fa-star:hover,
+.fa-paper-plane:hover,
+.fa-plus-square:hover,
+.fa-trash-alt:hover{
+    color: #f7f7f7 !important;
+}
+
+nav .fa-search:hover {
+    color: #f7f7f7 !important;
+}

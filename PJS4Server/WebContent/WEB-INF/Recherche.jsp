@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="java.util.List,Partage.* " %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Tempest</title>
@@ -13,7 +9,7 @@
     <link rel = stylesheet type="text/css" href="accueil.css">
     <link rel = stylesheet type="text/css" href="menu.css">
     <link rel = stylesheet type="text/css" href="header.css">
-    <link rel = stylesheet type="text/css" href="search.css">
+    <link rel = stylesheet type="text/css" href="recherche.css">
     <script src="https://kit.fontawesome.com/5836357430.js"></script>
 </head>
 
@@ -70,13 +66,17 @@
 
     <div id="bloc1">
         <header>
+
             <div id="blocBarre">
-                <div id = "blocChek">
-                    <h4>Suivre</h4>
-                    <input type="checkbox" name="">
+                <div id="barre">
+					<form method="get" action ="choixActionPage" >
+						<input type="hidden" name="recherche" value="recherche">
+						<input id="search-txt" type="text" name="motsClefs" placeholder="Type to search"><i class="fas fa-search"></i>
+						<button type="submit" name="Envoyer" value="Envoyer">soumettre</button>>
+					</form>
                 </div>
-                <h1>Nom personne</h1>
             </div>
+
             <div id="param">
                 <div class="user">
                     <i class="fas fa-user"> </i>
@@ -85,6 +85,9 @@
                         <a class="sousMenuParam2" href=""><i class="fas fa-cogs"></i></a>
                     </div>
                 </div>
+
+
+
             </div>
 
         </header>
@@ -92,18 +95,7 @@
             <div id = "blocDossier">
                 <h4>Recherche</h4>
                 <div id="dossier">
-				<% if (request.getAttribute("motsClefs") != null){%>
-					<%List<Projet> listDocsSearch = Drive.getInstance().getDocumentsBySearch((String)request.getAttribute("motsClefs")); %>
-					<%List<utilisateur> listUsersSearch = Drive.getInstance().getUsersBySearch((String)request.getAttribute("motsClefs")); %>
-					<%for (Projet projet : listDocsSearch) {%>
-						<p><%=projet.getNom() %></p>
-					<%} %>
-					<%for (utilisateur u : listUsersSearch) {%>
-						<i class="fas fa-user"> </i>
-						<%System.out.println(u.getPseudo()); %>
-						<p><%=u.getPseudo() %></p>
-					<%} %>
-				<%} %>
+
                 </div></div>
         </div>
     </div>

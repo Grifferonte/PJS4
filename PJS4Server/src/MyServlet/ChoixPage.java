@@ -23,7 +23,7 @@ import Partage.utilisateur;
 /**
  * Servlet implementation class ChoixPage
  */
-@WebServlet("/ChoixActionPage")
+@WebServlet("/choixActionPage")
 public class ChoixPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,31 +31,39 @@ public class ChoixPage extends HttpServlet {
 		synchronized(this) {
 			HttpSession session=request.getSession();
 			utilisateur u = (utilisateur) session.getAttribute("client");
-			
-			String cheminServer = request.getParameter("UrlServeur");
-			String[] cheminDecoupe = cheminServer.split("/");
-			String UrlDossierCourant = new String();
-			for (int i=0; i<cheminDecoupe.length-1; ++i) {
-				UrlDossierCourant += cheminDecoupe[i] + "/";
+			String cheminServer = null;
+			String UrlDossierCourant = null;
+			Projet pere = null;
+			if (request.getParameter("UrlServeur") != null){
+				cheminServer = request.getParameter("UrlServeur");
+				String[] cheminDecoupe = cheminServer.split("/");
+				UrlDossierCourant = new String();
+				for (int i=0; i<cheminDecoupe.length-1; ++i) {
+					UrlDossierCourant += cheminDecoupe[i] + "/";
+				}
+				String chemin = cheminServer.substring(0, cheminServer.length() -1);
 			}
-			String chemin = cheminServer.substring(0, cheminServer.length() -1);
-			Projet pere = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere")));
+			if (request.getParameter("idProjetPere") != null){
+				pere = Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjetPere")));
+			}
 			if (request.getParameter("ajouterFichier") != null) {
 				try {
 					String cheminFichier = request.getParameter("cheminFichier");
 					String nomFichier = request.getParameter("nomFichier");
+					String Url = UrlDossierCourant + nomFichier;
 					int publicOuPrive = Integer.parseInt(request.getParameter("privOuPubl"));
 					int idProjetPere = Integer.parseInt(request.getParameter("idProjetPere"));
-					
-					Drive.getInstance().creerNouveauDoc(u, nomFichier, cheminFichier,idProjetPere,publicOuPrive);
+					Drive.getInstance().creerNouveauDoc(u, nomFichier, idProjetPere, Url ,publicOuPrive, (String) session.getAttribute("visibilite"));
 					
 					
 					//Drive.getInstance().creerNouveauDoc(u, nomFichier, chemin);
 					
 					
 					FTPClient ftpClient = FTPConnectAndLogin.getInstance().connect();
-					InputStream fis = new FileInputStream(cheminFichier.substring(0, cheminFichier.length()-1));
-			        OutputStream os = ftpClient.storeFileStream(cheminServer);
+					System.out.println(cheminFichier);
+					System.out.println(nomFichier);
+					InputStream fis = new FileInputStream(cheminFichier);
+			        OutputStream os = ftpClient.storeFileStream(UrlDossierCourant + nomFichier);
 			      byte buf[] = new byte[4800];
 			      int bytesRead = fis.read(buf);
 			      while (bytesRead != -1) {
@@ -72,7 +80,6 @@ public class ChoixPage extends HttpServlet {
 			      }
 			      else {
 			    	  System.out.println("File transfer success");
-			    	  this.getServletContext().getRequestDispatcher( "/WEB-INF" + (String) session.getAttribute("pageCourante") ).forward( request, response );
 			      }
 					
 			      request.setAttribute("Rep", "ActionRepertoire");
@@ -141,6 +148,10 @@ public class ChoixPage extends HttpServlet {
 					e.printStackTrace();
 				}
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/Search.jsp").forward( request, response );
+			}
+			else if (request.getParameter("Accueil") != null) {
+			
+				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp").forward( request, response );
 			}
 		}
 	}

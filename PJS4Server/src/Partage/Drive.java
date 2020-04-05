@@ -52,10 +52,6 @@ public class Drive {
 	public void supprimerDoc(utilisateur u, int numDocument) {
 		req.supprimerDoc(u,numDocument);
 	}
-
-	public void creerNouveauDoc(utilisateur u, String nom, String cheminFTP,int idParent, int publicOuPrive) {
-		req.creerNouveauDoc(u, nom, idParent, cheminFTP, publicOuPrive);
-	}
 	
 	public void creerNouveauDossier(utilisateur u, String nom, String cheminFTP,int idParent, int publicOuPrive) {
 		req.creerNouveauDossier(u, nom, idParent, cheminFTP, publicOuPrive);
@@ -103,16 +99,20 @@ public class Drive {
 		return req.getTousLesDocumentsArchives(u);
 	}
 	
-	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
-		return req.getTousLesDocumentsFavoris(u);
+	public List<Projet> getTousLesDocumentsPrives(utilisateur u) {
+		return req.getTousLesDocumentsPrives(u);
 	}
 	
 	public List<Projet> getTousLesDocumentsPublics(utilisateur u) {
 		return req.getTousLesDocumentsArchives(u);
 	}
 	
-	public List<Projet> getDocumentInside(Projet p){
-		return req.getDocumentsInside(p);
+	public List<Projet> getTousLesDocumentsFavoris(utilisateur u) {
+		return req.getTousLesDocumentsFavoris(u);
+	}
+	
+	public List<Projet> getDocumentInside(Projet p, String v){
+		return req.getDocumentsInside(p,v);
 	}
 	
 	public Projet getRepertoirePere(Projet p) {
@@ -134,7 +134,14 @@ public class Drive {
 	public void suivreUtilisateur(utilisateur u1, utilisateur u2) {
 		req.SuivreUtilisateur(u1, u2);
 	}
-	
+
+	public void creerNouveauDoc(utilisateur u, String nomFichier, int idProjetPere, String url, int publicOuPrive, String visibilite) {
+		req.creerNouveauDoc(u, nomFichier, idProjetPere, url, publicOuPrive, visibilite);
+	}
+
+	public List<utilisateur> getPersonnesSuivies(utilisateur u){
+		return (List<utilisateur>) req.getPersonnesSuivies(u);
+	}
 	
 
 }

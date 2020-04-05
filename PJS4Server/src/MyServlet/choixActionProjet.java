@@ -71,8 +71,8 @@ public class choixActionProjet extends HttpServlet {
 		if (request.getParameter("Partager") != null) {
 			try {
 				utilisateur user1 = Drive.getInstance().getUserByMail(((utilisateur) session.getAttribute("client")).getLogin());
-				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("PseudoUser2"));
-				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idDoc")));
+				utilisateur user2 = Drive.getInstance().getUserByMail(request.getParameter("mailPartage"));
+				Drive.getInstance().PartagerDoc(user1, user2, Integer.parseInt(request.getParameter("idProjet")));
 				
 				String BodyMail = user1.getPseudo() + "vous a partagé le projet" + Drive.getInstance().getDocumentById(Integer.parseInt(request.getParameter("idProjet"))).getNom();
 				ConfigMail mail = new ConfigMail("Partage de documents", BodyMail, user1.getLogin() );
@@ -141,10 +141,9 @@ public class choixActionProjet extends HttpServlet {
 		}
 		else if (request.getParameter("Supprimer") != null) {
 			String cheminFichierServer = request.getParameter("UrlServeur");
-			String cheminFichier = cheminFichierServer.substring(0, cheminFichierServer.length() -1);
-			int numDoc = Integer.parseInt(request.getParameter("numDoc"));
+			int numDoc = Integer.parseInt(request.getParameter("idProjet"));
 			Drive.getInstance().supprimerDoc((utilisateur) session.getAttribute("client"), numDoc);
-			FTPConnectAndLogin.getInstance().connect().deleteFile(cheminFichier);
+			FTPConnectAndLogin.getInstance().connect().deleteFile(cheminFichierServer);
 			
 			request.setAttribute("Rep", "ActionRep");
 			request.setAttribute("idProjet", pere.getId());

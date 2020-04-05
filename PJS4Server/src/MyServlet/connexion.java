@@ -29,7 +29,8 @@ public class connexion extends HttpServlet{
 			HttpSession session = request.getSession();
 			utilisateur u = Drive.getInstance().getUser(mail, motDePasse);
 			session.setAttribute("dossierCourant", "/classes/"+u.getPseudo());
-			request.setAttribute("client", u);
+			request.setAttribute("User", u);
+			session.setAttribute("client", u);
 			try {
 				this.getServletContext().getRequestDispatcher( "/WEB-INF/accueil.jsp" ).forward( request, response );
 			} catch (ServletException | IOException ex) {
